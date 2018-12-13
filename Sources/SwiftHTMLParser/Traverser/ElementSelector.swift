@@ -11,13 +11,13 @@ import Foundation
 // based on Xpath and selector
 
 
-struct ElementSelector {
+public struct ElementSelector {
     var tagName: String?
     var id: String?
     var classNames: [String]?
     var position: Int?
 
-    init(tagName: String, id: String? = nil, classNames: [String]? = nil, position: Int? = nil) {
+    public init(tagName: String, id: String? = nil, classNames: [String]? = nil, position: Int? = nil) {
         self.tagName = tagName
         self.id = id
         self.classNames = classNames

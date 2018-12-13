@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TextBlock: Node {
+public struct TextBlock: Node {
     var startIndex: String.Index
     var endIndex: String.Index
     var text: String

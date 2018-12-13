@@ -8,7 +8,7 @@
 
 import Foundation
 
-class HTMLParser {
+public class HTMLParser {
 
     func parse(pageSource: String) throws -> [Element] {
         var rootElements = [Element]()

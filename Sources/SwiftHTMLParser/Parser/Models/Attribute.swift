@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Attribute: Node  {
+public struct Attribute: Node  {
     var name: String
     var value: String?
 
@@ -36,7 +36,7 @@ struct Attribute: Node  {
         return nameStartIndex
     }
 
-    init(nameStartIndex: String.Index,
+    public init(nameStartIndex: String.Index,
          nameEndIndex: String.Index,
          valueStartIndex: String.Index?,
          valueEndIndex: String.Index?,

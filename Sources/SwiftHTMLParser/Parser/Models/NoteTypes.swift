@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NodeType {
+public enum NodeType {
     case comment
     case text
     case element

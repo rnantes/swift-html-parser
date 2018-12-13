@@ -9,7 +9,7 @@
 import Foundation
 
 // a closing or opening tag
-struct Tag: Node {
+public struct Tag: Node {
     let startIndex: String.Index
     let endIndex: String.Index
 
@@ -44,7 +44,7 @@ struct Tag: Node {
     let tagName: String
     let attributes: [String: Attribute]
 
-    init(startIndex: String.Index, endIndex: String.Index, tagText: String, tagName: String) {
+    public init(startIndex: String.Index, endIndex: String.Index, tagText: String, tagName: String) {
         self.startIndex = startIndex
         self.endIndex = endIndex
 

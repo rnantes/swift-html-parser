@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Element: Node {
+public struct Element: Node {
     var openingTag: Tag
     var closingTag: Tag?
 
