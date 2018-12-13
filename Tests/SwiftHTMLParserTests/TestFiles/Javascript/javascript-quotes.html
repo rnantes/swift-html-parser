@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>This is a title</title>
+    </head>
+    <body>
+        <h1>This is a Heading</h1>
+        <p>This is a paragraph.</p>
+
+        <button type="button" onclick="myFunction()">Click Me!</button>
+
+        <p id="demo">This is a demonstration.</p>
+
+        <script>
+            function myFunction() {
+                var singleQuote = "John Doe";
+                var doubleQuote = 'John Doe';
+
+                var innerOneSingleQuote = "It's alright";
+                var innerTwoSingleQuotes = "He is called 'Johnny'";
+                var innerDoubleQuote = 'He is called "Johnny"';
+
+                var doubleQuotesSingleLineComment = "//";
+                var doubleQuotesMultiLineComment = "/* something */:";
+                var singleQuotesSingleLineComment = '//';
+                var singleQuotesMultiLineComment = '/* something */:';
+
+                var singleQuoteScriptOpeningTag = "<script>";
+                var doubleQuoteScriptOpeningTag = '<script>';
+                
+                document.getElementById("demo").innerHTML = "Paragraph changed.";
+            }
+        </script>
+
+    </body>
+</html>
+
+
+
