@@ -10,6 +10,8 @@ import Foundation
 
 public class HTMLParser {
 
+    public init() {}
+
     func parse(pageSource: String) throws -> [Element] {
         var rootElements = [Element]()
         let source = removeIEStatments(pageSource: pageSource)

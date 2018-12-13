@@ -9,6 +9,8 @@ import Foundation
 
 public class HTMLTraverser {
 
+    public init() {}
+
     public func findElements(in parsedElements: [Element], matchingElementSelectorPath: [ElementSelector]) -> [Element] {
         var matchingElements = [Element]()
         var selectorPathIndex = 0
