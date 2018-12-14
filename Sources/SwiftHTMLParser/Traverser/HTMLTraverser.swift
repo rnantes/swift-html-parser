@@ -85,6 +85,21 @@ public class HTMLTraverser {
             }
         }
 
+        // attributes
+        if let selectorAttributes = elementSelector.attributes {
+            for selectorAttribute in selectorAttributes {
+                if let attribute = element.attribute(attributeName: selectorAttribute.name) {
+                    if selectorAttribute.value != attribute.value {
+                        return false
+                    }
+                } else {
+                    return false
+                }
+            }
+        }
+
+
+
         // innerTextBlocks contains
         if let innerTextContains = elementSelector.innerTextContains {
             for containsText in innerTextContains {
@@ -131,7 +146,7 @@ public class HTMLTraverser {
         }
 
         // childElementSelectors
-        // checks if one of the element's direct children matches the selector 
+        // checks if one of the element's direct children matches the selector
         if let childElementSelectors = elementSelector.childElementSelectors {
             for childElementSelector in childElementSelectors {
                 let htmlTraverser = HTMLTraverser()
