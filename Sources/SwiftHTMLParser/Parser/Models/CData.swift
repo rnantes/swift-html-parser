@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CData: Node  {
+public struct CData: Node  {
     var startIndex: String.Index
     var endIndex: String.Index
 
@@ -16,7 +16,7 @@ struct CData: Node  {
 
     var text: String
 
-    init (startIndex: String.Index, endIndex: String.Index, textStartIndex: String.Index, textEndIndex: String.Index, text: String) {
+    public init (startIndex: String.Index, endIndex: String.Index, textStartIndex: String.Index, textEndIndex: String.Index, text: String) {
         self.startIndex = startIndex
         self.endIndex = endIndex
         self.textStartIndex = textStartIndex
