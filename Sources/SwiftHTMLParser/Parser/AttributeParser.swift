@@ -39,12 +39,10 @@ struct AttributeParser {
         var currentIndex = rangeOfTagName.upperBound
 
 
-        let attributeParser = AttributeParser()
         var couldNotFindAttribute = false
         while currentIndex < tagText.endIndex && couldNotFindAttribute == false {
             do {
-                let attribute = try attributeParser.getNextAttribute(tagText: tagText,
-                                                                     currentIndex: currentIndex)
+                let attribute = try getNextAttribute(tagText: tagText, currentIndex: currentIndex)
                 attributes[attribute.name] = attribute
                 // set the currentIndex to endIndex of the attribute
                 currentIndex = tagText.index(attribute.endIndex, offsetBy: 1)
@@ -52,6 +50,8 @@ struct AttributeParser {
                 couldNotFindAttribute = true
             }
         }
+
+
 
 
         return attributes

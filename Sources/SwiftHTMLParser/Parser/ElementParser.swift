@@ -45,7 +45,7 @@ class ElementParser {
             }
 
             if let finalOpeningTag = localOpeningTag {
-                printOpeningTag(tag: finalOpeningTag, depth: depth)
+                //printOpeningTag(tag: finalOpeningTag, depth: depth)
 
                 // update current index to the character after the last tag character
                 localCurrentIndex = pageSource.index(finalOpeningTag.endIndex, offsetBy: 1)
@@ -145,7 +145,7 @@ class ElementParser {
                     }
                 } else {
                     // matching closing tag found
-                    printClosingTag(tag: nextTag, depth: depth)
+                    //printClosingTag(tag: nextTag, depth: depth)
                     return nextTag
                 }
             } else if nextTag.isEmptyElementTag || (parseFormat == .svg || parseFormat == .xml && nextTag.isSelfClosing) {
@@ -160,9 +160,9 @@ class ElementParser {
                                                 depth: depth + 1)
                 childElements.append(childElement)
                 localCurrentIndex = pageSource.index(childElement.endIndex, offsetBy: 1)
-                printOpeningTag(tag: nextTag, depth: depth + 1)
+                //printOpeningTag(tag: nextTag, depth: depth + 1)
             } else if  nextTag.tagName.lowercased() == "script" {
-                printOpeningTag(tag: nextTag, depth: depth + 1)
+                //printOpeningTag(tag: nextTag, depth: depth + 1)
                 // is script tag
                 let scriptParser = ScriptParser()
                 do {
@@ -178,12 +178,12 @@ class ElementParser {
                     childElements.append(scriptElement)
                     localCurrentIndex = pageSource.index(scriptElement.endIndex, offsetBy: 1)
 
-                    printClosingTag(tag: scriptParseResult.closingScriptTag, depth: depth + 1)
+                    //printClosingTag(tag: scriptParseResult.closingScriptTag, depth: depth + 1)
                 } catch {
                     throw error
                 }
             } else {
-                printOpeningTag(tag: nextTag, depth: depth + 1)
+                //printOpeningTag(tag: nextTag, depth: depth + 1)
                 // nextTag is not a closing tag - add child element
                 let elementParser = ElementParser()
                 do {

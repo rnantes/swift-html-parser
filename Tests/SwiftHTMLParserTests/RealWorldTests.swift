@@ -360,17 +360,18 @@ final class RealWorldTests: XCTestCase {
         XCTAssertEqual(elementArray.count, 2)
 
         // find matching elements by traversing the created html object
+        let childElementSelector = ElementSelector.init(tagName: "category",
+                                                        attributes: [AttributeSelector.init(name: "term", value: "Current Conditions")])
+
         let elementSelectorPath = [
             ElementSelector.init(tagName: "feed"),
-            ElementSelector.init(tagName: "entry"),
+            ElementSelector.init(tagName: "entry", childElementSelectors: [childElementSelector])
         ]
 
         let traverser = HTMLTraverser()
         let matchingElements = traverser.findElements(in: elementArray, matchingElementSelectorPath: elementSelectorPath)
 
-        
-
-        XCTAssertEqual(matchingElements.count, 14)
+        XCTAssertEqual(matchingElements.count, 1)
     }
 }
 

@@ -148,9 +148,9 @@ public class HTMLTraverser {
         // childElementSelectors
         // checks if one of the element's direct children matches the selector
         if let childElementSelectors = elementSelector.childElementSelectors {
+            let htmlTraverser = HTMLTraverser()
             for childElementSelector in childElementSelectors {
-                let htmlTraverser = HTMLTraverser()
-                let matchingElements = htmlTraverser.findElements(in: [element], matchingElementSelectorPath: [childElementSelector])
+                let matchingElements = htmlTraverser.findElements(in: element.childElements, matchingElementSelectorPath: [childElementSelector])
                 if matchingElements.count == 0 {
                     return false
                 }
