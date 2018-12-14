@@ -13,7 +13,7 @@ public struct ElementSelector {
     var tagName: String?
     var id: String?
     var classNames: [String]?
-    var attributes: [Attribute]?
+    var attributes: [AttributeSelector]?
     var position: Int?
 
     // inner text
@@ -33,7 +33,7 @@ public struct ElementSelector {
 
     public init(tagName: String, id: String? = nil,
                 classNames: [String]? = nil,
-                attributes: [Attribute]? = nil,
+                attributes: [AttributeSelector]? = nil,
                 position: Int? = nil,
                 innerTextContains: [String]? = nil,
                 innerTextCount: Int? = nil,
