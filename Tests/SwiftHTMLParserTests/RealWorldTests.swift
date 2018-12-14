@@ -332,6 +332,46 @@ final class RealWorldTests: XCTestCase {
 
         XCTAssertEqual(elementArray.count, 2)
     }
+
+    func testWeatherForcastXML() {
+        let relativePath = "/Tests/SwiftHTMLParserTests/TestFiles/RealWorld/weather-forcast.xml"
+        let fullPath = "\(ProjectConfig().projectPath)\(relativePath)"
+        let fileURL = URL.init(fileURLWithPath: fullPath)
+
+        // get html string from file
+        var htmlStringResult: String? = nil
+        do {
+            htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
+        } catch {
+            XCTFail("Could not open file at: \(fullPath)")
+        }
+        guard let htmlString = htmlStringResult else {
+            XCTFail("Could not open file at: \(fullPath)")
+            return
+        }
+
+        // create object from raw html file
+        let htmlParser = HTMLParser()
+        guard let elementArray = try? htmlParser.parse(pageSource: htmlString, format: .xml) else {
+            XCTFail("Could not parse HTML")
+            return
+        }
+
+        XCTAssertEqual(elementArray.count, 2)
+
+        // find matching elements by traversing the created html object
+        let elementSelectorPath = [
+            ElementSelector.init(tagName: "feed"),
+            ElementSelector.init(tagName: "entry"),
+        ]
+
+        let traverser = HTMLTraverser()
+        let matchingElements = traverser.findElements(in: elementArray, matchingElementSelectorPath: elementSelectorPath)
+
+        
+
+        XCTAssertEqual(matchingElements.count, 14)
+    }
 }
 
 

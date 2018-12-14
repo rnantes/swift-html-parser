@@ -85,6 +85,51 @@ public class HTMLTraverser {
             }
         }
 
+        // innerTextBlocks contains
+        if let innerTextContains = elementSelector.innerTextContains {
+            for containsText in innerTextContains {
+                if element.innerTextBlocksContains(text: containsText) == false {
+                    return false
+                }
+            }
+        }
+
+        if let selectorCount = elementSelector.innerTextCount {
+            if element.innerTextBlocks.count != selectorCount {
+                return false
+            }
+        }
+
+        // innerCData
+        if let innerCDataContains = elementSelector.innerCDataContains {
+            for containsText in innerCDataContains {
+                if element.innerCDataContains(text: containsText) == false {
+                    return false
+                }
+            }
+        }
+
+        if let selectorCount = elementSelector.innerCDataCount {
+            if element.innerCData.count != selectorCount {
+                return false
+            }
+        }
+
+        // comments
+        if let commentsContains = elementSelector.commentsContains {
+            for containsText in commentsContains {
+                if element.commentsContains(text: containsText) == false {
+                    return false
+                }
+            }
+        }
+
+        if let selectorCount = elementSelector.commentsCount {
+            if element.comments.count != selectorCount {
+                return false
+            }
+        }
+
         return true
     }
 

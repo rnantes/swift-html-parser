@@ -11,4 +11,5 @@ public enum NodeType {
     case comment
     case text
     case element
+    case cData
 }

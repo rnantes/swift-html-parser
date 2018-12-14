@@ -8,11 +8,13 @@
 
 import Foundation
 
+
+
 public class HTMLParser {
 
     public init() {}
 
-    public func parse(pageSource: String) throws -> [Element] {
+    public func parse(pageSource: String, format: ParseFormat = .html) throws -> [Element] {
         var rootElements = [Element]()
         let source = removeIEStatments(pageSource: pageSource)
         var currentIndex = source.startIndex
@@ -24,7 +26,8 @@ public class HTMLParser {
                 let rootElement = try elementParser.parseNextElement(pageSource: pageSource,
                                                                      currentIndex: currentIndex,
                                                                      openingTag: nil,
-                                                                     depth: 0)
+                                                                     depth: 0,
+                                                                     parseFormat: format)
 
                 // check if an element was found
                 if let element = rootElement {

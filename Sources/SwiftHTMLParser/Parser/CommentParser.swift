@@ -16,9 +16,8 @@ struct CommentSpecialCharacters {
 }
 
 struct CommentParser {
-
     fileprivate let lookaheadValidator = LookaheadValidator()
-    fileprivate let specialCharacters = CommentSpecialCharacters()
+    fileprivate let SpecialCharacters = CommentSpecialCharacters()
 
     func parseComment(source: String, currentIndex: String.Index) throws -> Comment {
         let startIndex = currentIndex
@@ -27,7 +26,7 @@ struct CommentParser {
         var localCurrentIndex = textStartIndex
         
         while localCurrentIndex < source.endIndex {
-            if lookaheadValidator.isValidLookahead(for: source, atIndex: localCurrentIndex,  checkFor: specialCharacters.commentClosing) {
+            if lookaheadValidator.isValidLookahead(for: source, atIndex: localCurrentIndex,  checkFor: SpecialCharacters.commentClosing) {
                 let endIndex = source.index(localCurrentIndex, offsetBy: 2)
                 let textEndIndex = source.index(localCurrentIndex, offsetBy: -1)
 
@@ -54,7 +53,7 @@ struct CommentParser {
 
         while localCurrentIndex < source.endIndex {
             if lookaheadValidator.isValidLookahead(for: source, atIndex: localCurrentIndex,
-                                                   checkFor: specialCharacters.conditionalCommentClosing) {
+                                                   checkFor: SpecialCharacters.conditionalCommentClosing) {
                 let endIndex = source.index(localCurrentIndex, offsetBy: 11)
                 let textEndIndex = source.index(localCurrentIndex, offsetBy: -1)
 

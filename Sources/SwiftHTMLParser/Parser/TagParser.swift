@@ -27,14 +27,17 @@ struct TagSpecificCharacters {
     let commentClosing = "-->"
     let conditionalCommentOpening = "<!--[if"
     let conditionalCommentClosing = "<![endif]-->"
+    let CDATAOpening = "<![CDATA["
+    let CDATAClosing = "]]>"
 }
 
 struct TagParser {
     fileprivate let commentParser = CommentParser()
+    fileprivate let cdataParser = CDATAParser()
     fileprivate let lookaheadValidator = LookaheadValidator()
     fileprivate let specificCharacters = TagSpecificCharacters()
 
-    func getNextTag(source: String, currentIndex: String.Index) throws -> (innerTextBlocks: [TextBlock], comments: [Comment], nodeOrder: [NodeType], tag: Tag?) {
+    func getNextTag(source: String, currentIndex: String.Index) throws -> (innerTextBlocks: [TextBlock],  innerCData: [CData], comments: [Comment], nodeOrder: [NodeType], tag: Tag?) {
         var isTagOpened = false
         var localCurrentIndex = currentIndex
         var tagStartIndex: String.Index? = nil
@@ -42,6 +45,7 @@ struct TagParser {
         var nodeOrder = [NodeType]()
         var comments = [Comment]()
         var innerTextBlocks = [TextBlock]()
+        var innerCData = [CData]()
 
         var parseState = TagParserState.notWithinQuotesOrComment
 
@@ -72,7 +76,7 @@ struct TagParser {
                             }
                         }
 
-                        // check if it is a comment
+                        // check if it is a comment, CDATA or tag opening
                         if lookaheadValidator.isValidLookahead(for: source, atIndex: localCurrentIndex,
                                                                checkFor: specificCharacters.commentOpening){
                             // is a comment
@@ -90,6 +94,20 @@ struct TagParser {
                             } catch {
                                 throw ParseError.endOfFileReachedBeforeCommentCloseFound
                             }
+
+                        } else if lookaheadValidator.isValidLookahead(for: source, atIndex: localCurrentIndex,
+                                                                      checkFor: specificCharacters.CDATAOpening) {
+                            // is CDATA
+                            do {
+                                let cdata = try cdataParser.parse(source: source, currentIndex: localCurrentIndex)
+                                localCurrentIndex = cdata.endIndex
+                                nodeOrder.append(.cData)
+                                innerCData.append(cdata)
+                            } catch {
+                                throw ParseError.endOfFileReachedBeforeCommentCloseFound
+                            }
+
+
                         } else {
                             // tag is opened
                             isTagOpened = true
@@ -110,7 +128,7 @@ struct TagParser {
                             if tag.isClosingTag == false {
                                 nodeOrder.append(.element)
                             }
-                            return (innerTextBlocks, comments, nodeOrder, tag)
+                            return (innerTextBlocks, innerCData, comments, nodeOrder, tag)
                         } catch {
                             throw error
                         }
@@ -136,7 +154,7 @@ struct TagParser {
         }
 
         // a tag not found before end of file reached
-        return (innerTextBlocks, comments, nodeOrder, nil)
+        return (innerTextBlocks, innerCData, comments, nodeOrder, nil)
     }
 
     func isAtEndOfString(index: String.Index, endIndex: String.Index) -> Bool {

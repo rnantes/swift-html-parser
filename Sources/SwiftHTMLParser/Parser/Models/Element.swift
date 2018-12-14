@@ -13,6 +13,7 @@ public struct Element: Node {
     var closingTag: Tag?
 
     var innerTextBlocks: [TextBlock]
+    var innerCData: [CData]
     var comments: [Comment]
     var nodeOrder: [NodeType]
 
@@ -60,11 +61,12 @@ public struct Element: Node {
         return openingTag.classNames
     }
 
-    init(openingTag: Tag, closingTag: Tag?, innerTextBlocks: [TextBlock], comments: [Comment], nodeOrder: [NodeType], childElements: [Element], depth: Int) {
+    init(openingTag: Tag, closingTag: Tag?, innerTextBlocks: [TextBlock], innerCData: [CData], comments: [Comment], nodeOrder: [NodeType], childElements: [Element], depth: Int) {
         self.depth = depth
         self.openingTag = openingTag
         self.closingTag = closingTag
         self.innerTextBlocks = innerTextBlocks
+        self.innerCData = innerCData
         self.comments = comments
         self.nodeOrder = nodeOrder
         self.childElements = childElements
@@ -81,5 +83,35 @@ public struct Element: Node {
         } else {
             return false
         }
+    }
+
+    func innerTextBlocksContains(text: String) -> Bool {
+        for innerTextBlock in innerTextBlocks {
+            if innerTextBlock.text.contains(text) {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    func innerCDataContains(text: String) -> Bool {
+        for cData in innerCData {
+            if cData.text.contains(text) {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    func commentsContains(text: String) -> Bool {
+        for comment in comments {
+            if comment.text.contains(text) {
+                return true
+            }
+        }
+
+        return false
     }
 }

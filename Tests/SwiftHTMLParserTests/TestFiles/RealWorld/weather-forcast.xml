@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-ca">
+    <!--
+This is a data file that is meant to be read by RSS readers or aggregators.
+See https://www.canada.ca/en/environment-climate-change/services/weather-general-tools-resources/ways-to-access-forecasts.html to learn more about our RSS service.
+-->
+    <title>Guelph - Weather - Environment Canada</title>
+    <link rel="related" href="https://www.weather.gc.ca/city/pages/on-5_metric_e.html" type="text/html" />
+    <link rel="self" href="https://www.weather.gc.ca/rss/city/on-5_e.xml" type="application/atom+xml" />
+    <link rel="alternate" hreflang="fr-ca" href="https://www.meteo.gc.ca/rss/city/on-5_f.xml" type="application/atom+xml" />
+    <author>
+        <name>Environment Canada</name>
+        <uri>https://www.weather.gc.ca</uri>
+    </author>
+    <updated>2018-12-14T00:01:59Z</updated>
+    <id>tag:weather.gc.ca,2013-04-16:20181214000159</id>
+    <logo>https://www.weather.gc.ca/template/gcweb/v4.0.24/assets/wmms-alt.png</logo>
+    <icon>https://www.weather.gc.ca/template/gcweb/v4.0.24/assets/favicon.ico</icon>
+    <rights>Copyright 2018, Environment Canada</rights>
+    <entry>
+        <title>No watches or warnings in effect, Guelph</title>
+        <link type="text/html" href="https://www.weather.gc.ca/warnings/index_e.html" />
+        <updated>2018-12-02T06:30:00Z</updated>
+        <published>2018-12-02T06:30:00Z</published>
+        <category term="Warnings and Watches" />
+        <summary type="html">No watches or warnings in effect.</summary>
+        <id>tag:weather.gc.ca,2013-04-16:on-5_w1:20181202063000</id>
+    </entry>
+    <entry>
+        <title>Current Conditions: 0.7°C</title>
+        <link type="text/html" href="https://www.weather.gc.ca/city/pages/on-5_metric_e.html" />
+        <updated>2018-12-14T00:00:00Z</updated>
+        <published>2018-12-14T00:00:00Z</published>
+        <category term="Current Conditions" />
+        <summary type="html"><![CDATA[<b>Observed at:</b> Guelph Turfgrass 7:00 PM EST Thursday 13 December 2018 <br/>
+<b>Temperature:</b> 0.7&deg;C <br/>
+<b>Humidity:</b> 99 %<br/>
+<b>Dewpoint:</b> 0.5&deg;C <br/>
+<b>Wind:</b> ESE 5 km/h<br/>
+<b>Air Quality Health Index:</b> 4 <br/>
+]]></summary>
+        <id>tag:weather.gc.ca,2013-04-16:on-5_cc:20181214000000</id>
+    </entry>
+    <entry>
+        <title>Thursday night: Periods of freezing drizzle. Low minus 1 with temperature rising to plus 1 by morning. POP 60%</title>
+        <link type="text/html" href="https://www.weather.gc.ca/city/pages/on-5_metric_e.html" />
+        <updated>2018-12-13T20:30:00Z</updated>
+        <published>2018-12-13T20:30:00Z</published>
+        <category term="Weather Forecasts" />
+        <summary type="html">Mainly cloudy. 60 percent chance of freezing drizzle late this evening and overnight. Fog patches. Wind up to 15 km/h. Low minus 1 with temperature rising to plus 1 by morning. Wind chill minus 6 in the evening. Forecast issued 3:30 PM EST Thursday 13 December 2018</summary>
+        <id>tag:weather.gc.ca,2013-04-16:on-5_fc1:20181213203000</id>
+    </entry>
+    <entry>
+        <title>Friday: A few showers. High plus 5.</title>
+        <link type="text/html" href="https://www.weather.gc.ca/city/pages/on-5_metric_e.html" />
+        <updated>2018-12-13T20:30:00Z</updated>
+        <published>2018-12-13T20:30:00Z</published>
+        <category term="Weather Forecasts" />
+        <summary type="html">A few showers ending in the afternoon then cloudy. Risk of freezing rain over higher terrain early in the morning. Fog patches dissipating in the morning. Wind becoming southwest 20 km/h gusting to 40 in the morning. High plus 5. UV index 1 or low. Forecast issued 3:30 PM EST Thursday 13 December 2018</summary>
+        <id>tag:weather.gc.ca,2013-04-16:on-5_fc2:20181213203000</id>
+    </entry>
+    <entry>
+        <title>Friday night: Mainly cloudy. Low minus 2.</title>
+        <link type="text/html" href="https://www.weather.gc.ca/city/pages/on-5_metric_e.html" />
+        <updated>2018-12-13T20:30:00Z</updated>
+        <published>2018-12-13T20:30:00Z</published>
+        <category term="Weather Forecasts" />
+        <summary type="html">Mainly cloudy. Wind up to 15 km/h. Low minus 2. Wind chill minus 8 overnight. Forecast issued 3:30 PM EST Thursday 13 December 2018</summary>
+        <id>tag:weather.gc.ca,2013-04-16:on-5_fc3:20181213203000</id>
+    </entry>
+    <entry>
+        <title>Saturday: Chance of showers. High plus 5. POP 40%</title>
+        <link type="text/html" href="https://www.weather.gc.ca/city/pages/on-5_metric_e.html" />
+        <updated>2018-12-13T20:30:00Z</updated>
+        <published>2018-12-13T20:30:00Z</published>
+        <category term="Weather Forecasts" />
+        <summary type="html">A mix of sun and cloud with 40 percent chance of showers. High plus 5. Forecast issued 3:30 PM EST Thursday 13 December 2018</summary>
+        <id>tag:weather.gc.ca,2013-04-16:on-5_fc4:20181213203000</id>
+    </entry>
+    <entry>
+        <title>Saturday night: Chance of flurries. Low minus 1. POP 30%</title>
+        <link type="text/html" href="https://www.weather.gc.ca/city/pages/on-5_metric_e.html" />
+        <updated>2018-12-13T20:30:00Z</updated>
+        <published>2018-12-13T20:30:00Z</published>
+        <category term="Weather Forecasts" />
+        <summary type="html">Cloudy periods with 30 percent chance of flurries. Low minus 1. Forecast issued 3:30 PM EST Thursday 13 December 2018</summary>
+        <id>tag:weather.gc.ca,2013-04-16:on-5_fc5:20181213203000</id>
+    </entry>
+    <entry>
+        <title>Sunday: A mix of sun and cloud. High plus 5.</title>
+        <link type="text/html" href="https://www.weather.gc.ca/city/pages/on-5_metric_e.html" />
+        <updated>2018-12-13T20:30:00Z</updated>
+        <published>2018-12-13T20:30:00Z</published>
+        <category term="Weather Forecasts" />
+        <summary type="html">A mix of sun and cloud. High plus 5. Forecast issued 3:30 PM EST Thursday 13 December 2018</summary>
+        <id>tag:weather.gc.ca,2013-04-16:on-5_fc6:20181213203000</id>
+    </entry>
+    <entry>
+        <title>Sunday night: Chance of flurries. Low zero. POP 30%</title>
+        <link type="text/html" href="https://www.weather.gc.ca/city/pages/on-5_metric_e.html" />
+        <updated>2018-12-13T20:30:00Z</updated>
+        <published>2018-12-13T20:30:00Z</published>
+        <category term="Weather Forecasts" />
+        <summary type="html">Cloudy periods with 30 percent chance of flurries. Low zero. Forecast issued 3:30 PM EST Thursday 13 December 2018</summary>
+        <id>tag:weather.gc.ca,2013-04-16:on-5_fc7:20181213203000</id>
+    </entry>
+    <entry>
+        <title>Monday: Chance of flurries. High zero. POP 30%</title>
+        <link type="text/html" href="https://www.weather.gc.ca/city/pages/on-5_metric_e.html" />
+        <updated>2018-12-13T20:30:00Z</updated>
+        <published>2018-12-13T20:30:00Z</published>
+        <category term="Weather Forecasts" />
+        <summary type="html">Cloudy with 30 percent chance of flurries. High zero. Forecast issued 3:30 PM EST Thursday 13 December 2018</summary>
+        <id>tag:weather.gc.ca,2013-04-16:on-5_fc8:20181213203000</id>
+    </entry>
+    <entry>
+        <title>Monday night: Cloudy periods. Low minus 8.</title>
+        <link type="text/html" href="https://www.weather.gc.ca/city/pages/on-5_metric_e.html" />
+        <updated>2018-12-13T20:30:00Z</updated>
+        <published>2018-12-13T20:30:00Z</published>
+        <category term="Weather Forecasts" />
+        <summary type="html">Cloudy periods. Low minus 8. Forecast issued 3:30 PM EST Thursday 13 December 2018</summary>
+        <id>tag:weather.gc.ca,2013-04-16:on-5_fc9:20181213203000</id>
+    </entry>
+    <entry>
+        <title>Tuesday: A mix of sun and cloud. High minus 2.</title>
+        <link type="text/html" href="https://www.weather.gc.ca/city/pages/on-5_metric_e.html" />
+        <updated>2018-12-13T20:30:00Z</updated>
+        <published>2018-12-13T20:30:00Z</published>
+        <category term="Weather Forecasts" />
+        <summary type="html">A mix of sun and cloud. High minus 2. Forecast issued 3:30 PM EST Thursday 13 December 2018</summary>
+        <id>tag:weather.gc.ca,2013-04-16:on-5_fc10:20181213203000</id>
+    </entry>
+    <entry>
+        <title>Tuesday night: Cloudy periods. Low minus 5.</title>
+        <link type="text/html" href="https://www.weather.gc.ca/city/pages/on-5_metric_e.html" />
+        <updated>2018-12-13T20:30:00Z</updated>
+        <published>2018-12-13T20:30:00Z</published>
+        <category term="Weather Forecasts" />
+        <summary type="html">Cloudy periods. Low minus 5. Forecast issued 3:30 PM EST Thursday 13 December 2018</summary>
+        <id>tag:weather.gc.ca,2013-04-16:on-5_fc11:20181213203000</id>
+    </entry>
+    <entry>
+        <title>Wednesday: Cloudy. High plus 1.</title>
+        <link type="text/html" href="https://www.weather.gc.ca/city/pages/on-5_metric_e.html" />
+        <updated>2018-12-13T20:30:00Z</updated>
+        <published>2018-12-13T20:30:00Z</published>
+        <category term="Weather Forecasts" />
+        <summary type="html">Cloudy. High plus 1. Forecast issued 3:30 PM EST Thursday 13 December 2018</summary>
+        <id>tag:weather.gc.ca,2013-04-16:on-5_fc12:20181213203000</id>
+    </entry>
+</feed>

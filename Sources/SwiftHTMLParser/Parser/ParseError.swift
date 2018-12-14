@@ -18,4 +18,6 @@ enum ParseError: Error {
     case endOfFileReachedBeforeClosingTagFound
     case endOfFileReachedBeforeScriptClosingTagFound
     case endOfFileReachedBeforeCommentCloseFound
+    case endOfFileReachedBeforeCDATACloseFound
+    case invalidCDATA
 }
