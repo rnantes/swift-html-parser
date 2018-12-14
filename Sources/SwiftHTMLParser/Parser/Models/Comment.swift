@@ -14,7 +14,7 @@ public struct Comment: Node  {
     var textStartIndex: String.Index
     var textEndIndex: String.Index
 
-    var text: String
+    public var text: String
 
     init (startIndex: String.Index, endIndex: String.Index, textStartIndex: String.Index, textEndIndex: String.Index, text: String) {
         self.startIndex = startIndex

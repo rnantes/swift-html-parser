@@ -9,8 +9,8 @@
 import Foundation
 
 public struct Attribute: Node  {
-    var name: String
-    var value: String?
+    public var name: String
+    public var value: String?
 
     var nameStartIndex: String.Index
     var nameEndIndex: String.Index

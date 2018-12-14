@@ -14,7 +14,7 @@ public struct CData: Node  {
     var textStartIndex: String.Index
     var textEndIndex: String.Index
 
-    var text: String
+    public var text: String
 
     public init (startIndex: String.Index, endIndex: String.Index, textStartIndex: String.Index, textEndIndex: String.Index, text: String) {
         self.startIndex = startIndex

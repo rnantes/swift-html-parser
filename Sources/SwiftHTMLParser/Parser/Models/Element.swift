@@ -12,15 +12,15 @@ public struct Element: Node {
     var openingTag: Tag
     var closingTag: Tag?
 
-    var innerTextBlocks: [TextBlock]
-    var innerCData: [CData]
-    var comments: [Comment]
-    var nodeOrder: [NodeType]
+    public var innerTextBlocks: [TextBlock]
+    public var innerCData: [CData]
+    public var comments: [Comment]
+    public var nodeOrder: [NodeType]
 
-    var childElements: [Element]
+    public var childElements: [Element]
 
     // index information
-    var depth:Int
+    public var depth:Int
 
     var startIndex: String.Index {
         get {
@@ -37,27 +37,27 @@ public struct Element: Node {
         }
     }
 
-    var isEmptyElement: Bool {
+     public var isEmptyElement: Bool {
         get {
             return openingTag.isEmptyElementTag
         }
     }
 
-    var isSelfClosingElement: Bool {
+    public var isSelfClosingElement: Bool {
         get {
             return openingTag.isSelfClosing
         }
     }
 
-    var tagName: String {
+    public var tagName: String {
         return openingTag.tagName
     }
 
-    var id: String? {
+    public var id: String? {
         return openingTag.attributes["id"]?.value
     }
 
-    var classNames: [String] {
+    public var classNames: [String] {
         return openingTag.classNames
     }
 
