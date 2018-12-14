@@ -9,8 +9,6 @@
 import Foundation
 
 // based on Xpath and selector
-
-
 public struct ElementSelector {
     var tagName: String?
     var id: String?
@@ -29,6 +27,9 @@ public struct ElementSelector {
     var commentsContains: [String]? = nil
     var commentsCount: Int? = nil
 
+    // childElementsSelectors
+    var childElementSelectors: [ElementSelector]? = nil
+
     public init(tagName: String, id: String? = nil,
                 classNames: [String]? = nil,
                 position: Int? = nil,
@@ -37,7 +38,8 @@ public struct ElementSelector {
                 innerCDataContains: [String]? = nil,
                 innerCDataCount: Int? = nil,
                 commentsContains: [String]? = nil,
-                commentsCount: Int? = nil
+                commentsCount: Int? = nil,
+                childElementSelectors: [ElementSelector]? = nil
                 ) {
         self.tagName = tagName
         self.id = id
@@ -55,5 +57,8 @@ public struct ElementSelector {
         // comments
         self.commentsContains = commentsContains
         self.commentsCount = commentsCount
+
+        // childElementsSelectors
+        self.childElementSelectors = childElementSelectors
     }
 }

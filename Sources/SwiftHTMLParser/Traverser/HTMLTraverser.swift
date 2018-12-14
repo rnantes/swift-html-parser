@@ -130,6 +130,18 @@ public class HTMLTraverser {
             }
         }
 
+        // childElementSelectors
+        // checks if one of the element's direct children matches the selector 
+        if let childElementSelectors = elementSelector.childElementSelectors {
+            for childElementSelector in childElementSelectors {
+                let htmlTraverser = HTMLTraverser()
+                let matchingElements = htmlTraverser.findElements(in: [element], matchingElementSelectorPath: [childElementSelector])
+                if matchingElements.count == 0 {
+                    return false
+                }
+            }
+        }
+
         return true
     }
 
