@@ -73,19 +73,15 @@ struct TagParser {
                         }
 
                         // check if it is a comment
-                        if lookaheadValidator.isValidLookahead(for: source, atIndex: localCurrentIndex, checkFor: specificCharacters.conditionalCommentOpening) {
-                            // is a conditional comment
-                            do {
-                                let comment = try commentParser.parseConditionalComment(source: source, currentIndex: localCurrentIndex)
-                                localCurrentIndex = comment.endIndex
-                                nodeOrder.append(.comment)
-                                comments.append(comment)
-                            } catch {
-                                throw error
-                            }
-                        } else if lookaheadValidator.isValidLookahead(for: source, atIndex: localCurrentIndex,
+                        if lookaheadValidator.isValidLookahead(for: source, atIndex: localCurrentIndex,
                                                                checkFor: specificCharacters.commentOpening){
                             // is a comment
+                            if lookaheadValidator.isValidLookahead(for: source, atIndex: localCurrentIndex, checkFor: specificCharacters.conditionalCommentOpening) {
+                                // is conditional comment
+                                // do nothing
+                            }
+
+
                             do {
                                 let comment = try commentParser.parseComment(source: source, currentIndex: localCurrentIndex)
                                 localCurrentIndex = comment.endIndex
