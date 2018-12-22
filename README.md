@@ -1,5 +1,5 @@
 # SwiftHTMLParser
-SwiftHTMLParser is a library for parsing and traverseing HTML written in Swift. It parses plaintext HTML into an object, and allows for the easy traversal of the object's elements, similarly to an HTML Selector or XPath.
+SwiftHTMLParser is a library for parsing and traversing HTML written in Swift. It parses plaintext HTML into an object, and allows for the easy traversal of the object's elements, similarly to an HTML Selector or XPath.
 
 ## Basic Structure
 Object naming is based on the [HTML Standard](https://html.spec.whatwg.org/dev/syntax.html#syntax). There are also easy to follow [tutorials](https://www.w3schools.com/html/default.asp) available online.
