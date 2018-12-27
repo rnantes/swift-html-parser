@@ -73,11 +73,11 @@ public struct Element: Node {
         self.depth = depth
     }
 
-    func attribute(attributeName: String) -> Attribute? {
+    public func attribute(attributeName: String) -> Attribute? {
         return openingTag.attributes[attributeName]
     }
 
-    func attributeValue(for attributeName: String) -> String? {
+    public func attributeValue(for attributeName: String) -> String? {
         return openingTag.attributes[attributeName]?.value
     }
 
