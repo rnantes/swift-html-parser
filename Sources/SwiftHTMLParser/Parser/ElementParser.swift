@@ -10,7 +10,7 @@ import Foundation
 
 class ElementParser {
 
-    fileprivate var localCurrentIndex = String.Index.init(encodedOffset: 0)
+    fileprivate var localCurrentIndex: String.Index = String.Index.init(utf16Offset: 0, in: "")
     fileprivate var childElements = [Element]()
 
     fileprivate var innerTextBlocks = [TextBlock]()
@@ -24,8 +24,8 @@ class ElementParser {
     fileprivate var outerNodeOrder = [NodeType]()
 
 
-    // iterate through string to find opening and closing tags
-    func parseNextElement(pageSource: String, currentIndex: String.Index, openingTag: Tag?, depth: Int, parseFormat: ParseFormat) throws -> Element? {
+    /// Iterate through the string to find opening and closing tags
+    func parseNextElement(pageSource: String, currentIndex: String.Index, openingTag: Tag?, depth: Int, parseFormat: ParseFormat, shouldHonourConditionalComments: Bool) throws -> Element? {
         self.localCurrentIndex = currentIndex
         self.childElements = []
         var localOpeningTag = openingTag
@@ -93,26 +93,44 @@ class ElementParser {
             localParseFormat = .svg
         }
 
-        do {
-            let localClosingTag = try findClosingTag(pageSource: pageSource,
-                                                     openingTag: finalOpeningTag,
-                                                     depth: depth,
-                                                     parseFormat:localParseFormat)
+        var isClosingTagFound = false
+        while isClosingTagFound == false {
+            do {
+                let localClosingTag = try findClosingTag(pageSource: pageSource,
+                                                         openingTag: finalOpeningTag,
+                                                         depth: depth,
+                                                         parseFormat:localParseFormat,
+                                                         shouldHonourConditionalComments: shouldHonourConditionalComments)
 
-            return Element.init(openingTag: finalOpeningTag,
-                                closingTag: localClosingTag,
-                                innerTextBlocks: innerTextBlocks,
-                                innerCData: innerCData,
-                                comments: comments,
-                                nodeOrder: nodeOrder,
-                                childElements: childElements,
-                                depth: depth)
-        } catch {
-            throw error
+                return Element.init(openingTag: finalOpeningTag,
+                                    closingTag: localClosingTag,
+                                    innerTextBlocks: innerTextBlocks,
+                                    innerCData: innerCData,
+                                    comments: comments,
+                                    nodeOrder: nodeOrder,
+                                    childElements: childElements,
+                                    depth: depth)
+            } catch ParseError.closingTagNameDoesNotMatchOpeningTagName(let erroredTag) {
+                print("WARNING: Closing tag name does not match opening tag name. Adding missing cloing Tag.")
+                let missingTag = Tag.init(startIndex: pageSource.index(before: erroredTag.startIndex),
+                                          endIndex: pageSource.index(before: erroredTag.startIndex),
+                                          tagText: finalOpeningTag.tagText,
+                                          tagName: finalOpeningTag.tagName)
+                return Element.init(openingTag: finalOpeningTag,
+                                    closingTag: missingTag,
+                                    innerTextBlocks: innerTextBlocks,
+                                    innerCData: innerCData,
+                                    comments: comments,
+                                    nodeOrder: nodeOrder,
+                                    childElements: childElements,
+                                    depth: depth)
+            } catch {
+                throw error
+            }
         }
     }
 
-    func findClosingTag(pageSource: String, openingTag: Tag, depth: Int, parseFormat: ParseFormat) throws -> Tag {
+    func findClosingTag(pageSource: String, openingTag: Tag, depth: Int, parseFormat: ParseFormat, shouldHonourConditionalComments: Bool) throws -> Tag {
         let tagParser = TagParser()
 
         // get child elements until closing tag is found (or end of file reached)
@@ -136,19 +154,7 @@ class ElementParser {
             localCurrentIndex = pageSource.index(nextTag.endIndex, offsetBy: 1)
 
 
-            if nextTag.isClosingTag {
-                if "/\(openingTag.tagName)" != nextTag.tagName {
-                    // if nextTag is a closing tag of a empty element ignore it ex <input type="text"></input
-                    // otherwise throw an error
-                    if (nextTag.isEmptyElementTag == false) {
-                        throw ParseError.closingTagNameDoesNotMatchOpeningTagName
-                    }
-                } else {
-                    // matching closing tag found
-                    //printClosingTag(tag: nextTag, depth: depth)
-                    return nextTag
-                }
-            } else if nextTag.isEmptyElementTag || (parseFormat == .svg || parseFormat == .xml && nextTag.isSelfClosing) {
+            if nextTag.isEmptyElementTag || ((parseFormat == .svg || parseFormat == .xml) && nextTag.isSelfClosing) {
                 // empty element - add to child elements of parent and start looking for next tag
                 let childElement = Element.init(openingTag: nextTag,
                                                 closingTag: nil,
@@ -161,6 +167,20 @@ class ElementParser {
                 childElements.append(childElement)
                 localCurrentIndex = pageSource.index(childElement.endIndex, offsetBy: 1)
                 //printOpeningTag(tag: nextTag, depth: depth + 1)
+            } else if nextTag.isClosingTag {
+                if "/\(openingTag.tagName)" != nextTag.tagName  {
+                    // if nextTag is a closing tag of a empty element ignore it ex <input type="text"></input
+                    // otherwise throw an error
+                    if nextTag.isEmptyElementTag == false {
+                        // ignore
+                        localCurrentIndex = pageSource.index(nextTag.endIndex, offsetBy: 1)
+                        throw ParseError.closingTagNameDoesNotMatchOpeningTagName(erroredTag: nextTag)
+                    }
+                } else {
+                    // matching closing tag found
+                    //printClosingTag(tag: nextTag, depth: depth)
+                    return nextTag
+                }
             } else if  nextTag.tagName.lowercased() == "script" {
                 //printOpeningTag(tag: nextTag, depth: depth + 1)
                 // is script tag
@@ -191,7 +211,8 @@ class ElementParser {
                                                                           currentIndex: localCurrentIndex,
                                                                           openingTag: nextTag,
                                                                           depth: depth + 1,
-                                                                          parseFormat: parseFormat)
+                                                                          parseFormat: parseFormat,
+                                                                          shouldHonourConditionalComments: shouldHonourConditionalComments)
                     if let element = childElement {
                         childElements.append(element)
                         localCurrentIndex = pageSource.index(element.endIndex, offsetBy: 1)

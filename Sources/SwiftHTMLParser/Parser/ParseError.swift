@@ -14,7 +14,7 @@ enum ParseError: Error {
     case openingTagNotFound
     case closingTagNotFound
     case attributeNotFound
-    case closingTagNameDoesNotMatchOpeningTagName
+    case closingTagNameDoesNotMatchOpeningTagName(erroredTag: Tag)
     case endOfFileReachedBeforeClosingTagFound
     case endOfFileReachedBeforeScriptClosingTagFound
     case endOfFileReachedBeforeCommentCloseFound

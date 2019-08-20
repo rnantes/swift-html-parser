@@ -14,7 +14,8 @@ public class HTMLParser {
 
     public init() {}
 
-    public func parse(pageSource: String, format: ParseFormat = .html) throws -> [Element] {
+    /// Parses an html or xml string and outputs an node/element tree
+    public func parse(pageSource: String, format: ParseFormat = .html, shouldHonourConditionalComments: Bool = true) throws -> [Element] {
         var rootElements = [Element]()
         let source = removeIEStatments(pageSource: pageSource)
         var currentIndex = source.startIndex
@@ -27,7 +28,8 @@ public class HTMLParser {
                                                                      currentIndex: currentIndex,
                                                                      openingTag: nil,
                                                                      depth: 0,
-                                                                     parseFormat: format)
+                                                                     parseFormat: format,
+                                                                     shouldHonourConditionalComments: shouldHonourConditionalComments)
 
                 // check if an element was found
                 if let element = rootElement {

@@ -106,8 +106,8 @@ public struct Tag: Node {
         var description = ""
         description = description + "tagText: \(tagText)\n"
         description = description + "tagText.count: \(tagText.count)\n"
-        description = description + "tag.startIndex: \(startIndex.encodedOffset)\n"
-        description = description + "tag.endIndex: \(endIndex.encodedOffset)\n"
+        description = description + "tag.startIndex: \(startIndex.utf16Offset(in: tagText))\n"
+        description = description + "tag.endIndex: \(endIndex.utf16Offset(in: tagText))\n"
 
         return description
     }

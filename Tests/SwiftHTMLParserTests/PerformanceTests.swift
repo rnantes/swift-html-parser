@@ -105,20 +105,22 @@ final class PerformanceTests: XCTestCase {
         XCTAssertEqual(matchingElements[0].childElements.count, 300)
     }
 
-    func timeDeep() {
-        let relativePath = "/Tests/SwiftHTMLParserTests/TestFiles/deep.html"
-        let fullPath = "\(ProjectConfig().projectPath)\(relativePath)"
-        let fileURL = URL.init(fileURLWithPath: fullPath)
+    func testTimeDeep() {
+        guard let fileURL = TestsConfig.performanceTestFilesDirectoryURL?
+            .appendingPathComponent("deep.html") else {
+                XCTFail("Could not get url to test file")
+                return
+        }
 
         // get html string from file
         var htmlStringResult: String? = nil
         do {
             htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
         } catch {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
         }
         guard let htmlString = htmlStringResult else {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
             return
         }
 

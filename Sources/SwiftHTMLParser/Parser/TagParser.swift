@@ -13,6 +13,13 @@ enum TagParserState {
     case withinSingleQuotes
 }
 
+enum TagOpeningType {
+    case element
+    case CDATA
+    case declaration
+    case comment
+}
+
 struct TagSpecificCharacters {
     // characters
     let tagOpeningCharacter: Character = "<"
@@ -23,6 +30,7 @@ struct TagSpecificCharacters {
     let equalSign: Character = "="
 
     // strings
+    let declarationOpening = "<!"
     let commentOpening = "<!--"
     let commentClosing = "-->"
     let conditionalCommentOpening = "<!--[if"
@@ -36,6 +44,7 @@ struct TagParser {
     fileprivate let cdataParser = CDATAParser()
     fileprivate let lookaheadValidator = LookaheadValidator()
     fileprivate let specificCharacters = TagSpecificCharacters()
+    fileprivate let isPoorlyFormattedCommentsAllowed: Bool = true
 
     func getNextTag(source: String, currentIndex: String.Index) throws -> (innerTextBlocks: [TextBlock],  innerCData: [CData], comments: [Comment], nodeOrder: [NodeType], tag: Tag?) {
         var isTagOpened = false
@@ -54,9 +63,7 @@ struct TagParser {
             if isTagOpened == false {
                 switch parseState {
                 case .notWithinQuotesOrComment:
-                    if source[localCurrentIndex] == specificCharacters.tagOpeningCharacter {
-                        // found tag or comment opening
-
+                    if let tagOpeningType = resolveTagOpeningType(source: source, index: localCurrentIndex) {
                         // set inner text block
                         if (currentIndex != localCurrentIndex) {
                             var textBlockStartIndex = currentIndex
@@ -76,27 +83,33 @@ struct TagParser {
                             }
                         }
 
-                        // check if it is a comment, CDATA or tag opening
-                        if lookaheadValidator.isValidLookahead(for: source, atIndex: localCurrentIndex,
-                                                               checkFor: specificCharacters.commentOpening){
-                            // is a comment
-                            if lookaheadValidator.isValidLookahead(for: source, atIndex: localCurrentIndex, checkFor: specificCharacters.conditionalCommentOpening) {
-                                // is conditional comment
-                                // do nothing
-                            }
-
-
+                        switch tagOpeningType {
+                        case .element:
+                            isTagOpened = true
+                            tagStartIndex = localCurrentIndex
+                        case .comment:
                             do {
-                                let comment = try commentParser.parseComment(source: source, currentIndex: localCurrentIndex)
+                                let comment = try commentParser.parseComment(source: source,
+                                                                             currentIndex: localCurrentIndex,
+                                                                             commentType: .comment)
                                 localCurrentIndex = comment.endIndex
                                 nodeOrder.append(.comment)
                                 comments.append(comment)
                             } catch {
                                 throw ParseError.endOfFileReachedBeforeCommentCloseFound
                             }
-
-                        } else if lookaheadValidator.isValidLookahead(for: source, atIndex: localCurrentIndex,
-                                                                      checkFor: specificCharacters.CDATAOpening) {
+                        case .declaration:
+                            do {
+                                let comment = try commentParser.parseComment(source: source,
+                                                                             currentIndex: localCurrentIndex,
+                                                                             commentType: .declaration)
+                                localCurrentIndex = comment.endIndex
+                                nodeOrder.append(.comment)
+                                comments.append(comment)
+                            } catch {
+                                throw ParseError.endOfFileReachedBeforeCommentCloseFound
+                            }
+                        case .CDATA:
                             // is CDATA
                             do {
                                 let cdata = try cdataParser.parse(source: source, currentIndex: localCurrentIndex)
@@ -106,12 +119,6 @@ struct TagParser {
                             } catch {
                                 throw ParseError.endOfFileReachedBeforeCommentCloseFound
                             }
-
-
-                        } else {
-                            // tag is opened
-                            isTagOpened = true
-                            tagStartIndex = localCurrentIndex
                         }
                     }
                 default:
@@ -155,6 +162,25 @@ struct TagParser {
 
         // a tag not found before end of file reached
         return (innerTextBlocks, innerCData, comments, nodeOrder, nil)
+    }
+
+    func resolveTagOpeningType(source: String, index: String.Index) -> TagOpeningType? {
+        if source[index] == specificCharacters.tagOpeningCharacter {
+            if lookaheadValidator.isValidLookahead(for: source, atIndex: index,
+                                                      checkFor: specificCharacters.declarationOpening) {
+                // check if comment opening
+                if lookaheadValidator.isValidLookahead(for: source, atIndex: index,
+                                                       checkFor: specificCharacters.commentOpening) {
+                    return TagOpeningType.comment
+                } else if lookaheadValidator.isValidLookahead(for: source, atIndex: index,
+                                                              checkFor: specificCharacters.CDATAOpening) {
+                    return TagOpeningType.CDATA
+                }
+                return TagOpeningType.declaration
+            }
+            return TagOpeningType.element
+        }
+        return nil
     }
 
     func isAtEndOfString(index: String.Index, endIndex: String.Index) -> Bool {
