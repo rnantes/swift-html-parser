@@ -10,20 +10,64 @@ import XCTest
 
 final class PerformanceTests: XCTestCase {
 
-    func testStringIteration() {
-        let relativePath = "/Tests/SwiftHTMLParserTests/TestFiles/RealWorld/google-home-page.html"
-        let fullPath = "\(ProjectConfig().projectPath)\(relativePath)"
-        let fileURL = URL.init(fileURLWithPath: fullPath)
+    func testIteratingString() {
+        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+            .appendingPathComponent("google-home-page.html") else {
+                XCTFail("Could not get url to test file")
+                return
+        }
 
         // get html string from file
-        var textStringResult: String? = nil
+        var htmlStringResult: String? = nil
         do {
-            textStringResult = try String(contentsOf: fileURL, encoding: .utf8)
+            htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
         } catch {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
         }
-        guard let text = textStringResult else {
-            XCTFail("Could not open file at: \(fullPath)")
+        guard let htmlString = htmlStringResult else {
+            XCTFail("Could not open file at: \(fileURL.path)")
+            return
+        }
+
+        var currentIndex = htmlString.startIndex
+        var numberOfMatchingCharacters = 0
+        let charToMatch: Character  = "a"
+
+        let start = Date()
+        while currentIndex < htmlString.endIndex {
+            if (htmlString[currentIndex] == charToMatch) {
+                numberOfMatchingCharacters += 1
+            }
+
+            // iterate current index
+            currentIndex = htmlString.index(currentIndex, offsetBy: 1)
+        }
+        let end = Date()
+
+        let timeElapsed = end.timeIntervalSince(start)
+        print("time elapsed: \(timeElapsed) seconds")
+
+        print("found \(numberOfMatchingCharacters) matching the string '\(charToMatch)'")
+
+        print("--------------------")
+    }
+
+    func testStringIteration() {
+        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+            .appendingPathComponent("google-home-page.html") else {
+                XCTFail("Could not get url to test file")
+                return
+        }
+
+        // get html string from file
+        var htmlStringResult: String? = nil
+        do {
+            htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
+        } catch {
+            XCTFail("Could not open file at: \(fileURL.path)")
+        }
+        guard let text = htmlStringResult else {
+            XCTFail("Could not open file at: \(fileURL.path)")
             return
         }
 
@@ -68,75 +112,77 @@ final class PerformanceTests: XCTestCase {
         }
     }
 
-    func testDeep() {
-        let relativePath = "/Tests/SwiftHTMLParserTests/TestFiles/Performance/deep.html"
-        let fullPath = "\(ProjectConfig().projectPath)\(relativePath)"
-        let fileURL = URL.init(fileURLWithPath: fullPath)
+//    func testDeep() {
+//        guard let fileURL = TestsConfig.performanceTestFilesDirectoryURL?
+//            .appendingPathComponent("deep.html") else {
+//                XCTFail("Could not get url to test file")
+//                return
+//        }
+//
+//        // get html string from file
+//        var htmlStringResult: String? = nil
+//        do {
+//            htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
+//        } catch {
+//            XCTFail("Could not open file at: \(fileURL.path)")
+//        }
+//        guard let htmlString = htmlStringResult else {
+//            XCTFail("Could not open file at: \(fileURL.path)")
+//            return
+//        }
+//
+//        // create object from raw html file
+//        let htmlParser = HTMLParser()
+//        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+//            XCTFail("Could not parse HTML")
+//            return
+//        }
+//
+//        // find matching elements by traversing the created html object
+//        let elementSelectorPath = [
+//            ElementSelector.init(tagName: "html"),
+//            ElementSelector.init(tagName: "body")
+//        ]
+//
+//        let traverser = HTMLTraverser()
+//        let matchingElements = traverser.findElements(in: elementArray,
+//                                                      matchingElementSelectorPath: elementSelectorPath)
+//
+//        XCTAssertEqual(matchingElements[0].childElements.count, 300)
+//    }
 
-        // get html string from file
-        var htmlStringResult: String? = nil
-        do {
-            htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
-        } catch {
-            XCTFail("Could not open file at: \(fullPath)")
-        }
-        guard let htmlString = htmlStringResult else {
-            XCTFail("Could not open file at: \(fullPath)")
-            return
-        }
-
-        // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
-            XCTFail("Could not parse HTML")
-            return
-        }
-
-        // find matching elements by traversing the created html object
-        let elementSelectorPath = [
-            ElementSelector.init(tagName: "html"),
-            ElementSelector.init(tagName: "body")
-        ]
-
-        let traverser = HTMLTraverser()
-        var matchingElements = traverser.findElements(in: elementArray,
-                                                      matchingElementSelectorPath: elementSelectorPath)
-
-        XCTAssertEqual(matchingElements[0].childElements.count, 300)
-    }
-
-    func testTimeDeep() {
-        guard let fileURL = TestsConfig.performanceTestFilesDirectoryURL?
-            .appendingPathComponent("deep.html") else {
-                XCTFail("Could not get url to test file")
-                return
-        }
-
-        // get html string from file
-        var htmlStringResult: String? = nil
-        do {
-            htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
-        } catch {
-            XCTFail("Could not open file at: \(fileURL.path)")
-        }
-        guard let htmlString = htmlStringResult else {
-            XCTFail("Could not open file at: \(fileURL.path)")
-            return
-        }
-
-        // create object from raw html file
-        let start = Date()
-        let htmlParser = HTMLParser()
-        for _ in 0..<20 {
-            do {
-                _ = try htmlParser.parse(pageSource: htmlString)
-            } catch {
-                 XCTFail("Could not parse HTML")
-            }
-        }
-        let end = Date()
-
-        let timeElapsed = end.timeIntervalSince(start)
-        print("time elapsed: \(timeElapsed) seconds")
-    }
+//    func testTimeDeep() {
+//        guard let fileURL = TestsConfig.performanceTestFilesDirectoryURL?
+//            .appendingPathComponent("deep.html") else {
+//                XCTFail("Could not get url to test file")
+//                return
+//        }
+//
+//        // get html string from file
+//        var htmlStringResult: String? = nil
+//        do {
+//            htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
+//        } catch {
+//            XCTFail("Could not open file at: \(fileURL.path)")
+//        }
+//        guard let htmlString = htmlStringResult else {
+//            XCTFail("Could not open file at: \(fileURL.path)")
+//            return
+//        }
+//
+//        // create object from raw html file
+//        let start = Date()
+//        let htmlParser = HTMLParser()
+//        for _ in 0..<20 {
+//            do {
+//                _ = try htmlParser.parse(pageSource: htmlString)
+//            } catch {
+//                 XCTFail("Could not parse HTML")
+//            }
+//        }
+//        let end = Date()
+//
+//        let timeElapsed = end.timeIntervalSince(start)
+//        print("time elapsed: \(timeElapsed) seconds")
+//    }
 }

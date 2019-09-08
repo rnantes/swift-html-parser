@@ -10,19 +10,21 @@ import XCTest
 
 final class CommentParserTests: XCTestCase {
     func testComments() {
-        let relativePath = "/Tests/SwiftHTMLParserTests/TestFiles/Comments/comments.html"
-        let fullPath = "\(ProjectConfig().projectPath)\(relativePath)"
-        let fileURL = URL.init(fileURLWithPath: fullPath)
+        guard let fileURL = TestsConfig.commentsTestFilesDirectoryURL?
+            .appendingPathComponent("comments.html") else {
+                XCTFail("Could not get url to test file")
+                return
+        }
 
         // get html string from file
         var htmlStringResult: String? = nil
         do {
             htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
         } catch {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
         }
         guard let htmlString = htmlStringResult else {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
             return
         }
 
@@ -42,14 +44,14 @@ final class CommentParserTests: XCTestCase {
         let traverser = HTMLTraverser()
         var matchingElements = traverser.findElements(in: elementArray, matchingElementSelectorPath: elementSelectorPath)
 
-        XCTAssertEqual(matchingElements[0].nodeOrder.count, 14)
-        XCTAssertEqual(matchingElements[0].comments.count, 4)
+        XCTAssertEqual(matchingElements[0].childNodes.count, 11)
+        XCTAssertEqual(matchingElements[0].commentNodes.count, 4)
         XCTAssertEqual(matchingElements[0].childElements.count, 3)
-        XCTAssertEqual(matchingElements[0].innerTextBlocks.count, 7)
+        XCTAssertEqual(matchingElements[0].textNodes.count, 4)
 
-        XCTAssertEqual(matchingElements[0].comments[0].text, " This is a comment ")
-        XCTAssertEqual(matchingElements[0].comments[1].text, " This is annother comment ")
-        XCTAssertEqual(matchingElements[0].comments[3].text, " no space between the comment and div ")
+        XCTAssertEqual(matchingElements[0].commentNodes[0].text, " This is a comment ")
+        XCTAssertEqual(matchingElements[0].commentNodes[1].text, " This is annother comment ")
+        XCTAssertEqual(matchingElements[0].commentNodes[3].text, " no space between the comment and div ")
 
         elementSelectorPath = [
             ElementSelector.init(tagName: "html"),
@@ -59,7 +61,7 @@ final class CommentParserTests: XCTestCase {
 
         matchingElements = traverser.findElements(in: elementArray, matchingElementSelectorPath: elementSelectorPath)
         XCTAssertEqual(matchingElements.count, 1)
-        XCTAssertEqual(matchingElements[0].innerTextBlocks.first!.text, "This is a div")
+        XCTAssertEqual(matchingElements[0].textNodes.first!.text, "This is a div")
     }
 
     func testConditionalComments() throws {
@@ -100,8 +102,8 @@ final class CommentParserTests: XCTestCase {
         let matchingElements = traverser.findElements(in: elementArray, matchingElementSelectorPath: elementSelectorPath)
 
         XCTAssertEqual(matchingElements.count, 1)
-        XCTAssertEqual(matchingElements.first!.comments.count, 1)
-        let commentText = try XCTUnwrap(matchingElements.first?.comments.first?.text)
+        XCTAssertEqual(matchingElements.first!.commentNodes.count, 1)
+        let commentText = try XCTUnwrap(matchingElements.first?.commentNodes.first?.text)
         XCTAssertTrue(commentText.contains("<p>You are using Internet Explorer 6. :( </p>"))
     }
 }

@@ -38,7 +38,7 @@ struct CommentParser {
             textStartIndex = source.index(currentIndex, offsetBy: 2)
         }
         var localCurrentIndex = textStartIndex
-        
+
         while localCurrentIndex < source.endIndex {
             var hasFoundClosing = false
             if commentType == .comment {
@@ -103,5 +103,5 @@ struct CommentParser {
         // throw error if a tag not found before end of file reached
         throw ParseError.endOfFileReachedBeforeCommentCloseFound
     }
-    
+
 }

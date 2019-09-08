@@ -8,15 +8,13 @@
 
 import Foundation
 
-
-
 public class HTMLParser {
 
     public init() {}
 
     /// Parses an html or xml string and outputs an node/element tree
-    public func parse(pageSource: String, format: ParseFormat = .html, shouldHonourConditionalComments: Bool = true) throws -> [Element] {
-        var rootElements = [Element]()
+    public func parse(pageSource: String, format: ParseFormat = .html, shouldHonourConditionalComments: Bool = true) throws -> [Node] {
+        var rootElements = [Node]()
         let source = removeIEStatments(pageSource: pageSource)
         var currentIndex = source.startIndex
 
@@ -24,17 +22,17 @@ public class HTMLParser {
         while currentIndex < source.endIndex && isEndOfFileReached == false {
             let elementParser = ElementParser()
             do {
-                let rootElement = try elementParser.parseNextElement(pageSource: pageSource,
-                                                                     currentIndex: currentIndex,
-                                                                     openingTag: nil,
-                                                                     depth: 0,
-                                                                     parseFormat: format,
-                                                                     shouldHonourConditionalComments: shouldHonourConditionalComments)
+                let rootElementAndOuterNodes = try elementParser.parseNextElement(pageSource: pageSource,
+                                                                                  currentIndex: currentIndex,
+                                                                                  openingTag: nil,
+                                                                                  depth: 0,
+                                                                                  parseFormat: format)
 
+                rootElements.append(contentsOf: rootElementAndOuterNodes.outerNodes)
                 // check if an element was found
-                if let element = rootElement {
+                if let element = rootElementAndOuterNodes.element {
                     // set the currentIndex to end of rootElement index
-                    currentIndex = element.endIndex
+                    currentIndex = source.index(element.endIndex, offsetBy: 1)
                     rootElements.append(element)
                 } else {
                     // element was not found, end of file reached without error

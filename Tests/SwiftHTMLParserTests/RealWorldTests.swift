@@ -10,19 +10,21 @@ import XCTest
 
 final class RealWorldTests: XCTestCase {
     func testGoogleHomePage() {
-        let relativePath = "/Tests/SwiftHTMLParserTests/TestFiles/RealWorld/google-home-page.html"
-        let fullPath = "\(ProjectConfig().projectPath)\(relativePath)"
-        let fileURL = URL.init(fileURLWithPath: fullPath)
+        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+            .appendingPathComponent("google-home-page.html") else {
+                XCTFail("Could not get url to test file")
+                return
+        }
 
         // get html string from file
         var htmlStringResult: String? = nil
         do {
             htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
         } catch {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
         }
         guard let htmlString = htmlStringResult else {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
             return
         }
 
@@ -37,19 +39,21 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testWikipediaHomePage() {
-        let relativePath = "/Tests/SwiftHTMLParserTests/TestFiles/RealWorld/wikipedia-home-page.html"
-        let fullPath = "\(ProjectConfig().projectPath)\(relativePath)"
-        let fileURL = URL.init(fileURLWithPath: fullPath)
+        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+            .appendingPathComponent("wikipedia-home-page.html") else {
+                XCTFail("Could not get url to test file")
+                return
+        }
 
         // get html string from file
         var htmlStringResult: String? = nil
         do {
             htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
         } catch {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
         }
         guard let htmlString = htmlStringResult else {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
             return
         }
 
@@ -64,19 +68,21 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testESPNHomePage() {
-        let relativePath = "/Tests/SwiftHTMLParserTests/TestFiles/RealWorld/espn-home-page.html"
-        let fullPath = "\(ProjectConfig().projectPath)\(relativePath)"
-        let fileURL = URL.init(fileURLWithPath: fullPath)
+        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+            .appendingPathComponent("espn-home-page.html") else {
+                XCTFail("Could not get url to test file")
+                return
+        }
 
         // get html string from file
         var htmlStringResult: String? = nil
         do {
             htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
         } catch {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
         }
         guard let htmlString = htmlStringResult else {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
             return
         }
 
@@ -91,19 +97,21 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testAppleHomePage() {
-        let relativePath = "/Tests/SwiftHTMLParserTests/TestFiles/RealWorld/apple-home-page.html"
-        let fullPath = "\(ProjectConfig().projectPath)\(relativePath)"
-        let fileURL = URL.init(fileURLWithPath: fullPath)
+        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+            .appendingPathComponent("apple-home-page.html") else {
+                XCTFail("Could not get url to test file")
+                return
+        }
 
         // get html string from file
         var htmlStringResult: String? = nil
         do {
             htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
         } catch {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
         }
         guard let htmlString = htmlStringResult else {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
             return
         }
 
@@ -147,19 +155,21 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testCNNHomePage() {
-        let relativePath = "/Tests/SwiftHTMLParserTests/TestFiles/RealWorld/cnn-home-page.html"
-        let fullPath = "\(ProjectConfig().projectPath)\(relativePath)"
-        let fileURL = URL.init(fileURLWithPath: fullPath)
+        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+            .appendingPathComponent("cnn-home-page.html") else {
+                XCTFail("Could not get url to test file")
+                return
+        }
 
         // get html string from file
         var htmlStringResult: String? = nil
         do {
             htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
         } catch {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
         }
         guard let htmlString = htmlStringResult else {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
             return
         }
 
@@ -174,19 +184,21 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testDigitalOceanHomePage() {
-        let relativePath = "/Tests/SwiftHTMLParserTests/TestFiles/RealWorld/digitalocean-home-page.html"
-        let fullPath = "\(ProjectConfig().projectPath)\(relativePath)"
-        let fileURL = URL.init(fileURLWithPath: fullPath)
+        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+            .appendingPathComponent("digitalocean-home-page.html") else {
+                XCTFail("Could not get url to test file")
+                return
+        }
 
         // get html string from file
         var htmlStringResult: String? = nil
         do {
             htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
         } catch {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
         }
         guard let htmlString = htmlStringResult else {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
             return
         }
 
@@ -201,19 +213,21 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testMediumHomePage() {
-        let relativePath = "/Tests/SwiftHTMLParserTests/TestFiles/RealWorld/medium-home-page.html"
-        let fullPath = "\(ProjectConfig().projectPath)\(relativePath)"
-        let fileURL = URL.init(fileURLWithPath: fullPath)
+        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+            .appendingPathComponent("medium-home-page.html") else {
+                XCTFail("Could not get url to test file")
+                return
+        }
 
         // get html string from file
         var htmlStringResult: String? = nil
         do {
             htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
         } catch {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
         }
         guard let htmlString = htmlStringResult else {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
             return
         }
 
@@ -228,19 +242,21 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testYoutubeTrending() {
-        let relativePath = "/Tests/SwiftHTMLParserTests/TestFiles/RealWorld/youtube-trending.html"
-        let fullPath = "\(ProjectConfig().projectPath)\(relativePath)"
-        let fileURL = URL.init(fileURLWithPath: fullPath)
+        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+            .appendingPathComponent("youtube-trending.html") else {
+                XCTFail("Could not get url to test file")
+                return
+        }
 
         // get html string from file
         var htmlStringResult: String? = nil
         do {
             htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
         } catch {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
         }
         guard let htmlString = htmlStringResult else {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
             return
         }
 
@@ -255,19 +271,21 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testRedditHomePage() {
-        let relativePath = "/Tests/SwiftHTMLParserTests/TestFiles/RealWorld/reddit-home-page.html"
-        let fullPath = "\(ProjectConfig().projectPath)\(relativePath)"
-        let fileURL = URL.init(fileURLWithPath: fullPath)
+        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+            .appendingPathComponent("reddit-home-page.html") else {
+                XCTFail("Could not get url to test file")
+                return
+        }
 
         // get html string from file
         var htmlStringResult: String? = nil
         do {
             htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
         } catch {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
         }
         guard let htmlString = htmlStringResult else {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
             return
         }
 
@@ -282,84 +300,90 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testWeatherForcast() {
-        let relativePath = "/Tests/SwiftHTMLParserTests/TestFiles/RealWorld/weather-forcast.html"
-        let fullPath = "\(ProjectConfig().projectPath)\(relativePath)"
-        let fileURL = URL.init(fileURLWithPath: fullPath)
+        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+            .appendingPathComponent("weather-forcast.html") else {
+                XCTFail("Could not get url to test file")
+                return
+        }
 
         // get html string from file
         var htmlStringResult: String? = nil
         do {
             htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
         } catch {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
         }
         guard let htmlString = htmlStringResult else {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
             return
         }
 
         // create object from raw html file
         let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let nodeArray = try? htmlParser.parse(pageSource: htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
 
-        XCTAssertEqual(elementArray.count, 2)
+        XCTAssertEqual(nodeArray.count, 4)
     }
 
     func testWeatherHourly() {
-        let relativePath = "/Tests/SwiftHTMLParserTests/TestFiles/RealWorld/weather-hourly.html"
-        let fullPath = "\(ProjectConfig().projectPath)\(relativePath)"
-        let fileURL = URL.init(fileURLWithPath: fullPath)
+        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+            .appendingPathComponent("weather-hourly.html") else {
+                XCTFail("Could not get url to test file")
+                return
+        }
 
         // get html string from file
         var htmlStringResult: String? = nil
         do {
             htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
         } catch {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
         }
         guard let htmlString = htmlStringResult else {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
             return
         }
 
         // create object from raw html file
         let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let nodeArray = try? htmlParser.parse(pageSource: htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
 
-        XCTAssertEqual(elementArray.count, 2)
+        XCTAssertEqual(nodeArray.count, 4)
     }
 
     func testWeatherForcastXML() {
-        let relativePath = "/Tests/SwiftHTMLParserTests/TestFiles/RealWorld/weather-forcast.xml"
-        let fullPath = "\(ProjectConfig().projectPath)\(relativePath)"
-        let fileURL = URL.init(fileURLWithPath: fullPath)
+        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+            .appendingPathComponent("weather-forcast.xml") else {
+                XCTFail("Could not get url to test file")
+                return
+        }
 
         // get html string from file
         var htmlStringResult: String? = nil
         do {
             htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
         } catch {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
         }
         guard let htmlString = htmlStringResult else {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file at: \(fileURL.path)")
             return
         }
 
         // create object from raw html file
         let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString, format: .xml) else {
+        guard let nodeArray = try? htmlParser.parse(pageSource: htmlString, format: .xml) else {
             XCTFail("Could not parse HTML")
             return
         }
 
-        XCTAssertEqual(elementArray.count, 2)
+        XCTAssertEqual(nodeArray.count, 2)
 
         // find matching elements by traversing the created html object
         let childElementSelector = ElementSelector.init(tagName: "category",
@@ -371,7 +395,7 @@ final class RealWorldTests: XCTestCase {
         ]
 
         let traverser = HTMLTraverser()
-        let matchingElements = traverser.findElements(in: elementArray, matchingElementSelectorPath: elementSelectorPath)
+        let matchingElements = traverser.findElements(in: nodeArray, matchingElementSelectorPath: elementSelectorPath)
 
         XCTAssertEqual(matchingElements.count, 1)
     }

@@ -12,4 +12,3 @@ public enum ParseFormat {
     case xml
     case svg
 }
-

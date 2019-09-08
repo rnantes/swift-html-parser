@@ -11,19 +11,20 @@ public class HTMLTraverser {
 
     public init() {}
 
-    public func findElements(in parsedElements: [Element], matchingElementSelectorPath: [ElementSelector]) -> [Element] {
-        var matchingElements = [Element]()
+    public func findElements(in parsedNodes: [Node], matchingElementSelectorPath: [ElementSelector]) -> [Element] {
+        // start with every element matching
+        var matchingElements = getElementsFromNodes(parsedNodes)
         var selectorPathIndex = 0
 
-        matchingElements = parsedElements
-        while selectorPathIndex < matchingElementSelectorPath.count && matchingElements.count != 0 {
+        while selectorPathIndex < matchingElementSelectorPath.count && matchingElements.count > 0 {
             var shouldReturnChildrenOfMatches = true
-            // if not the last selectorElement get the childred
+            // if not the last selectorElement get the children
             if selectorPathIndex == matchingElementSelectorPath.count - 1 {
                shouldReturnChildrenOfMatches = false
             }
 
-            matchingElements = getMatchesAtDepth(elementSelector: matchingElementSelectorPath[selectorPathIndex],
+            let currentSelector = matchingElementSelectorPath[selectorPathIndex]
+            matchingElements = getMatchesAtDepth(elementSelector: currentSelector,
                                                  elementsAtDepth: matchingElements,
                                                  shouldReturnChildrenOfMatches: shouldReturnChildrenOfMatches)
 
@@ -31,6 +32,11 @@ public class HTMLTraverser {
         }
 
         return matchingElements
+    }
+
+    private func getElementsFromNodes(_ nodes: [Node]) -> [Element] {
+        let elementNodes = nodes.filter({$0.nodeType == .element})
+        return elementNodes.compactMap({ $0 as? Element})
     }
 
     private func getMatchesAtDepth(elementSelector: ElementSelector, elementsAtDepth: [Element], shouldReturnChildrenOfMatches: Bool) -> [Element] {
@@ -98,8 +104,6 @@ public class HTMLTraverser {
             }
         }
 
-
-
         // innerTextBlocks contains
         if let innerTextContains = elementSelector.innerTextContains {
             for containsText in innerTextContains {
@@ -110,7 +114,7 @@ public class HTMLTraverser {
         }
 
         if let selectorCount = elementSelector.innerTextCount {
-            if element.innerTextBlocks.count != selectorCount {
+            if element.textNodes.count != selectorCount {
                 return false
             }
         }
@@ -125,7 +129,7 @@ public class HTMLTraverser {
         }
 
         if let selectorCount = elementSelector.innerCDataCount {
-            if element.innerCData.count != selectorCount {
+            if element.CDATASections.count != selectorCount {
                 return false
             }
         }
@@ -140,7 +144,7 @@ public class HTMLTraverser {
         }
 
         if let selectorCount = elementSelector.commentsCount {
-            if element.comments.count != selectorCount {
+            if element.commentNodes.count != selectorCount {
                 return false
             }
         }

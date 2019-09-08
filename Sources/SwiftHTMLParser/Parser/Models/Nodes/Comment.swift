@@ -7,9 +7,10 @@
 
 import Foundation
 
-public struct Comment: Node  {
-    var startIndex: String.Index
-    var endIndex: String.Index
+public struct Comment: Node {
+    public let nodeType = NodeType.comment
+    public var startIndex: String.Index
+    public var endIndex: String.Index
 
     var textStartIndex: String.Index
     var textEndIndex: String.Index

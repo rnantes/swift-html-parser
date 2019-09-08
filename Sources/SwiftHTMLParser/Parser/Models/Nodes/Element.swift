@@ -9,25 +9,21 @@
 import Foundation
 
 public struct Element: Node {
+    public let nodeType = NodeType.element
     var openingTag: Tag
     var closingTag: Tag?
 
-    public var innerTextBlocks: [TextBlock]
-    public var innerCData: [CData]
-    public var comments: [Comment]
-    public var nodeOrder: [NodeType]
-
-    public var childElements: [Element]
+    public var childNodes: [Node]
 
     // index information
-    public var depth:Int
+    public var depth: Int
 
-    var startIndex: String.Index {
+    public var startIndex: String.Index {
         get {
             return openingTag.startIndex
         }
     }
-    var endIndex: String.Index {
+    public var endIndex: String.Index {
         get {
             if closingTag != nil {
                 return closingTag!.endIndex
@@ -37,7 +33,7 @@ public struct Element: Node {
         }
     }
 
-     public var isEmptyElement: Bool {
+    public var isEmptyElement: Bool {
         get {
             return openingTag.isEmptyElementTag
         }
@@ -61,16 +57,37 @@ public struct Element: Node {
         return openingTag.classNames
     }
 
-    init(openingTag: Tag, closingTag: Tag?, innerTextBlocks: [TextBlock], innerCData: [CData], comments: [Comment], nodeOrder: [NodeType], childElements: [Element], depth: Int) {
+    let commentNodes: [Comment]
+//    lazy var commentNodes: [Comment] = {
+//        return childNodes.filter({ $0.nodeType == NodeType.comment }) as! [Comment]
+//    }()
+
+    let textNodes: [TextNode]
+//    lazy var textNodes: [TextNode] = {
+//        return childNodes.filter({ $0.nodeType == NodeType.text }) as! [TextNode]
+//    }()
+
+    let CDATASections: [CData]
+//    lazy var CDATASections: [CData] = {
+//        return childNodes.filter({ $0.nodeType == NodeType.CDATASection }) as! [CData]
+//    }()
+
+    let childElements: [Element]
+//    lazy var childElements: [Element] = {
+//        return childNodes.filter({ $0.nodeType == NodeType.element }) as! [Element]
+//    }()
+
+    init(openingTag: Tag, closingTag: Tag?, childNodes: [Node], depth: Int) {
         self.depth = depth
         self.openingTag = openingTag
         self.closingTag = closingTag
-        self.innerTextBlocks = innerTextBlocks
-        self.innerCData = innerCData
-        self.comments = comments
-        self.nodeOrder = nodeOrder
-        self.childElements = childElements
+        self.childNodes = childNodes
         self.depth = depth
+
+        self.textNodes = childNodes.filter({ $0.nodeType == NodeType.text }) as! [TextNode]
+        self.CDATASections = childNodes.filter({ $0.nodeType == NodeType.CDATASection }) as! [CData]
+        self.commentNodes = childNodes.filter({ $0.nodeType == NodeType.comment }) as! [Comment]
+        self.childElements = childNodes.filter({ $0.nodeType == NodeType.element }) as! [Element]
     }
 
     public func attribute(attributeName: String) -> Attribute? {
@@ -90,8 +107,8 @@ public struct Element: Node {
     }
 
     func innerTextBlocksContains(text: String) -> Bool {
-        for innerTextBlock in innerTextBlocks {
-            if innerTextBlock.text.contains(text) {
+        for textNode in textNodes {
+            if textNode.text.contains(text) {
                 return true
             }
         }
@@ -100,7 +117,7 @@ public struct Element: Node {
     }
 
     func innerCDataContains(text: String) -> Bool {
-        for cData in innerCData {
+        for cData in CDATASections {
             if cData.text.contains(text) {
                 return true
             }
@@ -110,7 +127,7 @@ public struct Element: Node {
     }
 
     func commentsContains(text: String) -> Bool {
-        for comment in comments {
+        for comment in commentNodes {
             if comment.text.contains(text) {
                 return true
             }

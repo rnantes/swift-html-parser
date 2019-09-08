@@ -11,25 +11,28 @@ import XCTest
 final class AttributeParserTests: XCTestCase {
 
     func testAttributes() {
-        let relativePath = "/Tests/SwiftHTMLParserTests/TestFiles/Attributes/attributes-simple.html"
-        let fullPath = "\(ProjectConfig().projectPath)\(relativePath)"
-        let fileURL = URL.init(fileURLWithPath: fullPath)
+        guard let fileURL = TestsConfig.attributesTestFilesDirectoryURL?
+            .appendingPathComponent("attributes-simple.html") else {
+                XCTFail("Could find get file URL to parse")
+                return
+        }
 
         // get html string from file
         var htmlStringResult: String? = nil
         do {
             htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
         } catch {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file URL: \(fileURL)")
+            return
         }
         guard let htmlString = htmlStringResult else {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file URL: \(fileURL)")
             return
         }
 
         // create object from raw html file
         let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let nodeTree = try? htmlParser.parse(pageSource: htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
@@ -42,7 +45,7 @@ final class AttributeParserTests: XCTestCase {
         ]
 
         let traverser = HTMLTraverser()
-        var matchingElements = traverser.findElements(in: elementArray, matchingElementSelectorPath: elementSelectorPath)
+        var matchingElements = traverser.findElements(in: nodeTree, matchingElementSelectorPath: elementSelectorPath)
 
         XCTAssertEqual(matchingElements.count, 2)
 
@@ -63,7 +66,7 @@ final class AttributeParserTests: XCTestCase {
             ElementSelector.init(tagName: "div")
         ]
 
-        matchingElements = traverser.findElements(in: elementArray, matchingElementSelectorPath: elementSelectorPath)
+        matchingElements = traverser.findElements(in: nodeTree, matchingElementSelectorPath: elementSelectorPath)
 
         XCTAssertEqual(matchingElements.first!.attributeValue(for: "emptyAtrribute")!, "")
 
@@ -75,7 +78,7 @@ final class AttributeParserTests: XCTestCase {
             ElementSelector.init(tagName: "input")
         ]
 
-        matchingElements = traverser.findElements(in: elementArray, matchingElementSelectorPath: elementSelectorPath)
+        matchingElements = traverser.findElements(in: nodeTree, matchingElementSelectorPath: elementSelectorPath)
 
         XCTAssertEqual(matchingElements.count, 1)
 
@@ -87,19 +90,22 @@ final class AttributeParserTests: XCTestCase {
 
 
     func testAttributesQuotes() {
-        let relativePath = "/Tests/SwiftHTMLParserTests/TestFiles/Attributes/attributes-quotes.html"
-        let fullPath = "\(ProjectConfig().projectPath)\(relativePath)"
-        let fileURL = URL.init(fileURLWithPath: fullPath)
+        guard let fileURL = TestsConfig.attributesTestFilesDirectoryURL?
+            .appendingPathComponent("attributes-quotes.html") else {
+                XCTFail("Could find get file URL to parse")
+                return
+        }
 
         // get html string from file
         var htmlStringResult: String? = nil
         do {
             htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
         } catch {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file URL: \(fileURL)")
+            return
         }
         guard let htmlString = htmlStringResult else {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file URL: \(fileURL)")
             return
         }
 
@@ -118,7 +124,7 @@ final class AttributeParserTests: XCTestCase {
         ]
 
         let traverser = HTMLTraverser()
-        var matchingElements = traverser.findElements(in: elementArray, matchingElementSelectorPath: elementSelectorPath)
+        let matchingElements = traverser.findElements(in: elementArray, matchingElementSelectorPath: elementSelectorPath)
 
         XCTAssertEqual(matchingElements.count, 2)
 

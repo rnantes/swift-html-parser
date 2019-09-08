@@ -13,15 +13,14 @@ struct CDATASpecialCharacters {
     let CDATAClosing = "]]>"
 }
 
-
 struct CDATAParser {
     fileprivate let lookaheadValidator = LookaheadValidator()
     fileprivate let specialCharacters = CDATASpecialCharacters()
-    
+
     func parse(source: String, currentIndex: String.Index) throws -> CData {
         var localCurrentIndex = currentIndex
         let startIndex = currentIndex
-        var textStartIndex: String.Index? = nil
+        var textStartIndex: String.Index?
 
         // validate stating
         if lookaheadValidator.isValidLookahead(for: source, atIndex: localCurrentIndex,

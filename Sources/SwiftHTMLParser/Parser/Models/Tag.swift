@@ -9,7 +9,7 @@
 import Foundation
 
 // a closing or opening tag
-public struct Tag: Node {
+public struct Tag {
     let startIndex: String.Index
     let endIndex: String.Index
 

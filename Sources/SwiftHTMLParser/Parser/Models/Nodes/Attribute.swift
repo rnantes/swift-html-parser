@@ -8,7 +8,8 @@
 
 import Foundation
 
-public struct Attribute: Node  {
+public struct Attribute: Node {
+    public var nodeType = NodeType.attribute
     public var name: String
     public var value: String?
 
@@ -20,7 +21,7 @@ public struct Attribute: Node  {
     var valueStartIndexWithQuotes: String.Index?
     var valueEndIndexWithQuotes: String.Index?
 
-    var endIndex: String.Index {
+    public var endIndex: String.Index {
         if valueEndIndexWithQuotes != nil {
             return valueEndIndexWithQuotes!
         }
@@ -32,7 +33,7 @@ public struct Attribute: Node  {
         return nameEndIndex
     }
 
-    var startIndex: String.Index {
+    public var startIndex: String.Index {
         return nameStartIndex
     }
 

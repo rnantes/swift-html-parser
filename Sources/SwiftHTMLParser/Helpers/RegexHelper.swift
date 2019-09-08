@@ -26,7 +26,6 @@ struct RegexHelper {
         return matchRanges
     }
 
-
     func matches(for regexPattern: String, inString inputString: String) -> [String] {
         let matchRanges = self.matchRanges(for: regexPattern, inString: inputString)
 
@@ -89,6 +88,5 @@ struct RegexHelper {
         let range = NSRange(inputString.startIndex..., in: inputString)
         return regex.stringByReplacingMatches(in: inputString, options: [], range: range, withTemplate: replacementString)
     }
-
 
 }

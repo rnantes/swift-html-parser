@@ -7,9 +7,10 @@
 
 import Foundation
 
-public struct CData: Node  {
-    var startIndex: String.Index
-    var endIndex: String.Index
+public struct CData: Node {
+    public let nodeType = NodeType.CDATASection
+    public var startIndex: String.Index
+    public var endIndex: String.Index
 
     var textStartIndex: String.Index
     var textEndIndex: String.Index

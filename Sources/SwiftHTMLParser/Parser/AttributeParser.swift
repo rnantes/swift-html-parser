@@ -23,7 +23,6 @@ struct AttributeParser {
         case notWithinQuotes
     }
 
-
     fileprivate let specificCharacters = TagSpecificCharacters()
 
     func parseAttributes(tagText: String, tagName: String) -> [String: Attribute] {
@@ -38,7 +37,6 @@ struct AttributeParser {
         }
         var currentIndex = rangeOfTagName.upperBound
 
-
         var couldNotFindAttribute = false
         while currentIndex < tagText.endIndex && couldNotFindAttribute == false {
             do {
@@ -51,9 +49,6 @@ struct AttributeParser {
             }
         }
 
-
-
-
         return attributes
     }
 
@@ -61,14 +56,14 @@ struct AttributeParser {
         var localCurrentIndex = currentIndex
 
         var parserState = AttributeParserState.lookingForAttributeName
-        var nameStartIndex: String.Index? = nil
-        var nameEndIndex: String.Index? = nil
+        var nameStartIndex: String.Index?
+        var nameEndIndex: String.Index?
 
         var valueParseState = AttributeValueParseState.notWithinQuotes
-        var valueStartIndex: String.Index? = nil
-        var valueEndIndex: String.Index? = nil
-        var valueStartIndexWithQuotes: String.Index? = nil
-        var valueEndIndexWithQuotes: String.Index? = nil
+        var valueStartIndex: String.Index?
+        var valueEndIndex: String.Index?
+        var valueStartIndexWithQuotes: String.Index?
+        var valueEndIndexWithQuotes: String.Index?
 
         while localCurrentIndex < tagText.endIndex && parserState != .foundAttribute {
 
@@ -89,7 +84,7 @@ struct AttributeParser {
                     nameEndIndex = tagText.index(localCurrentIndex, offsetBy: -1)
                     parserState = .foundAttribute
                 }
-                if tagText[localCurrentIndex] == specificCharacters.tagClosingCharacter  {
+                if tagText[localCurrentIndex] == specificCharacters.tagClosingCharacter {
                     // end of tag - attribute name only
                     nameEndIndex = tagText.index(localCurrentIndex, offsetBy: -1)
                     parserState = .foundAttribute
@@ -114,7 +109,7 @@ struct AttributeParser {
                         valueEndIndex = tagText.index(localCurrentIndex, offsetBy: -1)
                         parserState = .foundAttribute
                     }
-                    if tagText[localCurrentIndex] == specificCharacters.tagClosingCharacter  {
+                    if tagText[localCurrentIndex] == specificCharacters.tagClosingCharacter {
                         // end of tag - attribute name only
                         valueEndIndex = tagText.index(localCurrentIndex, offsetBy: -1)
                         parserState = .foundAttribute
@@ -126,27 +121,25 @@ struct AttributeParser {
                     }
 
                 case .withinSingleQuotes:
-                    if tagText[localCurrentIndex] == specificCharacters.singleQuote  {
+                    if tagText[localCurrentIndex] == specificCharacters.singleQuote {
                         valueEndIndexWithQuotes = localCurrentIndex
                         parserState = .foundAttribute
                     }
                 }
             case .foundAttribute:
-                break;
+                break
             }
 
             // increment localCurentIndex
             localCurrentIndex = tagText.index(localCurrentIndex, offsetBy: 1)
         }
 
-
         if let nameStartIndex = nameStartIndex, let nameEndIndex = nameEndIndex {
             let name = String(tagText[nameStartIndex...nameEndIndex])
-            var value: String? = nil
-
+            var value: String?
 
             var isAttributeValueAnEmptyString = false
-            if let valueStartIndexWithQuotes = valueStartIndexWithQuotes, let valueEndIndexWithQuotes = valueEndIndexWithQuotes  {
+            if let valueStartIndexWithQuotes = valueStartIndexWithQuotes, let valueEndIndexWithQuotes = valueEndIndexWithQuotes {
                 // value is within qutoes
                 if tagText.distance(from: valueStartIndexWithQuotes, to: valueEndIndexWithQuotes) == 1 {
                     // value is empty string - i.e ""
@@ -181,5 +174,3 @@ struct AttributeParser {
         throw ParseError.attributeNotFound
     }
 }
-
-

@@ -38,7 +38,7 @@ struct ScriptParser {
     fileprivate let lookaheadValidator = LookaheadValidator()
 
     // not intended to fully parse javascript, rather save it to inner text
-    func parseScript(source: String, currentIndex: String.Index) throws -> (innerTextBlock: TextBlock, closingScriptTag: Tag) {
+    func parseScript(source: String, currentIndex: String.Index) throws -> (innerTextBlock: TextNode, closingScriptTag: Tag) {
         var localCurrentIndex = currentIndex
         var parseState = ScriptParseState.notWithinQuotesOrComment
         //var isTagOpened = false
@@ -46,11 +46,10 @@ struct ScriptParser {
         //var tagStartIndex: String.Index? = nil
         let specificCharacters = ScriptSpecificCharacters()
 
-
         while localCurrentIndex < source.endIndex {
             switch parseState {
             case .notWithinQuotesOrComment:
-                if lookaheadValidator.isValidLookahead(for: source, atIndex: localCurrentIndex, checkFor: specificCharacters.scriptEndTag){
+                if lookaheadValidator.isValidLookahead(for: source, atIndex: localCurrentIndex, checkFor: specificCharacters.scriptEndTag) {
                     let tagStartIndex = localCurrentIndex
                     let tagEndIndex = source.index(localCurrentIndex, offsetBy: 8)
 
@@ -67,7 +66,7 @@ struct ScriptParser {
                         textBlockString = String(source[textBlockStartIndex...textBlockEndIndex])
                     }
 
-                    let innerTextBlock = TextBlock.init(startIndex: textBlockStartIndex,
+                    let innerTextBlock = TextNode.init(startIndex: textBlockStartIndex,
                                                         endIndex: textBlockEndIndex,
                                                         text: textBlockString)
 

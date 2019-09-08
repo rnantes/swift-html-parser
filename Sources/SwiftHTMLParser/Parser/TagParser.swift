@@ -46,40 +46,43 @@ struct TagParser {
     fileprivate let specificCharacters = TagSpecificCharacters()
     fileprivate let isPoorlyFormattedCommentsAllowed: Bool = true
 
-    func getNextTag(source: String, currentIndex: String.Index) throws -> (innerTextBlocks: [TextBlock],  innerCData: [CData], comments: [Comment], nodeOrder: [NodeType], tag: Tag?) {
+    func getNextTag(source: String, currentIndex: String.Index) throws -> (childNodes: [Node], tag: Tag?) {
         var isTagOpened = false
         var localCurrentIndex = currentIndex
-        var tagStartIndex: String.Index? = nil
+        var tagStartIndex: String.Index?
 
-        var nodeOrder = [NodeType]()
-        var comments = [Comment]()
-        var innerTextBlocks = [TextBlock]()
-        var innerCData = [CData]()
-
+        var childNodes = [Node]()
         var parseState = TagParserState.notWithinQuotesOrComment
 
-        // iterate through indices before end of string
-        while isAtEndOfString(index: localCurrentIndex, endIndex: source.endIndex) == false {
+        // iterate through string indices until tag is found or end of string
+        while source.encompassesIndex(localCurrentIndex) {
+//            print(localCurrentIndex)
+//            print(source[localCurrentIndex])
+
             if isTagOpened == false {
-                switch parseState {
-                case .notWithinQuotesOrComment:
+                if parseState == .notWithinQuotesOrComment {
                     if let tagOpeningType = resolveTagOpeningType(source: source, index: localCurrentIndex) {
+
                         // set inner text block
                         if (currentIndex != localCurrentIndex) {
                             var textBlockStartIndex = currentIndex
-                            if let lastComment = comments.last {
-                                textBlockStartIndex = source.index(lastComment.endIndex, offsetBy: 1)
+
+                            // changed
+                            if let lastChildNode = childNodes.last {
+                                textBlockStartIndex = source.index(lastChildNode.endIndex, offsetBy: 1)
                             }
+
                             let textBlockEndIndex = source.index(localCurrentIndex, offsetBy: -1)
 
                             // if tags or comments are right beside each other dont add text block i.e </tag><!--- a comment -->
                             if textBlockStartIndex <= textBlockEndIndex {
                                 let textBlockText = String(source[textBlockStartIndex...textBlockEndIndex])
-                                let innerTextBlock = TextBlock.init(startIndex: textBlockStartIndex,
-                                                                    endIndex: textBlockEndIndex,
-                                                                    text: textBlockText)
-                                innerTextBlocks.append(innerTextBlock)
-                                nodeOrder.append(.text)
+                                if (textBlockText.isEmptyOrWhitespace() == false) {
+                                    let innerTextBlock = TextNode.init(startIndex: textBlockStartIndex,
+                                                                       endIndex: textBlockEndIndex,
+                                                                       text: textBlockText)
+                                    childNodes.append(innerTextBlock)
+                                }
                             }
                         }
 
@@ -93,8 +96,7 @@ struct TagParser {
                                                                              currentIndex: localCurrentIndex,
                                                                              commentType: .comment)
                                 localCurrentIndex = comment.endIndex
-                                nodeOrder.append(.comment)
-                                comments.append(comment)
+                                childNodes.append(comment)
                             } catch {
                                 throw ParseError.endOfFileReachedBeforeCommentCloseFound
                             }
@@ -104,8 +106,7 @@ struct TagParser {
                                                                              currentIndex: localCurrentIndex,
                                                                              commentType: .declaration)
                                 localCurrentIndex = comment.endIndex
-                                nodeOrder.append(.comment)
-                                comments.append(comment)
+                                childNodes.append(comment)
                             } catch {
                                 throw ParseError.endOfFileReachedBeforeCommentCloseFound
                             }
@@ -114,16 +115,12 @@ struct TagParser {
                             do {
                                 let cdata = try cdataParser.parse(source: source, currentIndex: localCurrentIndex)
                                 localCurrentIndex = cdata.endIndex
-                                nodeOrder.append(.cData)
-                                innerCData.append(cdata)
+                                childNodes.append(cdata)
                             } catch {
                                 throw ParseError.endOfFileReachedBeforeCommentCloseFound
                             }
                         }
                     }
-                default:
-                    // do nothing
-                    break;
                 }
             } else {
                 switch parseState {
@@ -132,15 +129,12 @@ struct TagParser {
                         // tag is closed
                         do {
                             let tag = try foundTag(source: source, tagStartIndex: tagStartIndex!, tagEndIndex: localCurrentIndex)
-                            if tag.isClosingTag == false {
-                                nodeOrder.append(.element)
-                            }
-                            return (innerTextBlocks, innerCData, comments, nodeOrder, tag)
+                            return (childNodes, tag)
                         } catch {
                             throw error
                         }
                     }
-                    if source[localCurrentIndex] == specificCharacters.doubleQuote  {
+                    if source[localCurrentIndex] == specificCharacters.doubleQuote {
                         parseState = .withinDoubleQuotes
                     } else if source[localCurrentIndex] == specificCharacters.singleQuote {
                         parseState = .withinSingleQuotes
@@ -158,22 +152,24 @@ struct TagParser {
 
             // increment localCurrentIndex
             localCurrentIndex = source.index(localCurrentIndex, offsetBy: 1)
+
+//            if source.encompassesIndex(localCurrentIndex) {
+//                print("localCurrentIndex: \(localCurrentIndex)")
+//                print(source[localCurrentIndex])
+//            }
         }
 
         // a tag not found before end of file reached
-        return (innerTextBlocks, innerCData, comments, nodeOrder, nil)
+        return (childNodes, nil)
     }
 
     func resolveTagOpeningType(source: String, index: String.Index) -> TagOpeningType? {
         if source[index] == specificCharacters.tagOpeningCharacter {
-            if lookaheadValidator.isValidLookahead(for: source, atIndex: index,
-                                                      checkFor: specificCharacters.declarationOpening) {
+            if lookaheadValidator.isValidLookahead(for: source, atIndex: index, checkFor: specificCharacters.declarationOpening) {
                 // check if comment opening
-                if lookaheadValidator.isValidLookahead(for: source, atIndex: index,
-                                                       checkFor: specificCharacters.commentOpening) {
+                if lookaheadValidator.isValidLookahead(for: source, atIndex: index, checkFor: specificCharacters.commentOpening) {
                     return TagOpeningType.comment
-                } else if lookaheadValidator.isValidLookahead(for: source, atIndex: index,
-                                                              checkFor: specificCharacters.CDATAOpening) {
+                } else if lookaheadValidator.isValidLookahead(for: source, atIndex: index, checkFor: specificCharacters.CDATAOpening) {
                     return TagOpeningType.CDATA
                 }
                 return TagOpeningType.declaration
@@ -181,14 +177,6 @@ struct TagParser {
             return TagOpeningType.element
         }
         return nil
-    }
-
-    func isAtEndOfString(index: String.Index, endIndex: String.Index) -> Bool {
-        if (index < endIndex) {
-            return false
-        }
-
-        return true
     }
 
     func foundTag(source: String, tagStartIndex: String.Index, tagEndIndex: String.Index) throws -> Tag {
@@ -237,7 +225,6 @@ struct TagParser {
 
             currentIndex = tagText.index(currentIndex, offsetBy: 1)
         }
-        
 
         throw ParseError.tagNameNotFound
     }
