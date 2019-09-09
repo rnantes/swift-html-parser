@@ -57,22 +57,22 @@ public struct Element: Node {
         return openingTag.classNames
     }
 
-    let commentNodes: [Comment]
+    public let commentNodes: [Comment]
 //    lazy var commentNodes: [Comment] = {
 //        return childNodes.filter({ $0.nodeType == NodeType.comment }) as! [Comment]
 //    }()
 
-    let textNodes: [TextNode]
+    public let textNodes: [TextNode]
 //    lazy var textNodes: [TextNode] = {
 //        return childNodes.filter({ $0.nodeType == NodeType.text }) as! [TextNode]
 //    }()
 
-    let CDATASections: [CData]
+    public let CDATASections: [CData]
 //    lazy var CDATASections: [CData] = {
 //        return childNodes.filter({ $0.nodeType == NodeType.CDATASection }) as! [CData]
 //    }()
 
-    let childElements: [Element]
+    public let childElements: [Element]
 //    lazy var childElements: [Element] = {
 //        return childNodes.filter({ $0.nodeType == NodeType.element }) as! [Element]
 //    }()
