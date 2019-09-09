@@ -8,5 +8,5 @@
 import Foundation
 
 struct ProjectConfig {
-    let projectPath = "/Users/reidnantes/Documents/swift-html-parser"
+
 }
