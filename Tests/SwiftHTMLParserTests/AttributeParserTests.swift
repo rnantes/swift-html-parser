@@ -87,8 +87,6 @@ final class AttributeParserTests: XCTestCase {
         XCTAssertEqual(matchingElements[0].attributeValue(for: "disabled"), nil)
     }
 
-
-
     func testAttributesQuotes() {
         guard let fileURL = TestsConfig.attributesTestFilesDirectoryURL?
             .appendingPathComponent("attributes-quotes.html") else {
@@ -135,9 +133,53 @@ final class AttributeParserTests: XCTestCase {
         // test attribute with single quotes within double quotes
         XCTAssertEqual(matchingElements[1].openingTag.attributes.count, 2)
         XCTAssertEqual(matchingElements[1].attributeValue(for: "title")!, "John 'ShotGun' Nelson")
+    }
 
-        print("HI")
+    func testAttributesTabs() {
+        guard let fileURL = TestsConfig.attributesTestFilesDirectoryURL?
+            .appendingPathComponent("attributes-tabs.html") else {
+                XCTFail("Could find get file URL to parse")
+                return
+        }
 
+        // get html string from file
+        var htmlStringResult: String? = nil
+        do {
+            htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
+        } catch {
+            XCTFail("Could not open file URL: \(fileURL)")
+            return
+        }
+        guard let htmlString = htmlStringResult else {
+            XCTFail("Could not open file URL: \(fileURL)")
+            return
+        }
+
+        // create object from raw html file
+        let htmlParser = HTMLParser()
+        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+            XCTFail("Could not parse HTML")
+            return
+        }
+
+        // find matching elements by traversing the created html object
+        let elementSelectorPath = [
+            ElementSelector.init(tagName: "html"),
+            ElementSelector.init(tagName: "body"),
+            ElementSelector.init(tagName: "img")
+        ]
+
+        let traverser = HTMLTraverser()
+        let matchingElements = traverser.findElements(in: elementArray, matchingElementSelectorPath: elementSelectorPath)
+
+        XCTAssertEqual(matchingElements.count, 1)
+        XCTAssertEqual(matchingElements[0].openingTag.tagName, "img")
+
+        // test attribute
+        XCTAssertEqual(matchingElements[0].attributeValue(for: "height")!, "580")
+        XCTAssertEqual(matchingElements[0].attributeValue(for: "width")!, "480")
+        XCTAssertEqual(matchingElements[0].attributeValue(for: "src")!, "/some/img.jpg")
+        XCTAssertEqual(matchingElements[0].attributeValue(for: "alt")!, "/some/other/img.png")
     }
 
     static var allTests = [

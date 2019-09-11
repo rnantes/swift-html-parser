@@ -9,4 +9,7 @@ import Foundation
 
 struct ProjectConfig {
 
+    // for Debugging
+    static let shouldPrintTags = false
+    static let shouldPrintWarnings = false
 }

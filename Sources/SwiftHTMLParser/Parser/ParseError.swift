@@ -12,7 +12,7 @@ enum ParseError: Error {
     case tagNameNotFound
     case invalidTag
     case openingTagNotFound
-    case closingTagNotFound
+    case closingTagNotFound(String)
     case attributeNotFound
     case closingTagNameDoesNotMatchOpeningTagName(erroredTag: Tag)
     case endOfFileReachedBeforeClosingTagFound

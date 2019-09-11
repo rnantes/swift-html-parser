@@ -399,6 +399,35 @@ final class RealWorldTests: XCTestCase {
 
         XCTAssertEqual(matchingElements.count, 1)
     }
+
+    func testWeatherRadarHTML() {
+        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+            .appendingPathComponent("weather-radar.html") else {
+                XCTFail("Could not get url to test file")
+                return
+        }
+
+        // get html string from file
+        var htmlStringResult: String? = nil
+        do {
+            htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
+        } catch {
+            XCTFail("Could not open file at: \(fileURL.path)")
+        }
+        guard let htmlString = htmlStringResult else {
+            XCTFail("Could not open file at: \(fileURL.path)")
+            return
+        }
+
+        // create object from raw html file
+        let htmlParser = HTMLParser()
+        guard let nodeArray = try? htmlParser.parse(pageSource: htmlString) else {
+            XCTFail("Could not parse HTML")
+            return
+        }
+
+        XCTAssertEqual(nodeArray.count, 4)
+    }
 }
 
 

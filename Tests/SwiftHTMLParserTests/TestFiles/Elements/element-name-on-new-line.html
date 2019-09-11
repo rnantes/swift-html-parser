@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test Simple Title</title>
+  </head>
+  <body>
+    <h1>This is a Heading</h1>
+    <div
+    name="bob"
+    type="email">This is text in a div</div>
+    <img
+    width="580"
+    height="480"
+    src="/cacheable/images/radar/layers/default_cities/wkr_towns.gif"
+    alt="Cities" id="composite-cities-image" class="overlay-img-nojs overlay-img img-responsive " style="z-index: 60;">
+    <button
+            id="play-button"
+            title="Play"
+            onclick="animator.callEvent('play',this); return false;"
+            onfocus="animator.callEvent('depress',this);"
+            onblur="animator.callEvent('uplift',this);"
+            onmouseover="animator.callEvent('depress',this);"
+            onmouseout="animator.callEvent('uplift',this);"
+            class="btn btn-default btn-sm">
+    </button>
+  </body>
+</html>

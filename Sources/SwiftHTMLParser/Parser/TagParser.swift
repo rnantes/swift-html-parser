@@ -37,6 +37,9 @@ struct TagSpecificCharacters {
     let conditionalCommentClosing = "<![endif]-->"
     let CDATAOpening = "<![CDATA["
     let CDATAClosing = "]]>"
+
+    // array
+
 }
 
 struct TagParser {
@@ -56,12 +59,11 @@ struct TagParser {
 
         // iterate through string indices until tag is found or end of string
         while source.encompassesIndex(localCurrentIndex) {
-//            print(localCurrentIndex)
-//            print(source[localCurrentIndex])
 
             if isTagOpened == false {
                 if parseState == .notWithinQuotesOrComment {
-                    if let tagOpeningType = resolveTagOpeningType(source: source, index: localCurrentIndex) {
+                    if let tagOpeningType = resolveTagOpeningType(source: source, index:
+                        localCurrentIndex) {
 
                         // set inner text block
                         if (currentIndex != localCurrentIndex) {
@@ -179,6 +181,7 @@ struct TagParser {
         return nil
     }
 
+    /// produces a `tag` from the found tag text, parsing attributes etc
     func foundTag(source: String, tagStartIndex: String.Index, tagEndIndex: String.Index) throws -> Tag {
         // create tagText string from indexes
         let tagText = String(source[tagStartIndex...tagEndIndex])
@@ -204,18 +207,20 @@ struct TagParser {
 
         var startTagNameIndex: String.Index?
 
+
         var isFirstCharacterFound = false
         while currentIndex < endIndex {
 
+            let char = tagText[currentIndex]
             if isFirstCharacterFound == false {
                 // keep going until you find the first char (ignore < and whitespace)
-                if tagText[currentIndex] != "<" && tagText[currentIndex] != " " {
+                if tagText[currentIndex] != TagSpecificCharacters().tagOpeningCharacter && tagText[currentIndex].isWhitespace == false {
                     isFirstCharacterFound = true
                     // add char to tag
                     startTagNameIndex = currentIndex
                 }
             } else {
-                if tagText[currentIndex] == ">" || tagText[currentIndex] == " " {
+                if tagText[currentIndex] == ">" || tagText[currentIndex].isWhitespace {
                     // dont include last > or whitespace in tagName
                     let endTagNameIndex = tagText.index(currentIndex, offsetBy: -1)
                     let tagName = String(tagText[startTagNameIndex!...endTagNameIndex])

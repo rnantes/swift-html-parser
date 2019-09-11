@@ -13,6 +13,7 @@ class ElementParser {
     fileprivate var localCurrentIndex: String.Index = String.Index.init(utf16Offset: 0, in: "")
     fileprivate var childNodes = [Node]()
     fileprivate var outerNodes = [Node]()
+
     /// Iterate through the string to find opening and closing tags
     func parseNextElement(pageSource: String, currentIndex: String.Index, openingTag: Tag?, depth: Int, parseFormat: ParseFormat) throws -> (element: Element?, outerNodes: [Node]) {
         self.localCurrentIndex = currentIndex
@@ -30,7 +31,13 @@ class ElementParser {
             }
 
             if let finalOpeningTag = localOpeningTag {
-                //printOpeningTag(tag: finalOpeningTag, depth: depth)
+                if ProjectConfig.shouldPrintTags {
+                    printOpeningTag(tag: finalOpeningTag, depth: depth)
+                }
+
+                if finalOpeningTag.attributes["id"]?.value == "animation-frame-99" {
+                    print("found")
+                }
 
                 // update current index to the character after the last tag character
                 localCurrentIndex = pageSource.index(finalOpeningTag.endIndex, offsetBy: 1)
@@ -81,7 +88,10 @@ class ElementParser {
                                     childNodes: childNodes,
                                     depth: depth), outerNodes)
             } catch ParseError.closingTagNameDoesNotMatchOpeningTagName(let erroredTag) {
-                print("WARNING: Closing tag name does not match opening tag name. Adding missing cloing Tag.")
+                if ProjectConfig.shouldPrintWarnings {
+                    print("WARNING: Closing tag name does not match opening tag name. Adding missing cloing Tag.")
+                }
+
                 let missingTag = Tag.init(startIndex: pageSource.index(before: erroredTag.startIndex),
                                           endIndex: pageSource.index(before: erroredTag.startIndex),
                                           tagText: finalOpeningTag.tagText,
@@ -109,7 +119,7 @@ class ElementParser {
                 throw error
             }
             guard let nextTag = nextTagResult else {
-                throw ParseError.closingTagNotFound
+                throw ParseError.closingTagNotFound("Could not find closing tag for opening tag: \(openingTag.tagName)")
             }
 
             // update current index to the character after the last tag character
@@ -129,7 +139,10 @@ class ElementParser {
                     childNodes.append(childElement)
                     localCurrentIndex = pageSource.index(childElement.endIndex, offsetBy: 1)
                 }
-                //printOpeningTag(tag: nextTag, depth: depth + 1)
+
+                if ProjectConfig.shouldPrintTags {
+                    printOpeningTag(tag: nextTag, depth: depth + 1)
+                }
             } else if nextTag.isClosingTag {
                 if "/\(openingTag.tagName)" != nextTag.tagName {
                     // if nextTag is a closing tag of a empty element ignore it ex <input type="text"></input
@@ -141,11 +154,16 @@ class ElementParser {
                     }
                 } else {
                     // matching closing tag found
-                    //printClosingTag(tag: nextTag, depth: depth)
+                    if ProjectConfig.shouldPrintTags {
+                        printClosingTag(tag: nextTag, depth: depth)
+                    }
                     return nextTag
                 }
             } else if  nextTag.tagName.lowercased() == "script" {
-                //printOpeningTag(tag: nextTag, depth: depth + 1)
+                if ProjectConfig.shouldPrintTags {
+                    printOpeningTag(tag: nextTag, depth: depth + 1)
+                }
+
                 // is script tag
                 let scriptParser = ScriptParser()
                 do {
@@ -157,12 +175,19 @@ class ElementParser {
                     childNodes.append(scriptElement)
                     localCurrentIndex = pageSource.index(scriptElement.endIndex, offsetBy: 1)
 
-                    //printClosingTag(tag: scriptParseResult.closingScriptTag, depth: depth + 1)
+                    if ProjectConfig.shouldPrintTags {
+                        printClosingTag(tag: scriptParseResult.closingScriptTag, depth: depth + 1)
+                    }
                 } catch {
                     throw error
                 }
             } else {
                 // nextTag is not a closing tag - add child element
+
+                if ProjectConfig.shouldPrintTags {
+                    printOpeningTag(tag: nextTag, depth: depth + 1)
+                }
+
                 let elementParser = ElementParser()
                 do {
                     let childElement = try elementParser.parseNextElement(pageSource: pageSource,
@@ -184,7 +209,7 @@ class ElementParser {
         }
 
         // closing tag not found - throw error
-        throw ParseError.closingTagNotFound
+        throw ParseError.closingTagNotFound("Could not find closing tag for opening tag: \(openingTag.tagName)")
     }
 
     func printOpeningTag(tag: Tag, depth: Int) {
