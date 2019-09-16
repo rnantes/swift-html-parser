@@ -210,8 +210,6 @@ struct TagParser {
 
         var isFirstCharacterFound = false
         while currentIndex < endIndex {
-
-            let char = tagText[currentIndex]
             if isFirstCharacterFound == false {
                 // keep going until you find the first char (ignore < and whitespace)
                 if tagText[currentIndex] != TagSpecificCharacters().tagOpeningCharacter && tagText[currentIndex].isWhitespace == false {

@@ -51,8 +51,6 @@ final class SwiftHTMLParserTests: XCTestCase {
             return
         }
 
-        print(htmlString)
-
         // create object from raw html file
         let htmlParser = HTMLParser()
         guard let nodeArray = try? htmlParser.parse(pageSource: htmlString) else {
@@ -215,6 +213,90 @@ final class SwiftHTMLParserTests: XCTestCase {
         XCTAssertEqual(matchingElements.first?.tagName, "div")
         XCTAssertEqual(matchingElements.first?.attributeValue(for: "name"), "bob")
         XCTAssertEqual(matchingElements.first?.attributeValue(for: "type"), "email")
+    }
+
+    func testElementUnclosedEndTag() {
+        guard let fileURL = TestsConfig.elementsTestFilesDirectoryURL?
+            .appendingPathComponent("element-unclosed-end-tag.html") else {
+                XCTFail("Could find get file URL to parse")
+                return
+        }
+
+        // get html string from file
+        var htmlStringResult: String? = nil
+        do {
+            htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
+        } catch {
+            XCTFail("Could not open file URL: \(fileURL)")
+            return
+        }
+        guard let htmlString = htmlStringResult else {
+            XCTFail("Could not open file URL: \(fileURL)")
+            return
+        }
+
+        // create object from raw html file
+        let htmlParser = HTMLParser()
+        guard let nodeArray = try? htmlParser.parse(pageSource: htmlString) else {
+            XCTFail("Could not parse HTML")
+            return
+        }
+
+        // find matching elements by traversing the created html object
+        let elementSelectorPath = [
+            ElementSelector.init(tagName: "html"),
+            ElementSelector.init(tagName: "body"),
+            ElementSelector.init(tagName: "div")
+        ]
+
+        let traverser = HTMLTraverser()
+        let matchingElements = traverser.findElements(in: nodeArray, matchingElementSelectorPath: elementSelectorPath)
+
+        XCTAssertEqual(matchingElements.count, 1)
+        XCTAssertEqual(matchingElements.first?.tagName, "div")
+        XCTAssertEqual(matchingElements.first?.childElements.count,  1)
+    }
+
+    func testElementStrayEndTag() {
+        guard let fileURL = TestsConfig.elementsTestFilesDirectoryURL?
+            .appendingPathComponent("elemnent-stray-end-tag.html") else {
+                XCTFail("Could find get file URL to parse")
+                return
+        }
+
+        // get html string from file
+        var htmlStringResult: String? = nil
+        do {
+            htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
+        } catch {
+            XCTFail("Could not open file URL: \(fileURL)")
+            return
+        }
+        guard let htmlString = htmlStringResult else {
+            XCTFail("Could not open file URL: \(fileURL)")
+            return
+        }
+
+        // create object from raw html file
+        let htmlParser = HTMLParser()
+        guard let nodeArray = try? htmlParser.parse(pageSource: htmlString) else {
+            XCTFail("Could not parse HTML")
+            return
+        }
+
+        // find matching elements by traversing the created html object
+        let elementSelectorPath = [
+            ElementSelector.init(tagName: "html"),
+            ElementSelector.init(tagName: "body"),
+            ElementSelector.init(tagName: "div")
+        ]
+
+        let traverser = HTMLTraverser()
+        let matchingElements = traverser.findElements(in: nodeArray, matchingElementSelectorPath: elementSelectorPath)
+
+        XCTAssertEqual(matchingElements.count, 1)
+        XCTAssertEqual(matchingElements.first?.tagName, "div")
+        XCTAssertEqual(matchingElements.first?.childElements.count,  1)
     }
 
     static var allTests = [

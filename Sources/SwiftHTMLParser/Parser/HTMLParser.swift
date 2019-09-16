@@ -8,32 +8,29 @@
 
 import Foundation
 
-public class HTMLParser {
-
-    public init() {}
+public struct HTMLParser {
 
     /// Parses an html or xml string and outputs an node/element tree
-    public func parse(pageSource: String, format: ParseFormat = .html, shouldHonourConditionalComments: Bool = true) throws -> [Node] {
-        var rootElements = [Node]()
+    public func parse(pageSource: String, format: ParseFormat = .html) throws -> [Node] {
+        var rootNodes = [Node]()
         let source = removeIEStatments(pageSource: pageSource)
         var currentIndex = source.startIndex
 
         var isEndOfFileReached = false
         while currentIndex < source.endIndex && isEndOfFileReached == false {
-            let elementParser = ElementParser()
+            let elementParser = ElementParser.init(openedTags: [])
             do {
                 let rootElementAndOuterNodes = try elementParser.parseNextElement(pageSource: pageSource,
                                                                                   currentIndex: currentIndex,
-                                                                                  openingTag: nil,
                                                                                   depth: 0,
                                                                                   parseFormat: format)
 
-                rootElements.append(contentsOf: rootElementAndOuterNodes.outerNodes)
+                rootNodes.append(contentsOf: rootElementAndOuterNodes.outerNodes)
                 // check if an element was found
                 if let element = rootElementAndOuterNodes.element {
                     // set the currentIndex to end of rootElement index
                     currentIndex = source.index(element.endIndex, offsetBy: 1)
-                    rootElements.append(element)
+                    rootNodes.append(element)
                 } else {
                     // element was not found, end of file reached without error
                     isEndOfFileReached = true
@@ -43,7 +40,7 @@ public class HTMLParser {
             }
         }
 
-        return rootElements
+        return rootNodes
     }
 
     // removed conditional IE statement.

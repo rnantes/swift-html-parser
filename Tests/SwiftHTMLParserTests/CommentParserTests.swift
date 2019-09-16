@@ -103,7 +103,8 @@ final class CommentParserTests: XCTestCase {
 
         XCTAssertEqual(matchingElements.count, 1)
         XCTAssertEqual(matchingElements.first!.commentNodes.count, 1)
-        let commentText = try XCTUnwrap(matchingElements.first?.commentNodes.first?.text)
+        //let commentText = try XCTUnwrap(matchingElements.first?.commentNodes.first?.text)
+        let commentText = matchingElements.first!.commentNodes.first!.text
         XCTAssertTrue(commentText.contains("<p>You are using Internet Explorer 6. :( </p>"))
     }
 }
