@@ -10,6 +10,8 @@ import Foundation
 
 public struct HTMLParser {
 
+    public init() {}
+
     /// Parses an html or xml string and outputs an node/element tree
     public func parse(pageSource: String, format: ParseFormat = .html) throws -> [Node] {
         var rootNodes = [Node]()
