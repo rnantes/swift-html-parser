@@ -30,22 +30,20 @@ final class JavascriptParserTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let elementArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
 
         // find matching elements by traversing the created html object
-        let elementSelectorPath = [
-            ElementSelector.init(tagName: "html"),
-            ElementSelector.init(tagName: "body"),
-            ElementSelector.init(tagName: "script")
+        let nodeSelectorPath = [
+            ElementSelector().withTagName("html"),
+            ElementSelector().withTagName("body"),
+            ElementSelector().withTagName("script")
         ]
 
-        let traverser = HTMLTraverser()
-        let matchingElements = traverser.findElements(in: elementArray,
-                                                                         matchingElementSelectorPath: elementSelectorPath)
+        let matchingElements = HTMLTraverser.findElements(in: elementArray,
+                                                                         matching: nodeSelectorPath)
         XCTAssertEqual(matchingElements[0].childElements.count, 0)
     }
 
@@ -69,21 +67,19 @@ final class JavascriptParserTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let elementArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
 
         // find matching elements by traversing the created html object
-        let elementSelectorPath = [
-            ElementSelector.init(tagName: "html"),
-            ElementSelector.init(tagName: "body"),
-            ElementSelector.init(tagName: "script")
+        let nodeSelectorPath = [
+            ElementSelector().withTagName("html"),
+            ElementSelector().withTagName("body"),
+            ElementSelector().withTagName("script")
         ]
 
-        let traverser = HTMLTraverser()
-        let matchingElements = traverser.findElements(in: elementArray, matchingElementSelectorPath: elementSelectorPath)
+        let matchingElements = HTMLTraverser.findElements(in: elementArray, matching: nodeSelectorPath)
 
         XCTAssertEqual(matchingElements[0].childElements.count, 0)
         XCTAssertEqual(matchingElements[0].textNodes.count, 1)
@@ -109,26 +105,23 @@ final class JavascriptParserTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let elementArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
 
         // find matching elements by traversing the created html object
-        let elementSelectorPath = [
-            ElementSelector.init(tagName: "html"),
-            ElementSelector.init(tagName: "body"),
-            ElementSelector.init(tagName: "script")
+        let nodeSelectorPath = [
+            ElementSelector().withTagName("html"),
+            ElementSelector().withTagName("body"),
+            ElementSelector().withTagName("script")
         ]
 
-        let traverser = HTMLTraverser()
-        let matchingElements = traverser.findElements(in: elementArray,
-                                                                         matchingElementSelectorPath: elementSelectorPath)
+        let matchingElements = HTMLTraverser.findElements(in: elementArray, matching: nodeSelectorPath)
 
         XCTAssertEqual(matchingElements[0].childElements.count, 0)
         XCTAssertEqual(matchingElements[0].textNodes.count, 1)
-        XCTAssertEqual(matchingElements[0].textNodes[0].text.count, 825)
+        XCTAssertEqual(matchingElements[0].textNodes[0].text.count, 803)
     }
 
     func testJavascriptQuotesWithEscapeCharacters() {
@@ -151,8 +144,7 @@ final class JavascriptParserTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let elementArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
@@ -160,14 +152,13 @@ final class JavascriptParserTests: XCTestCase {
         XCTAssertEqual(elementArray.count, 2)
 
         // find matching elements by traversing the created html object
-        let elementSelectorPath = [
-            ElementSelector.init(tagName: "html"),
-            ElementSelector.init(tagName: "body"),
-            ElementSelector.init(tagName: "script")
+        let nodeSelectorPath = [
+            ElementSelector().withTagName("html"),
+            ElementSelector().withTagName("body"),
+            ElementSelector().withTagName("script")
         ]
 
-        let traverser = HTMLTraverser()
-        let matchingElements = traverser.findElements(in: elementArray, matchingElementSelectorPath: elementSelectorPath)
+        let matchingElements = HTMLTraverser.findElements(in: elementArray, matching: nodeSelectorPath)
 
         XCTAssertEqual(matchingElements.count, 1)
         XCTAssertEqual(matchingElements[0].childElements.count, 0)

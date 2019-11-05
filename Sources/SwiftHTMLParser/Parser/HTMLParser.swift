@@ -8,12 +8,25 @@
 
 import Foundation
 
-public struct HTMLParser {
+public struct HTMLParser: MarkupParser {
+    public static func parse(_ html: String) throws -> [Node] {
+        return try parse(pageSource: html, format: .html)
+    }
+}
 
-    public init() {}
+public struct XMLParser: MarkupParser {
+    public static func parse(_ xml: String) throws -> [Node] {
+        return try parse(pageSource: xml, format: .xml)
+    }
+}
+
+
+protocol MarkupParser { }
+
+extension MarkupParser {
 
     /// Parses an html or xml string and outputs an node/element tree
-    public func parse(pageSource: String, format: ParseFormat = .html) throws -> [Node] {
+    fileprivate static func parse(pageSource: String, format: ParseFormat) throws -> [Node] {
         var rootNodes = [Node]()
         let source = removeIEStatments(pageSource: pageSource)
         var currentIndex = source.startIndex
@@ -47,7 +60,7 @@ public struct HTMLParser {
 
     // removed conditional IE statement.
     // example; <!--[if lt IE 9]>BLAH BLAH BLAH<![endif]-->
-    func removeIEStatments(pageSource: String) -> String {
+    static func removeIEStatments(pageSource: String) -> String {
         //let pattern = "<!--\\[[\\s\\S]*<!\\[endif\\]-->"
         //return pageSource.replacingOccurrences(of: pattern, with: "", options: [.regularExpression])
 

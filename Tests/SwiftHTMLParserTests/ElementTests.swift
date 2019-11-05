@@ -52,8 +52,7 @@ final class SwiftHTMLParserTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let nodeArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let nodeArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
@@ -61,25 +60,24 @@ final class SwiftHTMLParserTests: XCTestCase {
         XCTAssertEqual(nodeArray.count, 2)
 
         // find matching elements by traversing the created html object
-        var elementSelectorPath: [ElementSelector] = [
-            ElementSelector.init(tagName: "html"),
-            ElementSelector.init(tagName: "head"),
-            ElementSelector.init(tagName: "title")
+        var nodeSelectorPath = [
+            ElementSelector().withTagName("html"),
+            ElementSelector().withTagName("head"),
+            ElementSelector().withTagName("title")
         ]
 
-        let traverser = HTMLTraverser()
-        var matchingElements = traverser.findElements(in: nodeArray, matchingElementSelectorPath: elementSelectorPath)
+        var matchingElements = HTMLTraverser.findElements(in: nodeArray, matching: nodeSelectorPath)
 
         XCTAssertEqual(matchingElements.count, 1)
         XCTAssertEqual(matchingElements[0].textNodes[0].text, "Test Simple Title")
 
-        elementSelectorPath = [
-            ElementSelector.init(tagName: "html"),
-            ElementSelector.init(tagName: "body"),
-            ElementSelector.init(tagName: "p")
+        nodeSelectorPath = [
+            ElementSelector().withTagName("html"),
+            ElementSelector().withTagName("body"),
+            ElementSelector().withTagName("p")
         ]
 
-        matchingElements = traverser.findElements(in: nodeArray, matchingElementSelectorPath: elementSelectorPath)
+        matchingElements = HTMLTraverser.findElements(in: nodeArray, matching: nodeSelectorPath)
 
         XCTAssertEqual(matchingElements.count, 3)
         XCTAssertEqual(matchingElements[1].textNodes[0].text, "This is the second paragraph.")
@@ -106,22 +104,20 @@ final class SwiftHTMLParserTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let elementArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
 
         // find matching elements by traversing the created html object
-        let elementSelectorPath = [
-            ElementSelector.init(tagName: "html"),
-            ElementSelector.init(tagName: "body"),
-            ElementSelector.init(tagName: "p")
+        let nodeSelectorPath = [
+            ElementSelector().withTagName("html"),
+            ElementSelector().withTagName("body"),
+            ElementSelector().withTagName("p")
         ]
 
-        let traverser = HTMLTraverser()
-        let matchingElements = traverser.findElements(in: elementArray,
-                                                      matchingElementSelectorPath: elementSelectorPath)
+        let matchingElements = HTMLTraverser.findElements(in: elementArray,
+                                                      matching: nodeSelectorPath)
 
 
         XCTAssertEqual(matchingElements.count, 4)
@@ -152,21 +148,19 @@ final class SwiftHTMLParserTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let nodeArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let nodeArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
 
         // find matching elements by traversing the created html object
-        let elementSelectorPath = [
-            ElementSelector.init(tagName: "html"),
-            ElementSelector.init(tagName: "body"),
-            ElementSelector.init(tagName: "form")
+        let nodeSelectorPath = [
+            ElementSelector().withTagName("html"),
+            ElementSelector().withTagName("body"),
+            ElementSelector().withTagName("form")
         ]
 
-        let traverser = HTMLTraverser()
-        let matchingElements = traverser.findElements(in: nodeArray, matchingElementSelectorPath: elementSelectorPath)
+        let matchingElements = HTMLTraverser.findElements(in: nodeArray, matching: nodeSelectorPath)
 
         XCTAssertEqual(matchingElements.count, 1)
         XCTAssertEqual(matchingElements[0].childElements.count, 1)
@@ -193,21 +187,19 @@ final class SwiftHTMLParserTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let nodeArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let nodeArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
 
         // find matching elements by traversing the created html object
-        let elementSelectorPath = [
-            ElementSelector.init(tagName: "html"),
-            ElementSelector.init(tagName: "body"),
-            ElementSelector.init(tagName: "div")
+        let nodeSelectorPath = [
+            ElementSelector().withTagName("html"),
+            ElementSelector().withTagName("body"),
+            ElementSelector().withTagName("div")
         ]
 
-        let traverser = HTMLTraverser()
-        let matchingElements = traverser.findElements(in: nodeArray, matchingElementSelectorPath: elementSelectorPath)
+        let matchingElements = HTMLTraverser.findElements(in: nodeArray, matching: nodeSelectorPath)
 
         XCTAssertEqual(matchingElements.count, 1)
         XCTAssertEqual(matchingElements.first?.tagName, "div")
@@ -236,21 +228,19 @@ final class SwiftHTMLParserTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let nodeArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let nodeArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
 
         // find matching elements by traversing the created html object
-        let elementSelectorPath = [
-            ElementSelector.init(tagName: "html"),
-            ElementSelector.init(tagName: "body"),
-            ElementSelector.init(tagName: "div")
+        let nodeSelectorPath = [
+            ElementSelector().withTagName("html"),
+            ElementSelector().withTagName("body"),
+            ElementSelector().withTagName("div")
         ]
 
-        let traverser = HTMLTraverser()
-        let matchingElements = traverser.findElements(in: nodeArray, matchingElementSelectorPath: elementSelectorPath)
+        let matchingElements = HTMLTraverser.findElements(in: nodeArray, matching: nodeSelectorPath)
 
         XCTAssertEqual(matchingElements.count, 1)
         XCTAssertEqual(matchingElements.first?.tagName, "div")
@@ -278,21 +268,19 @@ final class SwiftHTMLParserTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let nodeArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let nodeArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
 
         // find matching elements by traversing the created html object
-        let elementSelectorPath = [
-            ElementSelector.init(tagName: "html"),
-            ElementSelector.init(tagName: "body"),
-            ElementSelector.init(tagName: "div")
+        let nodeSelectorPath = [
+            ElementSelector().withTagName("html"),
+            ElementSelector().withTagName("body"),
+            ElementSelector().withTagName("div")
         ]
 
-        let traverser = HTMLTraverser()
-        let matchingElements = traverser.findElements(in: nodeArray, matchingElementSelectorPath: elementSelectorPath)
+        let matchingElements = HTMLTraverser.findElements(in: nodeArray, matching: nodeSelectorPath)
 
         XCTAssertEqual(matchingElements.count, 1)
         XCTAssertEqual(matchingElements.first?.tagName, "div")

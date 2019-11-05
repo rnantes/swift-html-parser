@@ -21,6 +21,7 @@ struct TestsConfig {
 
     static let attributesTestFilesDirectoryURL: URL? = Self.testFilesDirectoryURL?.appendingPathComponent("Attributes")
     static let commentsTestFilesDirectoryURL: URL? = Self.testFilesDirectoryURL?.appendingPathComponent("Comments")
+    static let documentationTestFilesDirectoryURL: URL? = Self.testFilesDirectoryURL?.appendingPathComponent("Documentation")
     static let elementsTestFilesDirectoryURL: URL? = Self.testFilesDirectoryURL?.appendingPathComponent("Elements")
     static let javascriptTestFilesDirectoryURL: URL? = Self.testFilesDirectoryURL?.appendingPathComponent("Javascript")
     static let performanceTestFilesDirectoryURL: URL? = Self.testFilesDirectoryURL?.appendingPathComponent("Performance")

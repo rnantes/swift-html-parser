@@ -29,13 +29,12 @@ final class RealWorldTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let nodeArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
 
-        XCTAssertEqual(elementArray.count, 2)
+        XCTAssertEqual(nodeArray.count, 2)
     }
 
     func testWikipediaHomePage() {
@@ -58,8 +57,7 @@ final class RealWorldTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let elementArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
@@ -87,8 +85,7 @@ final class RealWorldTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let elementArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
@@ -116,8 +113,7 @@ final class RealWorldTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let elementArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
@@ -145,8 +141,7 @@ final class RealWorldTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let elementArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
@@ -174,8 +169,7 @@ final class RealWorldTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let elementArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
@@ -203,8 +197,7 @@ final class RealWorldTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let elementArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
@@ -232,8 +225,7 @@ final class RealWorldTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let elementArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
@@ -261,8 +253,7 @@ final class RealWorldTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let elementArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
@@ -290,8 +281,7 @@ final class RealWorldTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let elementArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
@@ -319,8 +309,7 @@ final class RealWorldTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let nodeArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let nodeArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
@@ -348,8 +337,7 @@ final class RealWorldTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let nodeArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let nodeArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
@@ -365,20 +353,19 @@ final class RealWorldTests: XCTestCase {
         }
 
         // get html string from file
-        var htmlStringResult: String? = nil
+        var xmlStringResult: String? = nil
         do {
-            htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
+            xmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
         } catch {
             XCTFail("Could not open file at: \(fileURL.path)")
         }
-        guard let htmlString = htmlStringResult else {
+        guard let xmlString = xmlStringResult else {
             XCTFail("Could not open file at: \(fileURL.path)")
             return
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let nodeArray = try? htmlParser.parse(pageSource: htmlString, format: .xml) else {
+        guard let nodeArray = try? XMLParser.parse(xmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
@@ -386,16 +373,15 @@ final class RealWorldTests: XCTestCase {
         XCTAssertEqual(nodeArray.count, 2)
 
         // find matching elements by traversing the created html object
-        let childElementSelector = ElementSelector.init(tagName: "category",
-                                                        attributes: [AttributeSelector.init(name: "term", value: "Current Conditions")])
+        let childElementSelector = ElementSelector().withTagName("category")
+            .withAttribute(AttributeSelector(name: "term").withValue("Current Conditions"))
 
-        let elementSelectorPath = [
-            ElementSelector.init(tagName: "feed"),
-            ElementSelector.init(tagName: "entry", childElementSelectors: [childElementSelector])
+        let nodeSelectorPath: [NodeSelector] = [
+            ElementSelector().withTagName("feed"),
+            ElementSelector().withTagName("entry").withChildElement(childElementSelector)
         ]
 
-        let traverser = HTMLTraverser()
-        let matchingElements = traverser.findElements(in: nodeArray, matchingElementSelectorPath: elementSelectorPath)
+        let matchingElements = HTMLTraverser.findElements(in: nodeArray, matching: nodeSelectorPath)
 
         XCTAssertEqual(matchingElements.count, 1)
     }
@@ -420,8 +406,7 @@ final class RealWorldTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let nodeArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let nodeArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
@@ -449,8 +434,7 @@ final class RealWorldTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let nodeArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let nodeArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }

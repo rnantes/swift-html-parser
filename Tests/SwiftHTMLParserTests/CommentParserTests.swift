@@ -29,20 +29,18 @@ final class CommentParserTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let elementArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
 
         // find matching elements by traversing the created html object
-        var elementSelectorPath = [
-            ElementSelector.init(tagName: "html"),
-            ElementSelector.init(tagName: "body")
+        var nodeSelectorPath = [
+            ElementSelector().withTagName("html"),
+            ElementSelector().withTagName("body")
         ]
 
-        let traverser = HTMLTraverser()
-        var matchingElements = traverser.findElements(in: elementArray, matchingElementSelectorPath: elementSelectorPath)
+        var matchingElements = HTMLTraverser.findElements(in: elementArray, matching: nodeSelectorPath)
 
         XCTAssertEqual(matchingElements[0].childNodes.count, 11)
         XCTAssertEqual(matchingElements[0].commentNodes.count, 4)
@@ -53,13 +51,13 @@ final class CommentParserTests: XCTestCase {
         XCTAssertEqual(matchingElements[0].commentNodes[1].text, " This is annother comment ")
         XCTAssertEqual(matchingElements[0].commentNodes[3].text, " no space between the comment and div ")
 
-        elementSelectorPath = [
-            ElementSelector.init(tagName: "html"),
-            ElementSelector.init(tagName: "body"),
-            ElementSelector.init(tagName: "div"),
+        nodeSelectorPath = [
+            ElementSelector().withTagName("html"),
+            ElementSelector().withTagName("body"),
+            ElementSelector().withTagName("div"),
         ]
 
-        matchingElements = traverser.findElements(in: elementArray, matchingElementSelectorPath: elementSelectorPath)
+        matchingElements = HTMLTraverser.findElements(in: elementArray, matching: nodeSelectorPath)
         XCTAssertEqual(matchingElements.count, 1)
         XCTAssertEqual(matchingElements[0].textNodes.first!.text, "This is a div")
     }
@@ -84,8 +82,7 @@ final class CommentParserTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let elementArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
@@ -93,13 +90,12 @@ final class CommentParserTests: XCTestCase {
         //XCTAssertEqual(elementArray.count, 2)
 
         // find matching elements by traversing the created html object
-        let elementSelectorPath = [
-            ElementSelector.init(tagName: "html"),
-            ElementSelector.init(tagName: "body")
+        let nodeSelectorPath = [
+            ElementSelector().withTagName("html"),
+            ElementSelector().withTagName("body")
         ]
 
-        let traverser = HTMLTraverser()
-        let matchingElements = traverser.findElements(in: elementArray, matchingElementSelectorPath: elementSelectorPath)
+        let matchingElements = HTMLTraverser.findElements(in: elementArray, matching: nodeSelectorPath)
 
         XCTAssertEqual(matchingElements.count, 1)
         XCTAssertEqual(matchingElements.first!.commentNodes.count, 1)

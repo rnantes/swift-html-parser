@@ -133,20 +133,20 @@ final class PerformanceTests: XCTestCase {
 //
 //        // create object from raw html file
 //        let htmlParser = HTMLParser()
-//        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+//        guard let elementArray = try? HTMLParser.parse(htmlString) else {
 //            XCTFail("Could not parse HTML")
 //            return
 //        }
 //
 //        // find matching elements by traversing the created html object
-//        let elementSelectorPath = [
+//        let nodeSelectorPath = [
 //            ElementSelector.init(tagName: "html"),
 //            ElementSelector.init(tagName: "body")
 //        ]
 //
 //        let traverser = HTMLTraverser()
 //        let matchingElements = traverser.findElements(in: elementArray,
-//                                                      matchingElementSelectorPath: elementSelectorPath)
+//                                                      matchingNodeSelectorPath: nodeSelectorPath)
 //
 //        XCTAssertEqual(matchingElements[0].childElements.count, 300)
 //    }
@@ -175,7 +175,7 @@ final class PerformanceTests: XCTestCase {
 //        let htmlParser = HTMLParser()
 //        for _ in 0..<20 {
 //            do {
-//                _ = try htmlParser.parse(pageSource: htmlString)
+//                _ = try HTMLParser.parse(htmlString)
 //            } catch {
 //                 XCTFail("Could not parse HTML")
 //            }

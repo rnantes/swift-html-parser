@@ -31,21 +31,19 @@ final class AttributeParserTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let nodeTree = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let nodeTree = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
 
         // find matching elements by traversing the created html object
-        var elementSelectorPath = [
-            ElementSelector.init(tagName: "html"),
-            ElementSelector.init(tagName: "body"),
-            ElementSelector.init(tagName: "a")
+        var nodeSelectorPath = [
+            ElementSelector().withTagName("html"),
+            ElementSelector().withTagName("body"),
+            ElementSelector().withTagName("a")
         ]
 
-        let traverser = HTMLTraverser()
-        var matchingElements = traverser.findElements(in: nodeTree, matchingElementSelectorPath: elementSelectorPath)
+        var matchingElements = HTMLTraverser.findElements(in: nodeTree, matching: nodeSelectorPath)
 
         XCTAssertEqual(matchingElements.count, 2)
 
@@ -60,25 +58,25 @@ final class AttributeParserTests: XCTestCase {
 
 
         // test empty attribute - ex <p emptyAtrribute="">
-        elementSelectorPath = [
-            ElementSelector.init(tagName: "html"),
-            ElementSelector.init(tagName: "body"),
-            ElementSelector.init(tagName: "div")
+        nodeSelectorPath = [
+            ElementSelector().withTagName("html"),
+            ElementSelector().withTagName("body"),
+            ElementSelector().withTagName("div")
         ]
 
-        matchingElements = traverser.findElements(in: nodeTree, matchingElementSelectorPath: elementSelectorPath)
+        matchingElements = HTMLTraverser.findElements(in: nodeTree, matching: nodeSelectorPath)
 
         XCTAssertEqual(matchingElements.first!.attributeValue(for: "emptyAtrribute")!, "")
 
 
-        elementSelectorPath = [
-            ElementSelector.init(tagName: "html"),
-            ElementSelector.init(tagName: "body"),
-            ElementSelector.init(tagName: "form"),
-            ElementSelector.init(tagName: "input")
+        nodeSelectorPath = [
+            ElementSelector().withTagName("html"),
+            ElementSelector().withTagName("body"),
+            ElementSelector().withTagName("form"),
+            ElementSelector().withTagName("input")
         ]
 
-        matchingElements = traverser.findElements(in: nodeTree, matchingElementSelectorPath: elementSelectorPath)
+        matchingElements = HTMLTraverser.findElements(in: nodeTree, matching: nodeSelectorPath)
 
         XCTAssertEqual(matchingElements.count, 1)
 
@@ -108,21 +106,19 @@ final class AttributeParserTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let elementArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
 
         // find matching elements by traversing the created html object
-        let elementSelectorPath = [
-            ElementSelector.init(tagName: "html"),
-            ElementSelector.init(tagName: "body"),
-            ElementSelector.init(tagName: "p")
+        let nodeSelectorPath = [
+            ElementSelector().withTagName("html"),
+            ElementSelector().withTagName("body"),
+            ElementSelector().withTagName("p")
         ]
 
-        let traverser = HTMLTraverser()
-        let matchingElements = traverser.findElements(in: elementArray, matchingElementSelectorPath: elementSelectorPath)
+        let matchingElements = HTMLTraverser.findElements(in: elementArray, matching: nodeSelectorPath)
 
         XCTAssertEqual(matchingElements.count, 2)
 
@@ -156,21 +152,19 @@ final class AttributeParserTests: XCTestCase {
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let elementArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
 
         // find matching elements by traversing the created html object
-        let elementSelectorPath = [
-            ElementSelector.init(tagName: "html"),
-            ElementSelector.init(tagName: "body"),
-            ElementSelector.init(tagName: "img")
+        let nodeSelectorPath = [
+            ElementSelector().withTagName("html"),
+            ElementSelector().withTagName("body"),
+            ElementSelector().withTagName("img")
         ]
 
-        let traverser = HTMLTraverser()
-        let matchingElements = traverser.findElements(in: elementArray, matchingElementSelectorPath: elementSelectorPath)
+        let matchingElements = HTMLTraverser.findElements(in: elementArray, matching: nodeSelectorPath)
 
         XCTAssertEqual(matchingElements.count, 1)
         XCTAssertEqual(matchingElements[0].openingTag.tagName, "img")

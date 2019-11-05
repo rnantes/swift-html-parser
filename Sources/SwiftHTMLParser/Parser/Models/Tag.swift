@@ -115,7 +115,7 @@ public struct Tag {
     func getClassNames(classAttributeValue: String) -> [String] {
         // (?=\s*) -> 0 or more whitespaces, but dont capture
         // [\w\d]+ -> 1 or more non-whitespace characters
-        let classNameRegexPattern = "(?=\\s*)[\\w\\d]+(?=\\s*)"
+        let classNameRegexPattern = "(?=\\s*)[^\\n\\r\\s]+(?=\\s*)"
 
         let regexHelper = RegexHelper()
         return regexHelper.matches(for: classNameRegexPattern, inString: classAttributeValue)

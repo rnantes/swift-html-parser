@@ -16,6 +16,6 @@ public struct TextNode: Node {
     init (startIndex: String.Index, endIndex: String.Index, text: String) {
         self.startIndex = startIndex
         self.endIndex = endIndex
-        self.text = text
+        self.text = text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
 }
