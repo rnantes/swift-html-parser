@@ -7,11 +7,14 @@
 
 import Foundation
 
-final class CDataSelector: NodeSelector, TextStringSelectorBuilder {
-    var position = IntSelector()
-    internal var text = StringSelector()
+public final class CDataSelector: NodeSelector, TextStringSelectorBuilder {
+    private(set) public var position = IntSelector()
+    private(set) public var text = StringSelector()
 
-    func testAgainst(_ node: Node) -> Bool {
+    // public init
+    public init() {}
+
+    public func testAgainst(_ node: Node) -> Bool {
         // return false if node is not an element
         guard let cdata = node as? CData else {
             return false

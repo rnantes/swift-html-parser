@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol TagNameStringSelectorBuilder {
-    var tagName: StringSelector { get set }
+public protocol TagNameStringSelectorBuilder {
+    var tagName: StringSelector { get }
 }
 
-extension TagNameStringSelectorBuilder {
+public extension TagNameStringSelectorBuilder {
     /// Matches when the target equals the given value
     func withTagName(_ value: String) -> Self {
         self.tagName.withString(value)

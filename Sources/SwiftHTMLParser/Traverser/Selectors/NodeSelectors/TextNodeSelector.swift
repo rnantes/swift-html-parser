@@ -7,12 +7,14 @@
 
 import Foundation
 
-final class TextNodeSelector: NodeSelector, TextStringSelectorBuilder {
-    internal var text = StringSelector()
-    var position = IntSelector()
+public final class TextNodeSelector: NodeSelector, TextStringSelectorBuilder {
+    private(set) public var text = StringSelector()
+    private(set) public var position = IntSelector()
 
+    // public init
+    public init() {}
 
-    func testAgainst(_ node: Node) -> Bool {
+    public func testAgainst(_ node: Node) -> Bool {
         // return false if node is not an TextNode
         guard let textNode = node as? TextNode else {
             return false

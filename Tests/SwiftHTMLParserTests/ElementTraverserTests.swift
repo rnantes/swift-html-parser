@@ -6,26 +6,9 @@
 //
 
 import XCTest
-@testable import SwiftHTMLParser
+import SwiftHTMLParser
 
 final class ElementTraverserTests: XCTestCase {
-
-    func testAppendOrIntialize() {
-        // single value
-        var optArray: [String]? = nil
-        optArray.appendOrInit("hello appendOrInit")
-        XCTAssertEqual(optArray![0], "hello appendOrInit")
-
-        // multiple values
-        var optArray2: [String]? = nil
-        optArray2.appendOrInit(contentsOf: ["sunny", "rainy", "cloudy"])
-        XCTAssertEqual(optArray2?.count, 3)
-
-        var optSet: Set<String>? = nil
-        optSet.insertOrInit("apple")
-        optSet.formUnionOrInit(["banana", "pineapple", "cherry", "pear"])
-        XCTAssertEqual(optSet?.count, 5)
-    }
 
     func testSelectTagName() {
         guard let fileURL = TestsConfig.attributesTestFilesDirectoryURL?
@@ -54,7 +37,7 @@ final class ElementTraverserTests: XCTestCase {
         ]
 
         let matchingElements = HTMLTraverser.findElements(in: nodeTree, matching: nodeSelectorPath)
-        XCTAssertTrue(matchingElements.count == 4)
+        XCTAssertEqual(matchingElements.count, 4)
     }
 
 
@@ -86,7 +69,7 @@ final class ElementTraverserTests: XCTestCase {
         ]
 
         let matchingElements = HTMLTraverser.findElements(in: nodeTree, matching: nodeSelectorPath)
-        XCTAssertTrue(matchingElements.count == 1)
+        XCTAssertEqual(matchingElements.count, 1)
         XCTAssertEqual(matchingElements[0].textNodes[0].text, "This is an alternate link")
     }
 

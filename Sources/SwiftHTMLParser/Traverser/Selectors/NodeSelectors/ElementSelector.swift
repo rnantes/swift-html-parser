@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  ElementSelector.swift
 //  
 //
 //  Created by Reid Nantes on 2019-10-29.
@@ -7,26 +7,28 @@
 
 import Foundation
 
-public final class ElementSelector: NodeSelector, TagNameStringSelectorBuilder, IdStringSelectorBuilder {
-    public var position = IntSelector()
+public class ElementSelector: NodeSelector, TagNameStringSelectorBuilder, IdStringSelectorBuilder {
+    private(set) public var position = IntSelector()
 
     // string selector
-    internal var tagName = StringSelector()
-    internal var id = StringSelector()
+    private(set) public var tagName = StringSelector()
+    private(set) public var id = StringSelector()
 
     // className selector
-    internal var classNameSelector = ClassSelector()
+    private(set) var classNameSelector = ClassSelector()
 
     // attribute selectors
-    internal var attributes: [AttributeSelector]?
+    private(set) public var attributes: [AttributeSelector]?
 
     // childNode selector
-    internal var childNodeSelectors: [NodeSelector]?
-    internal var childNodeSelectorPathsAll: [[NodeSelector]]?
+    private(set) public var childNodeSelectors: [NodeSelector]?
+    private(set) public var childNodeSelectorPathsAll: [[NodeSelector]]?
 
+    // public init
+    public init() {}
 
     /// Selects element if it has the given attribute
-    func withAttribute(_ attributeSelector: AttributeSelector) -> ElementSelector {
+    public func withAttribute(_ attributeSelector: AttributeSelector) -> ElementSelector {
         self.attributes.appendOrInit(attributeSelector)
         return self
     }
@@ -48,12 +50,12 @@ public final class ElementSelector: NodeSelector, TagNameStringSelectorBuilder, 
         return self
     }
 
-    func withChildTextNode(_ textNodeSelector: TextNodeSelector) -> Self {
+    public func withChildTextNode(_ textNodeSelector: TextNodeSelector) -> Self {
         self.childNodeSelectors.appendOrInit(textNodeSelector)
         return self
     }
 
-    func withChildCommentNode(_ commentNodeSelector: CommentSelector) -> Self {
+    public func withChildCommentNode(_ commentNodeSelector: CommentSelector) -> Self {
         self.childNodeSelectors.appendOrInit(commentNodeSelector)
         return self
     }

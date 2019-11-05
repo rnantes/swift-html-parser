@@ -8,9 +8,11 @@
 import Foundation
 
 public final class CommentSelector: NodeSelector, TextStringSelectorBuilder {
-    public var position = IntSelector()
+    private(set) public var position = IntSelector()
+    private(set) public var text = StringSelector()
 
-    internal var text = StringSelector()
+    // public init
+    public init() {}
 
     /// returns true if the Node = satisfies the selector
     public func testAgainst(_ node: Node) -> Bool {
