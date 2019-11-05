@@ -23,12 +23,11 @@ struct AttributeParser {
         case notWithinQuotes
     }
 
-
     fileprivate let specificCharacters = TagSpecificCharacters()
 
     func parseAttributes(tagText: String, tagName: String) -> [String: Attribute] {
         var attributes = [String: Attribute]()
-
+        
         let regexHelper = RegexHelper()
         let tagNameRegexPattern = "^(<\\s*\(tagName))"
         let rangeOfTagNameResult = regexHelper.firstMatchRange(for: tagNameRegexPattern, inString: tagText)
@@ -38,13 +37,10 @@ struct AttributeParser {
         }
         var currentIndex = rangeOfTagName.upperBound
 
-
-        let attributeParser = AttributeParser()
         var couldNotFindAttribute = false
         while currentIndex < tagText.endIndex && couldNotFindAttribute == false {
             do {
-                let attribute = try attributeParser.getNextAttribute(tagText: tagText,
-                                                                     currentIndex: currentIndex)
+                let attribute = try getNextAttribute(tagText: tagText, currentIndex: currentIndex)
                 attributes[attribute.name] = attribute
                 // set the currentIndex to endIndex of the attribute
                 currentIndex = tagText.index(attribute.endIndex, offsetBy: 1)
@@ -53,7 +49,6 @@ struct AttributeParser {
             }
         }
 
-
         return attributes
     }
 
@@ -61,20 +56,20 @@ struct AttributeParser {
         var localCurrentIndex = currentIndex
 
         var parserState = AttributeParserState.lookingForAttributeName
-        var nameStartIndex: String.Index? = nil
-        var nameEndIndex: String.Index? = nil
+        var nameStartIndex: String.Index?
+        var nameEndIndex: String.Index?
 
         var valueParseState = AttributeValueParseState.notWithinQuotes
-        var valueStartIndex: String.Index? = nil
-        var valueEndIndex: String.Index? = nil
-        var valueStartIndexWithQuotes: String.Index? = nil
-        var valueEndIndexWithQuotes: String.Index? = nil
+        var valueStartIndex: String.Index?
+        var valueEndIndex: String.Index?
+        var valueStartIndexWithQuotes: String.Index?
+        var valueEndIndexWithQuotes: String.Index?
 
         while localCurrentIndex < tagText.endIndex && parserState != .foundAttribute {
 
             switch parserState {
             case .lookingForAttributeName:
-                if tagText[localCurrentIndex] != specificCharacters.space {
+                if tagText[localCurrentIndex].isWhitespace == false {
                     nameStartIndex = localCurrentIndex
                     parserState = .readingAttributeName
                 }
@@ -84,12 +79,12 @@ struct AttributeParser {
                     nameEndIndex = tagText.index(localCurrentIndex, offsetBy: -1)
                     parserState = .readingFirstAttributeValue
                 }
-                if tagText[localCurrentIndex] == specificCharacters.space {
+                if tagText[localCurrentIndex].isWhitespace {
                     // attribute name only
                     nameEndIndex = tagText.index(localCurrentIndex, offsetBy: -1)
                     parserState = .foundAttribute
                 }
-                if tagText[localCurrentIndex] == specificCharacters.tagClosingCharacter  {
+                if tagText[localCurrentIndex] == specificCharacters.tagClosingCharacter {
                     // end of tag - attribute name only
                     nameEndIndex = tagText.index(localCurrentIndex, offsetBy: -1)
                     parserState = .foundAttribute
@@ -109,12 +104,12 @@ struct AttributeParser {
             case .readingAttributeValue:
                 switch valueParseState {
                 case .notWithinQuotes:
-                    if tagText[localCurrentIndex] == specificCharacters.space {
+                    if tagText[localCurrentIndex].isWhitespace {
                         // attribute name only
                         valueEndIndex = tagText.index(localCurrentIndex, offsetBy: -1)
                         parserState = .foundAttribute
                     }
-                    if tagText[localCurrentIndex] == specificCharacters.tagClosingCharacter  {
+                    if tagText[localCurrentIndex] == specificCharacters.tagClosingCharacter {
                         // end of tag - attribute name only
                         valueEndIndex = tagText.index(localCurrentIndex, offsetBy: -1)
                         parserState = .foundAttribute
@@ -126,27 +121,25 @@ struct AttributeParser {
                     }
 
                 case .withinSingleQuotes:
-                    if tagText[localCurrentIndex] == specificCharacters.singleQuote  {
+                    if tagText[localCurrentIndex] == specificCharacters.singleQuote {
                         valueEndIndexWithQuotes = localCurrentIndex
                         parserState = .foundAttribute
                     }
                 }
             case .foundAttribute:
-                break;
+                break
             }
 
             // increment localCurentIndex
             localCurrentIndex = tagText.index(localCurrentIndex, offsetBy: 1)
         }
 
-
         if let nameStartIndex = nameStartIndex, let nameEndIndex = nameEndIndex {
             let name = String(tagText[nameStartIndex...nameEndIndex])
-            var value: String? = nil
-
+            var value: String?
 
             var isAttributeValueAnEmptyString = false
-            if let valueStartIndexWithQuotes = valueStartIndexWithQuotes, let valueEndIndexWithQuotes = valueEndIndexWithQuotes  {
+            if let valueStartIndexWithQuotes = valueStartIndexWithQuotes, let valueEndIndexWithQuotes = valueEndIndexWithQuotes {
                 // value is within qutoes
                 if tagText.distance(from: valueStartIndexWithQuotes, to: valueEndIndexWithQuotes) == 1 {
                     // value is empty string - i.e ""
@@ -181,5 +174,3 @@ struct AttributeParser {
         throw ParseError.attributeNotFound
     }
 }
-
-

@@ -7,80 +7,80 @@
 
 import Foundation
 
-public class HTMLTraverser {
+public struct HTMLTraverser {
 
-    public func findElements(in parsedElements: [Element], matchingElementSelectorPath: [ElementSelector]) -> [Element] {
-        var matchingElements = [Element]()
+    public static func hasMatchingNode(in parsedNodes: [Node], matching nodeSelctorPath: [NodeSelector]) -> Bool {
+        if findNodes(in: parsedNodes, matching: nodeSelctorPath).count > 0 {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    public static func findElements(in parsedNodes: [Node], matching nodeSelectorPath: [NodeSelector]) -> [Element] {
+        let nodes = findNodes(in: parsedNodes, matching: nodeSelectorPath)
+        return nodes.compactMap({ $0 as? Element })
+    }
+
+    public static func findNodes(in parsedNodes: [Node], matching nodeSelectorPath: [NodeSelector]) -> [Node] {
+        // start with every element matching
+        var matchingNodes = parsedNodes
         var selectorPathIndex = 0
+        var matchedSelectors = [NodeSelector]()
+        //var unmatchedSelector: NodeSelector? = nil
 
-        matchingElements = parsedElements
-        while selectorPathIndex < matchingElementSelectorPath.count && matchingElements.count != 0 {
+        while selectorPathIndex < nodeSelectorPath.count && matchingNodes.count > 0 {
             var shouldReturnChildrenOfMatches = true
-            // if not the last selectorElement get the childred
-            if selectorPathIndex == matchingElementSelectorPath.count - 1 {
+            // if not the last selectorNode get the children
+            if selectorPathIndex == nodeSelectorPath.count - 1 {
                shouldReturnChildrenOfMatches = false
             }
 
-            matchingElements = getMatchesAtDepth(elementSelector: matchingElementSelectorPath[selectorPathIndex],
-                                                 elementsAtDepth: matchingElements,
-                                                 shouldReturnChildrenOfMatches: shouldReturnChildrenOfMatches)
+            let currentSelector = nodeSelectorPath[selectorPathIndex]
+            matchingNodes = getMatchesAtDepth(nodeSelector: currentSelector,
+                                              nodesAtDepth: matchingNodes,
+                                              shouldReturnChildrenOfMatches: shouldReturnChildrenOfMatches)
+
+            // if matched add currentSelector to list of matchedSelectors
+            if (matchingNodes.count > 0) {
+                matchedSelectors.append(currentSelector)
+            } else {
+                // if not matched set unmatchedSelector
+                //unmatchedSelector = currentSelector
+            }
 
             selectorPathIndex += 1
         }
 
-        return matchingElements
+        return matchingNodes
     }
 
-    private func getMatchesAtDepth(elementSelector: ElementSelector, elementsAtDepth: [Element], shouldReturnChildrenOfMatches: Bool) -> [Element] {
-        var matchesAtDepth = [Element]()
+    private static func getMatchesAtDepth(nodeSelector: NodeSelector, nodesAtDepth: [Node], shouldReturnChildrenOfMatches: Bool) -> [Node] {
+        var matchesAtDepth = [Node]()
 
-        var elementNum = 0
+        var currentPosition = 0
 
-        for element in elementsAtDepth {
-            if compare(elementSelector: elementSelector, element: element) == true {
-                if elementSelector.position == nil || elementNum == elementSelector.position {
+        for node in nodesAtDepth {
+            if compare(nodeSelector: nodeSelector, node: node) == true {
+                if nodeSelector.position.testAgainst(currentPosition) {
                     if shouldReturnChildrenOfMatches == true {
-                        matchesAtDepth.append(contentsOf: element.childElements)
+                        if let element = node as? Element {
+                            matchesAtDepth.append(contentsOf: element.childNodes)
+                        }
                     } else {
-                        matchesAtDepth.append(element)
+                        matchesAtDepth.append(node)
                     }
                 }
-                elementNum += 1
+                currentPosition += 1
             }
         }
 
         return matchesAtDepth
     }
 
-    private func compare(elementSelector: ElementSelector, element: Element) -> Bool {
-        if elementSelector.tagName != element.tagName {
+    private static func compare(nodeSelector: NodeSelector, node: Node) -> Bool {
+        if nodeSelector.testAgainst(node) == false {
             return false
-        }
-
-        if elementSelector.id != nil {
-            if elementSelector.id != element.id {
-                return false
-            }
-        }
-
-        if let selectorClassNames = elementSelector.classNames {
-            // if selector
-            if element.classNames.count == 0 {
-                return false
-            }
-
-            var foundOneMatch = false
-            for selectorClassName in selectorClassNames {
-                for elementClassName in element.classNames {
-                    if selectorClassName == elementClassName {
-                        foundOneMatch = true
-                    }
-                }
-            }
-
-            if foundOneMatch == false {
-                    return false
-            }
         }
 
         return true

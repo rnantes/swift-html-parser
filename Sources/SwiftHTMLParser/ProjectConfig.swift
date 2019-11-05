@@ -8,5 +8,8 @@
 import Foundation
 
 struct ProjectConfig {
-    let projectPath = "./"
+
+    // for Debugging
+    static let shouldPrintTags = false
+    static let shouldPrintWarnings = false
 }

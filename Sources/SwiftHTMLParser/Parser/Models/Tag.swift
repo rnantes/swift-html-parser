@@ -9,7 +9,7 @@
 import Foundation
 
 // a closing or opening tag
-public struct Tag: Node {
+public struct Tag {
     let startIndex: String.Index
     let endIndex: String.Index
 
@@ -106,8 +106,8 @@ public struct Tag: Node {
         var description = ""
         description = description + "tagText: \(tagText)\n"
         description = description + "tagText.count: \(tagText.count)\n"
-        description = description + "tag.startIndex: \(startIndex.encodedOffset)\n"
-        description = description + "tag.endIndex: \(endIndex.encodedOffset)\n"
+        description = description + "tag.startIndex: \(startIndex.utf16Offset(in: tagText))\n"
+        description = description + "tag.endIndex: \(endIndex.utf16Offset(in: tagText))\n"
 
         return description
     }
@@ -115,7 +115,7 @@ public struct Tag: Node {
     func getClassNames(classAttributeValue: String) -> [String] {
         // (?=\s*) -> 0 or more whitespaces, but dont capture
         // [\w\d]+ -> 1 or more non-whitespace characters
-        let classNameRegexPattern = "(?=\\s*)[\\w\\d]+(?=\\s*)"
+        let classNameRegexPattern = "(?=\\s*)[^\\n\\r\\s]+(?=\\s*)"
 
         let regexHelper = RegexHelper()
         return regexHelper.matches(for: classNameRegexPattern, inString: classAttributeValue)

@@ -7,7 +7,8 @@
 
 import Foundation
 
-protocol Node {
+public protocol Node {
+    var nodeType: NodeType { get }
     var startIndex: String.Index { get }
     var endIndex: String.Index { get }
 }

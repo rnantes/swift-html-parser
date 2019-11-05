@@ -1,0 +1,1147 @@
+ <!DOCTYPE html>
+<!--[if lt IE 9]><html class="no-js lt-ie9" lang="en" dir="ltr"><![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en" dir="ltr">
+<!--<![endif]--><head>
+		<meta charset="utf-8" />
+		<!-- Web Experience Toolkit (WET) / Boîte à outils de l'expérience Web (BOEW)
+		wet-boew.github.io/wet-boew/License-en.html / wet-boew.github.io/wet-boew/Licence-fr.html -->
+		<meta content="width=device-width, initial-scale=1" name="viewport" />
+		<meta name="dcterms.creator" content="Environment Canada" />
+		<meta name="dcterms.language" title="ISO639-2" content="eng" />
+<title>Weather Radar - King City, ON - Environment Canada</title>
+<meta name="dcterms.title" content="Weather Radar - King City, ON - Environment Canada" />
+<meta name="description" content="A radar image indicating where precipitation is occurring. Customize your map to view overlays such as cities, roads, rivers, radar circles, and animations in short (1hr) and long (3hr) format." />
+<meta name="dcterms.subject" title="scheme" content="Radar;Remote sensing;" />
+<meta name="dcterms.issued" title="W3CDTF" content="2013-04-16" />
+<meta name="dcterms.modified" title="W3CDTF" content="2019-09-10" />
+		<!--[if gte IE 9 | !IE ]><!-->
+<link href="/template/gcweb/v5.0.1/assets/favicon.ico" rel="icon" type="image/x-icon" />
+<link rel="stylesheet" href="/template/gcweb/v5.0.1/css/theme.min.css" />
+<!--<![endif]-->
+
+<!--[if lt IE 9]>
+<link href="/template/gcweb/v5.0.1/assets/favicon.ico" rel="shortcut icon" />
+
+<link rel="stylesheet" href="/template/gcweb/v5.0.1/css/ie8-wet-boew.min.css" />
+<link rel="stylesheet" href="/v173/css/wxotemplate/wxo-ie8.css"/>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="/template/gcweb/v5.0.1/js/ie8-wet-boew.min.js"></script>
+<![endif]-->
+<!--[if lte IE 9]>
+
+<![endif]-->
+
+<noscript><link rel="stylesheet" href="/template/gcweb/v5.0.1/css/noscript.min.css" /></noscript>
+<link rel="stylesheet" href="/v173/css/city/jquery-ui-1.10.3.custom.min.css" />
+<link rel="stylesheet" href="/v173/css/wxotemplate/wxo.css" />
+<link rel="stylesheet" href="/v173/css/wxotemplate/print-sm.css" />
+<!--[if IE 8]>
+<link href="/cacheable/css/radar/radar-ie8.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<script type="text/javascript" src="/cacheable/js/radar/Base.js"></script>
+
+<link rel="stylesheet" href="/cacheable/css/radar/controller.css" />
+<link rel="stylesheet" href="/cacheable/css/radar/radar2.css" />
+<script>
+	if (typeof composite_cities_active === 'undefined'){
+		var composite_cities_active = 'yes';
+	}
+</script>
+</head>
+<body class="secondary" vocab="http://schema.org/" typeof="WebPage">
+<ul id="wb-tphp">
+<li class="wb-slc"><a class="wb-sl" href="#wb-cont">Skip to main content</a></li>
+<li class="wb-slc"><a class="wb-sl" href="#wb-info">Skip to "About government"</a></li>
+</ul>
+<header>
+<div id="wb-bnr" class="container">
+	<section id="wb-lng" class="text-right">
+	<h2 class="wb-inv">Language selection</h2>
+	<ul class="list-inline margin-bottom-none">
+	<li><a lang="fr" href="/include/lang.php">Français</a></li>
+	</ul>
+	</section>
+	<div class="row">
+	<div class="brand col-xs-5 col-md-4">
+	<a href="https://www.canada.ca/en.html"><img src="/template/gcweb/v5.0.1/assets/sig-blk-en.svg" alt=""><span class="wb-inv"> Government of Canada / <span lang="fr">Gouvernement du Canada</span></span></a>
+	</div>
+	<section id="wb-srch" class="col-lg-8 text-right">
+	<h2>Search</h2>
+	<form action="https://recherche-search.gc.ca/rGs/s_r?#wb-land" method="get" name="cse-search-box" role="search" class="form-inline">
+	<div class="form-group">
+		<label for="wb-srch-q" class="wb-inv">Search website</label>
+		<input name="cdn" value="canada" type="hidden"/>
+		<input name="st" value="s" type="hidden"/>
+		<input name="num" value="10" type="hidden"/>
+		<input name="langs" value="eng" type="hidden"/>
+		<input name="st1rt" value="0" type="hidden">
+		<input name="s5bm3ts21rch" value="x" type="hidden"/>
+		<input id="wb-srch-q" list="wb-srch-q-ac" class="wb-srch-q form-control" name="q" type="search" value="" size="27" maxlength="150" placeholder="Search Canada.ca" />
+		<datalist id="wb-srch-q-ac">
+		</datalist>
+	</div>
+	<div class="form-group submit">
+	<button type="submit" id="wb-srch-sub" class="btn btn-primary btn-small" name="wb-srch-sub"><span class="glyphicon-search glyphicon"></span><span class="wb-inv">Search</span></button>
+	</div>
+	</form>
+	</section>
+	</div>
+</div>
+<nav class="gcweb-menu" typeof="SiteNavigationElement">
+<div class="container">
+<h2 class="wb-inv">Menu</h2>
+<button type="button" aria-haspopup="true" aria-expanded="false"><span class="wb-inv">Main </span>Menu <span class="expicon glyphicon glyphicon-chevron-down"></span></button>
+<ul role="menu" aria-orientation="vertical" data-ajax-replace="/data/pco-fetch/sitemenu-v5-en.html"> 
+<li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/jobs.html">Jobs and the workplace</a></li>
+<li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/immigration-citizenship.html">Immigration and citizenship</a></li>
+<li role="presentation"><a role="menuitem" href="https://travel.gc.ca/">Travel and tourism</a></li>
+<li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/business.html">Business and industry</a></li>
+<li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/benefits.html">Benefits</a></li>
+<li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/health.html">Health</a></li>
+<li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/taxes.html">Taxes</a></li>
+<li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/environment.html">Environment and natural resources</a></li>
+<li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/defence.html">National security and defence</a></li>
+<li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/culture.html">Culture, history and sport</a></li>
+<li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/policing.html">Policing, justice and emergencies</a></li>
+<li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/transport.html">Transport and infrastructure</a></li>
+<li role="presentation"><a role="menuitem" href="http://international.gc.ca/world-monde/index.aspx?lang=eng">Canada and the world</a></li>
+<li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/finance.html">Money and finances</a></li>
+<li role="presentation"><a role="menuitem" href="https://www.canada.ca/en/services/finance.html">Science and innovation</a></li>
+</ul>
+</div>
+</nav>
+<nav id="wb-bc" property="breadcrumb">
+<h2>You are here:</h2>
+<div class="container">
+<ol class="breadcrumb">
+<li><a href="http://www.canada.ca/en.html">Home</a></li><li><a href="http://www.canada.ca/en/services/environment.html">Environment and natural resources</a></li>
+<li><a href="/index_e.html">Weather information</a></li>
+<li><a href="/mainmenu/weather_menu_e.html">Weather</a></li>
+<li><a href="/radar/index_e.html">Weather Radar</a></li>
+<li><a href="/radar/index_e.html?id=ONT">Ontario</a></li></ol>
+</div>
+</nav>
+</header>
+
+
+<!-- 4127 -->
+<div class="container hidden-print">
+<div class="mrgn-tp-sm">
+<span class='pull-right profile-link mrgn-rght-sm mrgn-bttm-sm'><a class="btn btn-default btn-sm" href="/myprofile/index_e.html" role="button">My Weather Profile</a></span> <span class="pull-right mrgn-rght-sm mrgn-bttm-sm"><a href="#favourites-panel" aria-controls="favourites-panel" class="btn btn-default btn-sm overlay-lnk hidden" id="weather-shortcuts-link">Weather shortcuts</a>
+<a href="#weather-topics" id="weather-topics-link">Weather Topics</a></span>
+<span id="wxo-divider" class="pull-right not-profile-link">&#160;|&#160;</span>
+	<form class="mrgn-rght-sm pull-right mrgn-bttm-lg" role="search" id="cityjump" method="GET" action="/city/jump_e.html">
+      <label id="search-label" for="city" accesskey="g">Access city</label>
+      <input id="city" type="text" name="city" pattern=".{2,50}" title="Please enter at least two characters (Up to 50)" required data-h5-errorid="invalid-city" placeholder="Find a city"/>
+      <input type="hidden" name="lang" value="e"/>
+      <input type="hidden" name="unit" value=""/>
+      <input type="submit" id="jump" class="wb-invisible" value="Go"/>
+      <noscript><input type="submit" id="jumpnojs" value="Go" formnovalidate/></noscript>
+   <div id="invalid-city"></div>
+</form>  
+
+</div>
+</div>
+<div class="clearfix"></div>
+
+<div id='collapsible-alerts' class='container'></div>
+<div class="clearfix"></div>
+<main property="mainContentOfPage" class="container">
+
+<section>
+	<div class="row profile">
+		<div class="col-xs-12">
+			<h1 id="wb-cont" property="name">Weather Radar - King City, ON</h1>
+		</div>
+	</div>
+
+<div class="animator" id="animator">
+	<div class="content row">
+		<div id="animation" class="col-md-8">
+							<noscript>
+			<p class="text-center margin-bottom-none">PRECIPET - Rain 2019-09-10, 10:10 AM EDT</p>
+		</noscript>
+				<div id="animation-info" class="row text-center animation-info"></div>
+			<div class="animation-frame-nat-nojs" id="animation-frame-99">
+				<noscript class="visible-xs js-hide">
+					<img id="animation-image"
+					alt="xRadar image for King City."
+					title="xRadar image for King City."
+					src="/data/radar/temp_image//WKR/WKR_PRECIP_RAIN_2019_09_10_14_10.GIF"
+					width="580"
+					height="480"
+					class="wxo-radar-img wxo-radar-img-nojs img-responsive"
+					/>
+									</noscript>
+				<div id="first-fail">
+				<img id="animation-image"
+					alt="Radar image for King City."
+					title="Radar image for King City."
+					src="/data/radar/temp_image//WKR/WKR_PRECIP_RAIN_2019_09_10_14_10.GIF"
+					width="580"
+					height="480"
+					class="wxo-radar-img hidden-xs wxo-radar-img-nojs img-responsive"
+					/>
+				</div>
+
+										<img
+						width="580"
+						height="480"
+						src="/cacheable/images/radar/layers/default_cities/wkr_towns.gif"
+						alt="Cities" id="composite-cities-image" class="overlay-img-nojs overlay-img img-responsive " style="z-index: 60;">
+					
+									<img width="580" height="480" src="/cacheable/images/radar/layers/additional_cities/wkr_towns.gif" alt="More Cities" class="overlay-img-nojs overlay-img img-responsive  wxo-hide-overlay" id="additional_cities" style="z-index: 59;">
+
+					<img class="overlay-img-nojs overlay-img img-responsive 	" width="580" height="480" src="/cacheable/images/radar/layers/roads/WKR_roads.gif?ver=1410285168" id="roads" alt="Roads" style="z-index: 56;">
+
+					<img class="overlay-img-nojs overlay-img img-responsive  wxo-hide-overlay" width="580" height="480" src="/cacheable/images/radar/layers/road_labels/wkr_labs.gif" id="road_num" alt="Road Numbers" style="z-index: 57;">
+
+					<img class="overlay-img-nojs overlay-img img-responsive   wxo-hide-overlay" width="580" height="480" src="/cacheable/images/radar/layers/rivers/wkr_rivers.gif" id="river" alt="Rivers" style="z-index: 55;">
+
+					<img class="overlay-img-nojs overlay-img img-responsive " width="580" height="480" src="/cacheable/images/radar/layers/radar_circle/radar_circle.gif" alt="Radar Circles" id="radar_circle" style="z-index: 58;">
+
+										</div>
+		</div>
+	<aside class="col-md-4 hidden-xs hidden-sm hidden-print">
+		<div class="well">
+<h2 class="mrgn-tp-0">Weather Links</h2>
+	<ul class="lst-spcd">
+		<li><a href="/canada_e.html">Canadian Weather</a></li>
+		<li><a href="/warnings/index_e.html">Public Alerts - Canada</a></li>
+		<li><a href="/radar/index_e.html">Weather Radar - Canada</a></li>
+		<li><a href="/satellite/index_e.html">Satellite - Canada</a></li>
+		<li><a href="/saisons/index_e.html">Seasonal forecasts</a></li>
+		<li><a href="/mainmenu/airquality_menu_e.html">Air Quality </a></li>
+		<li><a href="/marine/index_e.html">Marine - Canada</a></li>
+		<li><a href="https://www.canada.ca/en/environment-climate-change/services/water-overview/quantity/monitoring/survey.html">Water Level and Flow</a></li>
+		<li><a href="https://www.canada.ca/en/environment-climate-change/services/climate-change/canadian-centre-climate-services.html">Canadian Centre for Climate Services</a></li>
+	</ul>
+</div>
+	</aside>
+<div class="clearfix"></div>
+
+
+
+
+
+			</div>
+	<noscript>
+	<div class="row">
+		<p class="text-center">Please enable JavaScript to view the animation.</p>
+		<p class="text-center" >The following images are available for PRECIPET - Rain:</p>
+		<div class="col-lg-3 col-md-2 col-sm-1"></div>
+		<div class="col-lg-3 col-md-4 col-xs-5">
+			<p>Short (1hr):</p>
+			<ul>
+									<li>2019-09-10, 10:10 AM EDT</li>
+															<li><a href="/radar/index_e.html?id=WKR&amp;display='WKR_PRECIP_RAIN_2019_09_10_14_00'&amp;intensity_detailed=0&amp;overlay_cities=1&amp;overlay_roads=1&amp;overlay_radcirc=1&amp;overlay_roadnum=0&amp;overlay_cities2=0&amp;overlay_rivers=0">2019-09-10, 10:00 AM EDT</a></li>
+															<li><a href="/radar/index_e.html?id=WKR&amp;display='WKR_PRECIP_RAIN_2019_09_10_13_50'&amp;intensity_detailed=0&amp;overlay_cities=1&amp;overlay_roads=1&amp;overlay_radcirc=1&amp;overlay_roadnum=0&amp;overlay_cities2=0&amp;overlay_rivers=0">2019-09-10, 09:50 AM EDT</a></li>
+															<li><a href="/radar/index_e.html?id=WKR&amp;display='WKR_PRECIP_RAIN_2019_09_10_13_40'&amp;intensity_detailed=0&amp;overlay_cities=1&amp;overlay_roads=1&amp;overlay_radcirc=1&amp;overlay_roadnum=0&amp;overlay_cities2=0&amp;overlay_rivers=0">2019-09-10, 09:40 AM EDT</a></li>
+															<li><a href="/radar/index_e.html?id=WKR&amp;display='WKR_PRECIP_RAIN_2019_09_10_13_30'&amp;intensity_detailed=0&amp;overlay_cities=1&amp;overlay_roads=1&amp;overlay_radcirc=1&amp;overlay_roadnum=0&amp;overlay_cities2=0&amp;overlay_rivers=0">2019-09-10, 09:30 AM EDT</a></li>
+															<li><a href="/radar/index_e.html?id=WKR&amp;display='WKR_PRECIP_RAIN_2019_09_10_13_20'&amp;intensity_detailed=0&amp;overlay_cities=1&amp;overlay_roads=1&amp;overlay_radcirc=1&amp;overlay_roadnum=0&amp;overlay_cities2=0&amp;overlay_rivers=0">2019-09-10, 09:20 AM EDT</a></li>
+															<li><a href="/radar/index_e.html?id=WKR&amp;display='WKR_PRECIP_RAIN_2019_09_10_13_10'&amp;intensity_detailed=0&amp;overlay_cities=1&amp;overlay_roads=1&amp;overlay_radcirc=1&amp;overlay_roadnum=0&amp;overlay_cities2=0&amp;overlay_rivers=0">2019-09-10, 09:10 AM EDT</a></li>
+												</ul>
+		</div>
+		<div class="col-lg-3 col-md-4 col-xs-5">
+			<p>Long (3hr):</p>
+			<ul>
+									<li>2019-09-10, 10:10 AM EDT</li>
+															<li><a href="/radar/index_e.html?id=WKR&amp;display='WKR_PRECIP_RAIN_2019_09_10_13_50'&amp;intensity_detailed=0&amp;overlay_cities=1&amp;overlay_roads=1&amp;overlay_radcirc=1&amp;overlay_roadnum=0&amp;overlay_cities2=0&amp;overlay_rivers=0">2019-09-10, 09:50 AM EDT</a></li>
+															<li><a href="/radar/index_e.html?id=WKR&amp;display='WKR_PRECIP_RAIN_2019_09_10_13_30'&amp;intensity_detailed=0&amp;overlay_cities=1&amp;overlay_roads=1&amp;overlay_radcirc=1&amp;overlay_roadnum=0&amp;overlay_cities2=0&amp;overlay_rivers=0">2019-09-10, 09:30 AM EDT</a></li>
+															<li><a href="/radar/index_e.html?id=WKR&amp;display='WKR_PRECIP_RAIN_2019_09_10_13_10'&amp;intensity_detailed=0&amp;overlay_cities=1&amp;overlay_roads=1&amp;overlay_radcirc=1&amp;overlay_roadnum=0&amp;overlay_cities2=0&amp;overlay_rivers=0">2019-09-10, 09:10 AM EDT</a></li>
+															<li><a href="/radar/index_e.html?id=WKR&amp;display='WKR_PRECIP_RAIN_2019_09_10_12_50'&amp;intensity_detailed=0&amp;overlay_cities=1&amp;overlay_roads=1&amp;overlay_radcirc=1&amp;overlay_roadnum=0&amp;overlay_cities2=0&amp;overlay_rivers=0">2019-09-10, 08:50 AM EDT</a></li>
+															<li><a href="/radar/index_e.html?id=WKR&amp;display='WKR_PRECIP_RAIN_2019_09_10_12_30'&amp;intensity_detailed=0&amp;overlay_cities=1&amp;overlay_roads=1&amp;overlay_radcirc=1&amp;overlay_roadnum=0&amp;overlay_cities2=0&amp;overlay_rivers=0">2019-09-10, 08:30 AM EDT</a></li>
+															<li><a href="/radar/index_e.html?id=WKR&amp;display='WKR_PRECIP_RAIN_2019_09_10_12_10'&amp;intensity_detailed=0&amp;overlay_cities=1&amp;overlay_roads=1&amp;overlay_radcirc=1&amp;overlay_roadnum=0&amp;overlay_cities2=0&amp;overlay_rivers=0">2019-09-10, 08:10 AM EDT</a></li>
+															<li><a href="/radar/index_e.html?id=WKR&amp;display='WKR_PRECIP_RAIN_2019_09_10_11_50'&amp;intensity_detailed=0&amp;overlay_cities=1&amp;overlay_roads=1&amp;overlay_radcirc=1&amp;overlay_roadnum=0&amp;overlay_cities2=0&amp;overlay_rivers=0">2019-09-10, 07:50 AM EDT</a></li>
+															<li><a href="/radar/index_e.html?id=WKR&amp;display='WKR_PRECIP_RAIN_2019_09_10_11_30'&amp;intensity_detailed=0&amp;overlay_cities=1&amp;overlay_roads=1&amp;overlay_radcirc=1&amp;overlay_roadnum=0&amp;overlay_cities2=0&amp;overlay_rivers=0">2019-09-10, 07:30 AM EDT</a></li>
+															<li><a href="/radar/index_e.html?id=WKR&amp;display='WKR_PRECIP_RAIN_2019_09_10_11_10'&amp;intensity_detailed=0&amp;overlay_cities=1&amp;overlay_roads=1&amp;overlay_radcirc=1&amp;overlay_roadnum=0&amp;overlay_cities2=0&amp;overlay_rivers=0">2019-09-10, 07:10 AM EDT</a></li>
+												</ul>
+		</div>
+		<div class="col-lg-3 col-md-2"></div>
+	</div>
+</noscript>
+	<div id="animator-controller" class="hidden-print">
+		<div class="hidden-xs hidden-sm hidden-md hidden-lg">
+			<b>Animation</b>
+		</div>
+
+		<div class="controller-box row hidden-xs hidden-sm hidden-md hidden-lg">
+			<div class="col-sm-5 col-xs-10 controller-set  margin-top-medium">
+				<button
+						id="play-button"
+						title="Play"
+						onclick="animator.callEvent('play',this); return false;"
+						onfocus="animator.callEvent('depress',this);"
+						onblur="animator.callEvent('uplift',this);"
+						onmouseover="animator.callEvent('depress',this);"
+						onmouseout="animator.callEvent('uplift',this);"
+						class="btn btn-default btn-sm">
+						<span class="glyphicon glyphicon-play "></span>
+				</button>
+				<button
+					id="pause-button"
+					title="Pause"
+					onclick="return animator.callEvent('pause',this);"
+					onfocus="animator.callEvent('depress',this);"
+					onblur="animator.callEvent('uplift',this);"
+					onmouseover="animator.callEvent('depress',this);"
+					onmouseout="animator.callEvent('uplift',this);"
+					class="btn btn-default  btn-sm">
+					<span class="glyphicon glyphicon-stop"></span>
+				</button>
+				<button
+					id="first-frame-button"
+					title="First Image"
+					onclick="return animator.callEvent('first',this);"
+					onfocus="animator.callEvent('depress',this);"
+					onblur="animator.callEvent('uplift',this);"
+					onmouseover="animator.callEvent('depress',this);"
+					onmouseout="animator.callEvent('uplift',this);"
+					class="btn btn-default  btn-sm">
+					<span class="glyphicon glyphicon-fast-backward"></span>
+				</button>
+				<button
+					id="previous-frame-button"
+					title="Previous Image"
+					onclick="return animator.callEvent('previous',this);"
+					onfocus="animator.callEvent('depress',this);"
+					onblur="animator.callEvent('uplift',this);"
+					onmouseover="animator.callEvent('depress',this);"
+					onmouseout="animator.callEvent('uplift',this);"
+					class="btn btn-default  btn-sm">
+					<span class="glyphicon glyphicon-backward"></span>
+				</button>
+				<button
+					id="next-frame-button"
+					title="Next Image"
+					onclick="return animator.callEvent('next',this);"
+					onfocus="animator.callEvent('depress',this);"
+					onblur="animator.callEvent('uplift',this);"
+					onmouseover="animator.callEvent('depress',this);"
+					onmouseout="animator.callEvent('uplift',this);"
+					class="btn btn-default  btn-sm">
+					<span class="glyphicon glyphicon-forward"></span>
+				</button>
+				<button
+					id="last-frame-button"
+					title="Last Image"
+					onclick="return animator.callEvent('last',this);"
+					onfocus="animator.callEvent('depress',this);"
+					onblur="animator.callEvent('uplift',this);"
+					onmouseover="animator.callEvent('depress',this);"
+					onmouseout="animator.callEvent('uplift',this);"
+					class="btn btn-default btn-sm">
+					<span class="glyphicon glyphicon-fast-forward"></span>
+				</button>
+			</div>
+			<div class="col-sm-4 col-xs-10 controller-set margin-top-medium">
+				<span>
+					Speed:
+				</span>
+				<button
+					id="slowdown-button"
+					title="Slower"
+					onclick="return animator.callEvent('slower',this);"
+					onfocus="animator.callEvent('depress',this);"
+					onblur="animator.callEvent('uplift',this);"
+					onmouseover="animator.callEvent('depress',this);"
+					onmouseout="animator.callEvent('uplift',this);"
+					class="btn btn-default btn-sm">
+					<span class="glyphicon glyphicon-minus-sign"></span>
+				</button>
+				<button
+					id="speedup-button"
+					title="Faster"
+					onclick="return animator.callEvent('faster',this);"
+					onfocus="animator.callEvent('depress',this);"
+					onblur="animator.callEvent('uplift',this);"
+					onmouseover="animator.callEvent('depress',this);"
+					onmouseout="animator.callEvent('uplift',this);"
+					class="btn btn-default btn-sm">
+					<span class="glyphicon glyphicon-plus-sign"></span>
+				</button>
+				<button
+					id="speed-reset-button"
+					title="Reset Speed"
+					onclick="return animator.callEvent('speedreset',this);"
+					onfocus="animator.callEvent('depress',this);"
+					onblur="animator.callEvent('uplift',this);"
+					onmouseover="animator.callEvent('depress',this);"
+					onmouseout="animator.callEvent('uplift',this);"
+					class="btn btn-default btn-sm">
+					Reset
+				</button>
+			</div>
+
+			<div class="hidden-xs col-sm-3 controller-set margin-top-small">
+				<fieldset>
+					<legend class="wb-inv">Time</legend>
+					<div id="duration-label" >Time:</div>
+					<div id="duration-content">
+						<ul id="animation-duration" class="form-inline">
+						</ul>
+					</div>
+				</fieldset>
+			</div>
+
+		</div>
+
+				<div class="hidden-xs margin-top-large">
+			<form action="/radar/index_e.html" method="get">
+	<b>Overlays</b>
+	<div class="controller-box">
+		<!-- starts empty -->
+		<table id="animation-overlays" class="hidden-md hidden-lg hidden-sm animation-overlays" >
+			<tbody>
+				<tr>
+					<td class="check">
+						<input type="checkbox" class="overlay-box" id="overlay_default_cities" checked>
+					</td>
+					<td>
+						<label for="overlay_default_cities" class="wxo-lbl-clr">Cities</label>
+					</td>
+					<td class="check">
+						<input type="checkbox" class="overlay-box" id="overlay_additional_cities" >
+					</td>
+					<td>
+						<label for="overlay_additional_cities" class="wxo-lbl-clr">More Cities</label>
+					</td>
+					<td class="check">
+						<input type="checkbox" checked class="overlay-box" id="overlay_roads">
+					</td>
+					<td>
+						<label for="overlay_roads" class="wxo-lbl-clr">Roads</label>
+					</td>
+				</tr>
+				<tr>
+					<td class="check">
+						<input type="checkbox"  class="overlay-box"  id="overlay_road_labels">
+					</td>
+					<td>
+						<label for="overlay_road_labels" class="wxo-lbl-clr">Road Numbers</label>
+					</td>
+					<td class="check">
+						<input type="checkbox"  class="overlay-box"  id="overlay_rivers">
+					</td>
+					<td>
+						<label for="overlay_rivers" class="wxo-lbl-clr">Rivers</label>
+					</td>
+					<td class="check">
+						<input type="checkbox" class="overlay-box" id="overlay_radar_circle" checked>
+					</td>
+					<td>
+						<label for="overlay_radar_circle" class="wxo-lbl-clr">Radar Circles</label>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+			<noscript>
+			<table id="animation-overlays-nojs" class="animation-overlays">
+				<tbody>
+					<tr>
+						<td class="check">
+							<input name="overlay_cities" class="overlay-box" id="overlay_cities" type="checkbox" checked/>
+						</td>
+						<td>
+							<label class="wxo-lbl-clr" for="overlay_cities">Cities</label>
+						</td>
+						<td class="check">
+							<input name="overlay_cities2" class="overlay-box" id="overlay_cities2" type="checkbox"  />
+						</td>
+						<td>
+							<label class="wxo-lbl-clr" for="overlay_cities2">More Cities</label>
+						</td>
+						<td class="check">
+							<input name="overlay_roads" class="overlay-box "id="overlay_roads_ns" type="checkbox"  checked/>
+						</td>
+						<td>
+							<label class="wxo-lbl-clr" for="overlay_roads_ns">Roads</label>
+						</td>
+					</tr>
+					<tr>
+						<td class="check">
+							<input name="overlay_roadnum" class="overlay-box "id="overlay_roadnum" type="checkbox"  />
+						</td>
+						<td>
+							<label class="wxo-lbl-clr" for="overlay_roadnum">Road Numbers</label>
+						</td>
+						<td class="check">
+							<input name="overlay_rivers" class="overlay-box" id="overlay_rivers_ns" type="checkbox"  />
+						</td>
+						<td>
+							<label class="wxo-lbl-clr" for="overlay_rivers_ns">Rivers</label>
+						</td>
+						<td class="check">
+							<input name="overlay_radcirc" class="overlay-box" id="overlay_radcirc" type="checkbox" checked/>
+						</td>
+						<td>
+							<label class="wxo-lbl-clr" for="overlay_radcirc">Radar Circles</label>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="3">
+														<input type="hidden" value="WKR" name="id">
+							<input type="hidden" value="1" name="overlay_form2">
+							<input class="submit" type="submit" title="Submit" value="Submit"/>
+						</td>
+
+					</tr>
+				</tbody>
+			</table>
+			</noscript>
+
+		<!--<ul id="animation-overlays"></ul>-->
+	</div>
+</form>
+		</div>
+				
+
+		<div class="hidden-xs margin-top-medium">
+			<b>Intensity Scale</b>
+			<form action="/radar/index_e.html" method="get">
+				<div class="controller-box ">
+										<input type="hidden" value="WKR" name="id">
+
+					<input id="intensity-detailed" type="radio"  value=1 name="intensity_detailed">
+					<label id="intensity-detailed-label" for="intensity-detailed" class="wxo-lbl-clr">8 colours</label>
+					<input id="intensity-standard" type="radio" checked="checked" value=0 name="intensity_detailed">
+					<label id="intensity-standard-label" for="intensity-standard" class="wxo-lbl-clr">14 colours</label>
+					<noscript><br><input class="submit" type="submit" title="submit-intensity" value="Submit"/></noscript>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="hidden-sm hidden-md hidden-lg">
+		<noscript class="">
+		<div class="col-xs-12" style="padding-left: 35px">
+			<form action="/radar/index_e.html" method="get">
+			<h5>Overlays</h5>
+			<div class="checkbox">
+				<input name="overlay_cities" id="overlay_citiesxs" type="checkbox" checked/>
+				<label class="wxo-lbl-clr" for="overlay_cities">Cities</label>
+			</div>
+						<div class="checkbox">
+				<input name="overlay_cities2" id="overlay_cities2xs" type="checkbox"  />
+				<label class="wxo-lbl-clr" for="overlay_cities2">More Cities</label>
+			</div>
+			<div class="checkbox">
+				<input name="overlay_roads" id="overlay_roads_nsxs" type="checkbox"  checked/>
+				<label class="wxo-lbl-clr" for="overlay_roads_ns">Roads</label>
+			</div>
+			<div class="checkbox">
+				<input name="overlay_roadnum" id="overlay_roadnumxs" type="checkbox"  />
+				<label class="wxo-lbl-clr" for="overlay_roadnum">Road Numbers</label>
+			</div>
+			<div class="checkbox">
+				<input name="overlay_rivers" id="overlay_rivers_nsxs" type="checkbox"  />
+				<label class="wxo-lbl-clr" for="overlay_rivers_ns">Rivers</label>
+			</div>
+			<div class="checkbox">
+				<input name="overlay_radcirc" id="overlay_radcircxs" type="checkbox" checked/>
+				<label class="wxo-lbl-clr" for="overlay_radcirc">Radar Circles</label>
+			</div>
+
+						<input class="submit" type="submit" title="Submit" value="Submit"/>
+						<input type="hidden" value="WKR" name="id">
+			<input type="hidden" value="1" name="overlay_form2">
+			</form>
+			<form action="/radar/index_e.html" method="get">
+			<h5>Intensity Scale</h5>
+			<div class="radio">
+				<input id="intensity-detailedxs" type="radio"  value=1 name="intensity_detailed">
+				<label id="intensity-detailed-labelxs" for="intensity-detailed" >8 colours</label>
+			</div>
+			<div class="radio">
+				<input id="intensity-standardxs" type="radio" checked="checked" value=0 name="intensity_detailed">
+				<label id="intensity-standard-labelxs" for="intensity-standard" >14 colours</label>
+			</div>
+			<input class="submit" type="submit" title="Submit" value="Submit"/>
+						<input type="hidden" value="WKR" name="id">
+
+			</form>
+		</div>
+	</noscript>
+	<details class="no-js-hide hidden-xs">
+		<summary>Overlays</summary>
+		<div class="checkbox">
+			<label><input id="wxo-overlay-cities" type="checkbox" checked/>Cities</label>
+		</div>
+				<div class="checkbox">
+			<label><input id="wxo-overlay-more-cities" type="checkbox"  />More Cities</label>
+		</div>
+		<div class="checkbox">
+			<label><input id="wxo-overlay-roads" type="checkbox" checked />Roads</label>
+		</div>
+		<div class="checkbox">
+			<label><input id="wxo-overlay-road-numbers" type="checkbox"  />Road Numbers</label>
+		</div>
+		<div class="checkbox">
+			<label><input id="wxo-overlay-river" type="checkbox"  />River</label>
+		</div>
+		<div class="checkbox">
+			<label><input id="wxo-overlay-radar-circles" type="checkbox" checked />Radar Circles</label>
+		</div>
+			</details>
+
+	<details class="no-js-hide hidden-xs">
+		<summary>Intensity Scale</summary>
+			<div class="radio "><label><input type="radio"  name="intensity-mob" id="intensity-detailed-mob" />8 Colours</label></div>
+			<div class="radio"><label><input type="radio" checked="checked" name="intensity-mob" id="intensity-standard-mob" />14 Colours</label></div>
+	</details>
+	<details class="no-js-hide hidden-xs">
+		<summary>Time Frame</summary>
+			<div class="radio"><label><input type="radio" checked="checked" name="duration-mob" id="short-mob" value="short" />Short (1 Hour)</label></div>
+			<div class="radio"><label><input type="radio"  name="duration-mob" id="long-mob" value="long"/>Long (3 Hour)</label></div>
+	</details>
+	<div class="clearfix"></div>
+	<details>
+		<summary>Radar - Canada</summary>
+		<ul class="cdn-ul">
+			<li> <a href="index_e.html">Canada</a></li>
+		</ul>
+		<details>
+			<summary>Pacific</summary>
+			<ul>
+				<li class="rad-loc"> <a href="index_e.html?id=PAC">Pacific Region</a></li>
+				<li class="rad-loc"> <a href="index_e.html?id=WUJ">Aldergrove (near Vancouver)</a></li>
+				<li class="rad-loc"> <a href="index_e.html?id=XPG">Prince George</a></li>
+				<li class="rad-loc"> <a href="index_e.html?id=XSS">Silver Star Mountain (near Vernon)</a></li>
+				<li class="rad-loc"> <a href="index_e.html?id=XSI">Victoria</a></li>
+			</ul>
+		</details>
+		<details>
+			<summary>Prairies</summary>
+			<ul>
+				<li class="rad-loc"><a href="index_e.html?id=WRN">Prairies Region</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=CASBE">Bethune (near Regina)</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=WHK">Carvel (near Edmonton)</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=CASFW">Foxwarren (near Brandon)</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=WHN">Jimmy Lake (near Cold Lake)</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=CASRA">Radisson (near Saskatoon)</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=XBU">Schuler (near Medicine Hat)</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=CASSR">Spirit River (near Grande Prairie)</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=XSM">Strathmore (near Calgary)</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=XWL">Woodlands (near Winnipeg)</a></li>
+			</ul>
+		</details>
+		<details>
+			<summary>Ontario</summary>
+			<ul>
+				<li class="rad-loc"><a href="index_e.html?id=ONT">Ontario Region</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=WBI">Britt (near Sudbury)</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=XDR">Dryden</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=CASET">Exeter (near London)</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=XFT">Franktown (near Ottawa)</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=WKR">King City (near Toronto)</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=WGJ">Montreal River (near Sault Ste Marie)</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=CASRF">Smooth Rock Falls (near Timmins)</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=XNI">Superior West (near Thunder Bay)</a></li>
+			</ul>
+		</details>
+		<details>
+			<summary>Quebec</summary>
+			<ul>
+				<li class="rad-loc"><a href="index_e.html?id=QUE">Quebec Region</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=WMB">Lac Castor (near Saguenay)</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=XLA">Landrienne (near Rouyn-Noranda)</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=CASBV">Blainville (near Montr&#233;al)</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=XAM">Val d'Ir&#232;ne (near Mont Joli)</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=WVY">Villeroy (near Trois-Rivi&#232;res)</a></li>
+			</ul>
+		</details>
+		<details>
+			<summary>Atlantic</summary>
+			<ul>
+				<li class="rad-loc"><a href="index_e.html?id=ERN">Atlantic Region</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=XNC">Chipman (near Fredericton)</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=XGO">Halifax</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=WTP">Holyrood (near St. John's)</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=XME">Marble Mountain</a></li>
+				<li class="rad-loc"><a href="index_e.html?id=XMB">Marion Bridge (near Sydney)</a></li>
+			</ul>
+		</details>
+	</details>
+	<details>
+		<summary>Help</summary>
+		<ul>
+			<li class="rad-loc"><a href="https://www.canada.ca/en/environment-climate-change/services/weather-general-tools-resources/radar-overview/about.html" title="About Image">About Image</a></li>
+			<li class="rad-loc"><a href="/radar/how-to-use_e.html" title="How to Use">How to Use</a></li>
+			<li class="rad-loc"><a href="http://climate.weather.gc.ca/radar/index_e.html" title="Historical Images">Historical Images</a></li>
+		</ul>
+	</details>
+</div>
+
+
+<div class="clearfix"></div>
+<div id="links" class="hidden-xs hidden-print">
+	<div class="city-header" id="top-header">
+		<a href="index_e.html">Radar - Canada</a>
+	</div>
+	<div class="city-container" id="container5">
+	<div class="city-container" id="container4">
+	<div class="city-container" id="container3">
+	<div class="city-container" id="container2">
+	<div class="city-container" id="container1">
+		<div class="city-col" id="col1">
+		<div class="city-header" id="bold"><a href="index_e.html?id=PAC">Pacific</a></div>
+			<ul>
+				<li><a href="index_e.html?id=WUJ">Aldergrove<br/>(near Vancouver)</a></li>
+				<li><a href="index_e.html?id=XPG">Prince George</a></li>
+				<li><a href="index_e.html?id=XSS">Silver Star Mountain<br/>(near Vernon)</a></li>
+				<li><a href="index_e.html?id=XSI">Victoria</a></li>
+			</ul>
+		</div>
+		<div class="city-col" id="col2">
+		<div class="city-header"><a href="index_e.html?id=WRN">Prairies</a></div>
+			<ul>
+				<li><a href="index_e.html?id=CASBE">Bethune<br/>(near Regina)</a></li>
+				<li><a href="index_e.html?id=WHK">Carvel<br/>(near Edmonton)</a></li>
+				<li><a href="index_e.html?id=CASFW">Foxwarren<br/>(near Brandon)</a></li>
+				<li><a href="index_e.html?id=WHN">Jimmy Lake<br/>(near Cold Lake)</a></li>
+				<li><a href="index_e.html?id=CASRA">Radisson<br/>(near Saskatoon)</a></li>
+				<li><a href="index_e.html?id=XBU">Schuler<br/>(near Medicine Hat)</a></li>
+				<li><a href="index_e.html?id=CASSR">Spirit River<br/>(near Grande Prairie)</a></li>
+				<li><a href="index_e.html?id=XSM">Strathmore<br/>(near Calgary)</a></li>
+				<li><a href="index_e.html?id=XWL">Woodlands<br/>(near Winnipeg)</a></li>
+
+			</ul>
+		</div>
+		<div class="city-col" id="col3">
+		<div class="city-header"><a href="index_e.html?id=ONT">Ontario</a></div>
+			<ul>
+				<li><a href="index_e.html?id=WBI">Britt<br/>(near Sudbury)</a></li>
+				<li><a href="index_e.html?id=XDR">Dryden</a></li>
+				<li><a href="index_e.html?id=CASET">Exeter<br/>(near London)</a></li>
+				<li><a href="index_e.html?id=XFT">Franktown<br/>(near Ottawa)</a></li>
+				<li><a href="index_e.html?id=WKR">King City<br/>(near Toronto)</a></li>
+				<li><a href="index_e.html?id=WGJ">Montreal River<br/>(near Sault Ste Marie)</a></li>
+				<li><a href="index_e.html?id=CASRF">Smooth Rock Falls<br/>(near Timmins)</a></li>
+				<li><a href="index_e.html?id=XNI">Superior West<br/>(near Thunder Bay)</a></li>
+			</ul>
+		</div>
+		<div class="city-col" id="col4">
+		<div class="city-header"><a href="index_e.html?id=QUE">Quebec</a></div>
+			<ul>
+				<li><a href="index_e.html?id=WMB">Lac Castor<br/>(near Saguenay)</a></li>
+				<li><a href="index_e.html?id=XLA">Landrienne<br/>(near Rouyn-Noranda)</a></li>
+				<li><a href="index_e.html?id=CASBV">Blainville<br/>(near Montr&#233;al)</a></li>
+				<li><a href="index_e.html?id=XAM">Val d'Ir&#232;ne<br/>(near Mont Joli)</a></li>
+				<li><a href="index_e.html?id=WVY">Villeroy<br/>(near Trois-Rivi&#232;res)</a></li>
+			</ul>
+		</div>
+		<div class="city-col" id="col5">
+		<div class="city-header"><a href="index_e.html?id=ERN">Atlantic</a></div>
+			<ul>
+				<li><a href="index_e.html?id=XNC">Chipman<br/>(near Fredericton)</a></li>
+				<li><a href="index_e.html?id=XGO">Halifax</a></li>
+				<li><a href="index_e.html?id=WTP">Holyrood<br/>(near St. John's)</a></li>
+				<li><a href="index_e.html?id=XME">Marble Mountain</a></li>
+				<li><a href="index_e.html?id=XMB">Marion Bridge<br/>(near Sydney)</a></li>
+			</ul>
+		</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	<div class="city-footer" id="top-footer">
+		<ul class="arrowedList">
+			<li><a href="https://www.canada.ca/en/environment-climate-change/services/weather-general-tools-resources/radar-overview/about.html" title="About Image">About Image</a></li>
+			<li><a href="/radar/how-to-use_e.html" title="How to Use">How to Use</a></li>
+			<li><a href="http://climate.weather.gc.ca/radar/index_e.html" title="Historical Images">Historical Images</a></li>
+		</ul>
+	</div>
+</div>
+<div class="clearfix"></div>
+
+</section>
+
+<section id="favourites-panel" class="wb-overlay modal-content overlay-def wb-panel-r">
+   <header class="modal-header">
+      <h2 class="modal-title">Weather shortcuts</h2>
+   </header>
+   <div class="modal-body">
+      <div id="favourites-div-addorg">
+         <button type="button" id="favourites-btn-add" class="btn btn-sm btn-default pull-left" tabindex="9">Add to<br class="visible-xs"> shortcuts</button>
+         <button type="button" id="favourites-btn-organize" class="btn btn-sm btn-default pull-right" tabindex="9">Organize<br class="visible-xs"> shortcuts</button>
+         <div class="clearfix"></div>
+         <br />
+      </div>
+      <section id="favourites-div-panel">
+         <header id="favourites-div-heading" class="panel-heading hidden">
+            <h5 class="panel-title">Organize Shortcuts</h5>
+         </header>
+         <div id="favourites-div-body">
+            <div class="clearfix"></div>
+            <p id="favourites-txt-description" class="small text-center hidden">Select to drag and drop, rename or delete.</p>
+            <div class="clearfix"></div>
+            <h4 id="favourites-txt-none" class="hidden text-center">No shortcuts</h4>
+            <div class="clearfix"></div>
+            <ul id="favourites-list">
+               <li data-href="https://www.canada.ca/en/environment-climate-change/services/report-severe-weather/overview.html"><a href="https://www.canada.ca/en/environment-climate-change/services/report-severe-weather/overview.html">Report Severe Weather</a></li>
+               <li data-href="/canada_e.html"><a href="/canada_e.html" tabindex="9">Canadian Weather</a></li>
+               <li data-href="/radar/index_e.html"><a href="/radar/index_e.html" tabindex="9">Weather Radar - Canada</a></li>
+               <li data-href="/satellite/index_e.html"><a href="/satellite/index_e.html" tabindex="9">Satellite - Canada</a></li>
+               <li data-href="/marine/index_e.html"><a href="/marine/index_e.html" tabindex="9">Marine - Canada</a></li>
+               <li data-href="/mainmenu/airquality_menu_e.html"><a href="/mainmenu/airquality_menu_e.html" tabindex="9">Air Quality</a></li>
+               <li data-href="https://www.canada.ca/en/environment-climate-change/services/ice-forecasts-observations/latest-conditions.html"><a href="https://www.canada.ca/en/environment-climate-change/services/ice-forecasts-observations/latest-conditions.html" tabindex="9">Canadian Ice Service</a></li>
+               <li data-href="/saisons/index_e.html"><a href="/saisons/index_e.html" tabindex="9">Seasonal forecasts</a></li>
+               <li data-href="/forecast/public_bulletins_e.html"><a href="/forecast/public_bulletins_e.html" tabindex="9">Extended forecast</a></li>
+               <li data-href="/warnings/index_e.html"><a href="/warnings/index_e.html" tabindex="9">Public Alerts - Canada</a></li>
+               <li data-href="/lightning/index_e.html"><a href="/lightning/index_e.html" tabindex="9">Lightning</a></li>
+               <li data-href="/hurricane/index_e.html"><a href="/hurricane/index_e.html" tabindex="9">Hurricane</a></li>
+               <li data-href="/warnings/weathersummaries_e.html"><a href="/warnings/weathersummaries_e.html" tabindex="9">Weather Summaries</a></li>
+               <li data-href="https://www.canada.ca/en/environment-climate-change/services/seasonal-weather-hazards.html"><a href="https://www.canada.ca/en/environment-climate-change/services/seasonal-weather-hazards.html" tabindex="9">Hazardous Weather</a></li>
+               <li data-href="/model_forecast/model_e.html"><a href="/model_forecast/model_e.html" tabindex="9">Global and Regional forecast models</a></li>
+               <li data-href="/astro/index_e.html"><a href="/astro/index_e.html" tabindex="9">Astronomy</a></li>
+               <li data-href="https://www.canada.ca/en/environment-climate-change/services/water-overview/quantity/monitoring/survey.html"><a href="https://www.canada.ca/en/environment-climate-change/services/water-overview/quantity/monitoring/survey.html" tabindex="9">Water Level and Flow</a></li>
+               <li data-href="http://climate.weather.gc.ca/index_e.html"><a href="http://climate.weather.gc.ca/index_e.html" tabindex="9">Historical Climate Data</a></li>
+               <li data-href="https://flightplanning.navcanada.ca/cgi-bin/CreePage.pl?Langue=anglais&amp;NoSession=NS_Inconnu&amp;Page=forecast-observation&amp;TypeDoc=html"><a href="https://flightplanning.navcanada.ca/cgi-bin/CreePage.pl?Langue=anglais&amp;NoSession=NS_Inconnu&amp;Page=forecast-observation&amp;TypeDoc=html" tabindex="9">Aviation</a></li>
+               <li data-href="https://www.canada.ca/en/environment-climate-change/services/types-weather-forecasts-use/public/guide.html"><a href="https://www.canada.ca/en/environment-climate-change/services/types-weather-forecasts-use/public/guide.html" tabindex="9">Guide to Public forecasts</a></li>
+               <li data-href="https://www.canada.ca/en/environment-climate-change/services/general-marine-weather-information/publications/guide-forecasts.html"><a href="https://www.canada.ca/en/environment-climate-change/services/general-marine-weather-information/publications/guide-forecasts.html" tabindex="9">Guide to Marine forecasts</a></li>
+               <li data-href="https://www.canada.ca/en/environment-climate-change/services/weather-health/publications/guide-air-quality-index-forecasts.html"><a href="https://www.canada.ca/en/environment-climate-change/services/weather-health/publications/guide-air-quality-index-forecasts.html" tabindex="9">Guide to Air Quality forecasts</a></li>
+		<li data-href="https://climate-change.canada.ca/climate-library"><a href="https://climate-change.canada.ca/climate-library" tabindex="9">Canadian Centre for Climate Services Library</a></li>	 
+		<li data-href="/windchill/wind_chill_e.html"><a href="/windchill/wind_chill_e.html" tabindex="9">Wind Chill and Humidex Calculators</a></li>
+		<li data-href="https://www.canada.ca/en/environment-climate-change/services/weather-health.html"><a href="https://www.canada.ca/en/environment-climate-change/services/weather-health.html" tabindex="9">Weather and your health</a></li>
+           </ul>
+ <div id="favourites-add" class="hidden">
+               <div class="panel panel-default">
+                  <div class="panel-body favourites-body">
+                     <div>
+                        <span class="glyphicon glyphicon-star float-left" aria-hidden="true"></span>
+                        <h6>&#160;Add this page</h6>
+                     </div>
+                     <div class="clearfix"></div>
+                     <div class="favourites-add-body">
+                        <label class="float-left">Name</label>
+                        <input type="text" id="favourites-text-name" class="favourites-add-text" maxlength="50" tabindex="9" />
+                     </div>
+                     <div class="clearfix"></div>
+                     <button type="button" id="favourites-btn-save" class="btn btn-sm btn-default pull-left" tabindex="9">Save</button>
+                     <button type="button" id="favourites-btn-cancel" class="btn btn-sm btn-default pull-right" tabindex="9">Cancel</button>
+                  </div>
+               </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+               <button type="button" id="favourites-btn-rename" class="btn btn-sm btn-default hidden" disabled="disabled" tabindex="9">Rename</button>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+               <button type="button" id="favourites-btn-delete" class="btn btn-sm btn-danger hidden" disabled="disabled" tabindex="9">Delete</button>
+            </div>
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+               <button type="button" id="favourites-btn-close" class="btn btn-sm btn-default hidden" tabindex="9">Close</button>
+            </div>
+            <div id="favourites-dlg-samename" class="popup-modal">
+               <div class="popup-modal-div">
+                  <div class="popup-modal-header">
+                     <span class="popup-modal-close pull-right" tabindex="8">&#xd7;</span>
+                     <h5 class="popup-modal-header-text" tabindex="8">Add to shortcuts</h5>
+                     <div class="clearfix"></div>
+                  </div>
+                  <div class="popup-modal-content">
+                     <p tabindex="8">The name you have entered for the shortcut already exists on your Weather shortcuts menu. Would you like to overwrite it?</p>
+                     <button type="button" class="button-yes btn btn-sm btn-default" tabindex="8">Yes</button>
+                     <button type="button" class="button-no btn btn-sm btn-default pull-right" tabindex="8">No</button>
+                  </div>
+               </div>
+            </div>
+            <div id="favourites-dlg-renamematch" class="popup-modal">
+               <div class="popup-modal-div">
+                  <div class="popup-modal-header">
+                     <span class="popup-modal-close pull-right" tabindex="8">&#xd7;</span>
+                     <h5 class="popup-modal-header-text" tabindex="8">Rename shortcut</h5>
+                     <div class="clearfix"></div>
+                  </div>
+                  <div class="popup-modal-content">
+                     <p tabindex="8">There is already a shortcut with the same name in this list. Do you want to rename &#34;<span id="replace-text1">link</span>&#34; to &#34;<span id="replace-text2">link(2)</span>&#34;?</p>
+                     <button type="button" class="button-yes btn btn-sm btn-default" tabindex="8">Yes</button>
+                     <button type="button" class="button-no btn btn-sm btn-default pull-right" tabindex="8">No</button>
+                  </div>
+               </div>
+            </div>
+            <div id="favourites-dlg-maxreached" class="popup-modal">
+               <div class="popup-modal-div">
+                  <div class="popup-modal-header">
+                     <span class="popup-modal-close pull-right" tabindex="8">&#xd7;</span>
+                     <h5 class="popup-modal-header-text" tabindex="8">Add to shortcuts</h5>
+                     <div class="clearfix"></div>
+                  </div>
+                  <div class="popup-modal-content">
+                     <p tabindex="8">Your shortcut list has reached the maximum size of 30</p>
+                     <button type="button" class="button-close btn btn-sm btn-default" tabindex="8">Close</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+
+  <section class="panel panel-primary ">
+         <header class="panel-heading">
+            <h5 class="panel-title" tabindex="9">How to use</h5>
+         </header>
+         <div class="panel-body">
+            <div class="mwsbodytext parbase section text">
+               <ul class="list-unstyled">
+                  <li>
+                     <details>
+                        <summary tabindex="9">Add to shortcuts</summary>
+                        <ul class="mrgn-lft-0">
+                           <li class="mrgn-bttm-md">Go to the desired page on the site, open the Weather shortcuts menu and click on the "Add to shortcuts" button</li>
+                           <li class="mrgn-bttm-md">Page name will display in the "Add this page" window, the name can be changed by highlighting the text and entering the desired name. </li>
+                           <li class="mrgn-bttm-md">Click on the "Save" button to add the link to the list</li>
+                           <li class="mrgn-bttm-md">Click on the "X" button to close the panel</li>
+                        </ul>
+                     </details>
+                  </li>
+                  <li>
+                     <details>
+                        <summary tabindex="9">Delete a link</summary>
+                        <ul class="mrgn-lft-0">
+                           <li class="mrgn-bttm-md">Click on the "Organize shortcuts" button</li>
+                           <li class="mrgn-bttm-md">Select the link to delete</li>
+                           <li class="mrgn-bttm-md">Click on the "Delete" button to remove the link from the list</li>
+                           <li class="mrgn-bttm-md">Click on the "Close" button to save the change</li>
+                        </ul>
+                     </details>
+                  </li>
+                  <li>
+                     <details>
+                        <summary tabindex="9">Move a link up/down the list</summary>
+                        <ul class="mrgn-lft-0">
+                           <li class="mrgn-bttm-md">Click on the "Organize shortcuts" button</li>
+                           <li class="mrgn-bttm-md">Click and hold the link and move to new location in the list</li>
+                           <li class="mrgn-bttm-md">Click on the "Close" button to save the change</li>
+                        </ul>
+                      </details>
+                  </li>
+                  <li>
+                     <details>
+                        <summary tabindex="9">Rename a link</summary>
+                        <ul class="mrgn-lft-0">
+                           <li class="mrgn-bttm-md">Click on the "Organize shortcuts" button</li>
+                           <li class="mrgn-bttm-md">Select the link to rename</li>
+                           <li class="mrgn-bttm-md">Click on the "Rename" button and change the link name</li>
+                           <li class="mrgn-bttm-md">Click the enter or tab key</li>
+                           <li class="mrgn-bttm-md">Click on the "Close" button to save the change</li>
+                        </ul>
+                     </details>
+                  </li>
+                  <li>
+                     <details>
+                        <summary tabindex="9">Keyboard navigation</summary>
+                        <ul class="mrgn-lft-0">
+                           <li class="mrgn-bttm-md">Use the <kbd>Tab</kbd> key to move to a button or link</li>
+                           <li class="mrgn-bttm-md">Use the <kbd>Enter</kbd> key to click on buttons or links</li>
+                           <li class="mrgn-bttm-md">Organize shortcuts navigation
+                              <ul class="mrgn-lft-0">
+                                 <li class="mrgn-bttm-md">Use the <kbd><abbr title="Up Arrow">&#x2191;</abbr></kbd> Up key to select the link above. If none are selected, it will select the first link</li>
+                                 <li class="mrgn-bttm-md">Use the <kbd><abbr title="Down Arrow">&#x2193;</abbr></kbd> Down key to select the link below. If none are selected, it will select the last link</li>
+                                 <li class="mrgn-bttm-md">Use the <kbd>Page Up</kbd> key to move a selection up in the list</li>
+                                 <li class="mrgn-bttm-md">Use the <kbd>Page Down</kbd> key to move a selection down in the list</li>
+                              </ul>
+                           </li>
+                        </ul>
+                    </details>
+                  </li>
+                  <li>
+                     <details>
+                        <summary tabindex="9">Restore default list</summary>
+                        <div class="alert alert-warning">
+                          <p><strong>Warning:</strong> Clicking on the button below will remove all your customized links.</p>
+                        </div>
+                        <button type="button" id="favourites-btn-reset" class="btn btn-sm btn-default center-block" tabindex="9">Restore default links</button>
+                    </details>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </section>
+   </div>
+</section>
+<section class="hidden-print"  id="weather-topics">
+   <h2 class="wb-inv">What we are doing</h2>
+    <div class="row wb-eqht">
+      <section class="col-lg-4 col-md-6">
+         <h3 class="wxo-footer-nav">Weather Forecasts</h3>
+         <ul class="mrgn-bttm-lg lst-spcd">
+            <li><a href="/canada_e.html">Canadian Weather</a></li>
+            <li><a href="/radar/index_e.html">Weather Radar - Canada</a></li>
+            <li><a href="/satellite/index_e.html">Satellite - Canada</a></li>
+            <li><a href="/marine/index_e.html">Marine - Canada</a></li>
+            <li><a href="/mainmenu/airquality_menu_e.html">Air Quality</a></li>
+            <li><a href="https://www.canada.ca/en/environment-climate-change/services/ice-forecasts-observations/latest-conditions.html">Canadian Ice Service</a></li>
+            <li><a href="/saisons/index_e.html">Seasonal forecasts</a></li>
+            <li><a href="/forecast/public_bulletins_e.html">Extended forecast</a></li>
+         </ul>
+      </section>
+      <section class="col-lg-4 col-md-6">
+      <h3 class="wxo-footer-nav">Weather Alerts</h3>
+      <ul class="mrgn-bttm-lg lst-spcd">
+            <li><a href="/warnings/index_e.html">Public Alerts - Canada</a></li>
+            <li><a href="/lightning/index_e.html">Lightning</a></li>
+            <li><a href="/hurricane/index_e.html">Hurricane</a></li>
+            <li><a href="/warnings/weathersummaries_e.html">Weather Summaries</a></li>
+            <li><a href="https://www.canada.ca/en/environment-climate-change/services/seasonal-weather-hazards.html">Hazardous Weather</a></li>
+	    <li><a href="https://www.canada.ca/en/environment-climate-change/services/weather-health.html">Weather and your health</a></li>	
+      </ul>
+      </section>
+     <section class="col-lg-4 col-md-6">
+     <h3 class="wxo-footer-nav">Weather Resources</h3>
+      <ul class="mrgn-bttm-lg lst-spcd">
+            <li><a href="/model_forecast/model_e.html">Global and Regional forecast models</a></li>
+            <li><a href="/astro/index_e.html">Astronomy</a></li>
+            <li><a href="https://www.canada.ca/en/environment-climate-change/services/water-overview/quantity/monitoring/survey.html">Water Level and Flow</a></li>
+            <li><a href="http://climate.weather.gc.ca/index_e.html">Historical Climate Data</a></li>
+            <li><a href="https://flightplanning.navcanada.ca/cgi-bin/CreePage.pl?Langue=anglais&amp;NoSession=NS_Inconnu&amp;Page=forecast-observation&amp;TypeDoc=html">Aviation</a></li>
+            <li><a href="https://www.canada.ca/en/environment-climate-change/services/types-weather-forecasts-use/public/guide.html">Guide to Public forecasts</a></li>
+            <li><a href="https://www.canada.ca/en/environment-climate-change/services/general-marine-weather-information/publications/guide-forecasts.html">Guide to Marine forecasts</a></li>
+            <li><a href="https://www.canada.ca/en/environment-climate-change/services/weather-health/publications/guide-air-quality-index-forecasts.html">Guide to Air Quality forecasts</a></li>
+            <li><a href="https://climate-change.canada.ca/climate-library">Canadian Centre for Climate Services Library</a></li>
+            <li><a href="/windchill/wind_chill_e.html">Wind Chill and Humidex Calculators</a></li>
+      </ul>
+      </section>
+   </div>
+</section>
+<div class="pagedetails">
+   <div class="row">
+      <div class="col-sm-6 col-md-5 col-lg-4">
+         <a href="/mainmenu/contact_us_e.html" class="btn btn-default btn-block"><span class="glyphicon glyphicon-comment mrgn-rght-sm"></span>Feedback<span class="wb-inv"> about this web site</span></a></div>
+      <div class="wb-share col-sm-4 col-md-3 col-sm-offset-2 col-md-offset-4 col-lg-offset-5" data-wb-share='{"lnkClass": "btn btn-default btn-block"}'></div>
+   </div>
+<dl id="wb-dtmd">
+<dt>Date modified:&#32;</dt>
+<dd><time property="dateModified">2019-09-10</time></dd>
+</dl>
+</div>
+</main>
+<footer id="wb-info">
+<div class="landscape">
+<nav class="container wb-navcurr">
+<h2 class="wb-inv">About government</h2>
+<ul class="list-unstyled colcount-sm-2 colcount-md-3">
+<li><a href="/mainmenu/contact_us_e.html">Contact us</a></li>
+<li><a href="https://www.canada.ca/en/government/dept.html">Departments and agencies</a></li>
+<li><a href="https://www.canada.ca/en/government/publicservice.html">Public service and military</a></li>
+<li><a href="https://www.canada.ca/en/news.html">News</a></li>
+<li><a href="https://www.canada.ca/en/government/system/laws.html">Treaties, laws and regulations</a></li>
+<li><a href="https://www.canada.ca/en/transparency/reporting.html">Government-wide reporting</a></li>
+<li><a href="https://pm.gc.ca/eng">Prime Minister</a></li>
+<li><a href="https://www.canada.ca/en/government/system.html">How government works</a></li>
+<li><a href="https://open.canada.ca/en/">Open government</a></li>
+</ul>
+</nav>
+</div>
+<div class="brand">
+<div class="container">
+<div class="row">
+<nav class="col-md-9 col-lg-10 ftr-urlt-lnk">
+<h2 class="wb-inv">About this site</h2>
+<ul>
+<li><a href="https://www.canada.ca/en/social.html">Social media</a></li>
+<li><a href="https://www.canada.ca/en/mobile.html">Mobile applications</a></li>
+<li><a href="https://www.canada.ca/en/government/about.html">About Canada.ca</a></li>
+<li><a href="https://www.canada.ca/en/transparency/terms.html">Terms and conditions</a></li>
+<li><a href="https://www.canada.ca/en/transparency/privacy.html">Privacy</a></li>
+</ul>
+</nav>
+<div class="col-xs-6 visible-sm visible-xs tofpg">
+<a href="#wb-cont">Top of Page <span class="glyphicon glyphicon-chevron-up"></span></a>
+</div>
+<div class="col-xs-6 col-md-3 col-lg-2 text-right">
+<img src="/template/gcweb/v5.0.1/assets/wmms-blk.svg" alt="Symbol of the Government of Canada">
+</div>
+</div>
+</div>
+</div>
+</footer>
+<!--[if gte IE 9 | !IE ]><!-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
+<script src="/template/gcweb/v5.0.1/js/wet-boew.min.js"></script>
+<!--<![endif]-->
+<!--[if lt IE 9]>
+<script src="/template/gcweb/v5.0.1/js/ie8-wet-boew2.min.js"></script>
+
+<![endif]-->
+<script src="/template/gcweb/v5.0.1/js/theme.min.js"></script>
+
+
+<script src="/v173/js/city/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="/v173/js/city/availableTags_e.min.js"></script>
+<script src="/v173/js/city/cityjump.js"></script>
+<script>
+    document.getElementById("jump").className = "";
+    var max_chars = 50;
+
+    $('#city').keydown( function(e){
+        if ($(this).val().length > max_chars) {
+            $(this).val($(this).val().substr(0, max_chars));
+        }
+    });
+
+    $('#city').keyup( function(e){
+        if ($(this).val().length > max_chars) {
+            $(this).val($(this).val().substr(0, max_chars));
+        }
+    });
+</script>
+<script src="/template/gcweb/v5.0.1/js/deps/jquery.dataTables.min.js"></script>
+<script src="/v173/js/city/jquery.h5validate.js"></script>
+<script src="/v173/js/myprofile/mwpa-1.0.min.js"></script>
+<script src="/v173/js/myprofile/alerts-1.0.min.js"></script>
+<script src="/v173/js/myprofile/refresher-1.0.min.js"></script>
+<script src="/v173/js/shared-js/sortable-1.7.min.js"></script>
+<script src="/v173/js/myprofile/jquery.query-object.js"></script>
+<script src="/v173/js/shared-js/modals-1.0.min.js"></script>
+<script src="/v173/js/favourites/favourites-1.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('form').h5Validate({
+            errorClass:'white'
+        });
+    });
+</script>
+
+<script src="/v173/js/radar/init.js"></script>
+<script src="/v173/js/responsive/jquery.rwdImageMaps.js"></script>
+<script src="/v173/js/radar/cities_overlay.js"></script>
+<script src="/v173/js/radar/intensity_scale_local.js"></script>
+<script src="/v173/js/radar/cookie_manager.js"></script>
+<script src="/v173/js/radar/xmlhttpifr.js"></script>
+<script src="/v173/js/radar/radar_controller.js"></script>
+<script src="/v173/js/radar/Animator.js"></script>
+<script>
+	var loaded = 0;
+	$(document).ready(function(e) {
+		window.animator = new Animator("WKR",{"regionName":"King City","displayProduct":true,"image":{"width":"580px","height":"480px"},"overlay":{"height":"480px"},"products":{"active":"PRECIP_RAIN"},"durations":{"active":"short"},"timezone":{"id":"Canada\/Eastern","title":"","offset":""},"settings":"final"});
+
+		$('[name=duration]').click(function(){
+			var val = this.id + "-mob";
+			$("#" + val).prop('checked', true);
+		});
+		addCityOverlay();
+		resizeComponents();
+	});
+
+	$(window).resize(function(){
+		resizeComponents();
+	});
+
+	$('img#animation-image').load( function() {
+		if (!loaded){
+			$('img[usemap]').rwdImageMaps();
+			loaded = 1;
+		}
+		resizeComponents();
+	});
+</script>
+<div class="device-xs visible-xs"></div>
+<div class="device-sm visible-sm"></div>
+<div class="device-md visible-md"></div>
+<div class="device-lg visible-lg"></div>
+	</body>
+</html>

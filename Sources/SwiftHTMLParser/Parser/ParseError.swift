@@ -12,10 +12,13 @@ enum ParseError: Error {
     case tagNameNotFound
     case invalidTag
     case openingTagNotFound
-    case closingTagNotFound
+    case canNotFindClosingTagWithoutAnyOpenedTags
+    case closingTagNotFound(String)
     case attributeNotFound
-    case closingTagNameDoesNotMatchOpeningTagName
+    case closingTagNameDoesNotMatchOpeningTagName(erroredTag: Tag)
     case endOfFileReachedBeforeClosingTagFound
     case endOfFileReachedBeforeScriptClosingTagFound
     case endOfFileReachedBeforeCommentCloseFound
+    case endOfFileReachedBeforeCDATACloseFound
+    case invalidCDATA
 }

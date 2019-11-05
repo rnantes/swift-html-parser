@@ -13,6 +13,13 @@ enum TagParserState {
     case withinSingleQuotes
 }
 
+enum TagOpeningType {
+    case element
+    case CDATA
+    case declaration
+    case comment
+}
+
 struct TagSpecificCharacters {
     // characters
     let tagOpeningCharacter: Character = "<"
@@ -23,86 +30,99 @@ struct TagSpecificCharacters {
     let equalSign: Character = "="
 
     // strings
+    let declarationOpening = "<!"
     let commentOpening = "<!--"
     let commentClosing = "-->"
     let conditionalCommentOpening = "<!--[if"
     let conditionalCommentClosing = "<![endif]-->"
+    let CDATAOpening = "<![CDATA["
+    let CDATAClosing = "]]>"
+
+    // array
+
 }
 
 struct TagParser {
     fileprivate let commentParser = CommentParser()
+    fileprivate let cdataParser = CDATAParser()
     fileprivate let lookaheadValidator = LookaheadValidator()
     fileprivate let specificCharacters = TagSpecificCharacters()
+    fileprivate let isPoorlyFormattedCommentsAllowed: Bool = true
 
-    func getNextTag(source: String, currentIndex: String.Index) throws -> (innerTextBlocks: [TextBlock], comments: [Comment], nodeOrder: [NodeType], tag: Tag?) {
+    func getNextTag(source: String, currentIndex: String.Index) throws -> (childNodes: [Node], tag: Tag?) {
         var isTagOpened = false
         var localCurrentIndex = currentIndex
-        var tagStartIndex: String.Index? = nil
+        var tagStartIndex: String.Index?
 
-        var nodeOrder = [NodeType]()
-        var comments = [Comment]()
-        var innerTextBlocks = [TextBlock]()
-
+        var childNodes = [Node]()
         var parseState = TagParserState.notWithinQuotesOrComment
 
-        // iterate through indices before end of string
-        while isAtEndOfString(index: localCurrentIndex, endIndex: source.endIndex) == false {
+        // iterate through string indices until tag is found or end of string
+        while source.encompassesIndex(localCurrentIndex) {
+
             if isTagOpened == false {
-                switch parseState {
-                case .notWithinQuotesOrComment:
-                    if source[localCurrentIndex] == specificCharacters.tagOpeningCharacter {
-                        // found tag or comment opening
+                if parseState == .notWithinQuotesOrComment {
+                    if let tagOpeningType = resolveTagOpeningType(source: source, index:
+                        localCurrentIndex) {
 
                         // set inner text block
                         if (currentIndex != localCurrentIndex) {
                             var textBlockStartIndex = currentIndex
-                            if let lastComment = comments.last {
-                                textBlockStartIndex = source.index(lastComment.endIndex, offsetBy: 1)
+
+                            // changed
+                            if let lastChildNode = childNodes.last {
+                                textBlockStartIndex = source.index(lastChildNode.endIndex, offsetBy: 1)
                             }
+
                             let textBlockEndIndex = source.index(localCurrentIndex, offsetBy: -1)
 
                             // if tags or comments are right beside each other dont add text block i.e </tag><!--- a comment -->
                             if textBlockStartIndex <= textBlockEndIndex {
                                 let textBlockText = String(source[textBlockStartIndex...textBlockEndIndex])
-                                let innerTextBlock = TextBlock.init(startIndex: textBlockStartIndex,
-                                                                    endIndex: textBlockEndIndex,
-                                                                    text: textBlockText)
-                                innerTextBlocks.append(innerTextBlock)
-                                nodeOrder.append(.text)
+                                if (textBlockText.isEmptyOrWhitespace() == false) {
+                                    let innerTextBlock = TextNode.init(startIndex: textBlockStartIndex,
+                                                                       endIndex: textBlockEndIndex,
+                                                                       text: textBlockText)
+                                    childNodes.append(innerTextBlock)
+                                }
                             }
                         }
 
-                        // check if it is a comment
-                        if lookaheadValidator.isValidLookahead(for: source, atIndex: localCurrentIndex, checkFor: specificCharacters.conditionalCommentOpening) {
-                            // is a conditional comment
+                        switch tagOpeningType {
+                        case .element:
+                            isTagOpened = true
+                            tagStartIndex = localCurrentIndex
+                        case .comment:
                             do {
-                                let comment = try commentParser.parseConditionalComment(source: source, currentIndex: localCurrentIndex)
+                                let comment = try commentParser.parseComment(source: source,
+                                                                             currentIndex: localCurrentIndex,
+                                                                             commentType: .comment)
                                 localCurrentIndex = comment.endIndex
-                                nodeOrder.append(.comment)
-                                comments.append(comment)
-                            } catch {
-                                throw error
-                            }
-                        } else if lookaheadValidator.isValidLookahead(for: source, atIndex: localCurrentIndex,
-                                                               checkFor: specificCharacters.commentOpening){
-                            // is a comment
-                            do {
-                                let comment = try commentParser.parseComment(source: source, currentIndex: localCurrentIndex)
-                                localCurrentIndex = comment.endIndex
-                                nodeOrder.append(.comment)
-                                comments.append(comment)
+                                childNodes.append(comment)
                             } catch {
                                 throw ParseError.endOfFileReachedBeforeCommentCloseFound
                             }
-                        } else {
-                            // tag is opened
-                            isTagOpened = true
-                            tagStartIndex = localCurrentIndex
+                        case .declaration:
+                            do {
+                                let comment = try commentParser.parseComment(source: source,
+                                                                             currentIndex: localCurrentIndex,
+                                                                             commentType: .declaration)
+                                localCurrentIndex = comment.endIndex
+                                childNodes.append(comment)
+                            } catch {
+                                throw ParseError.endOfFileReachedBeforeCommentCloseFound
+                            }
+                        case .CDATA:
+                            // is CDATA
+                            do {
+                                let cdata = try cdataParser.parse(source: source, currentIndex: localCurrentIndex)
+                                localCurrentIndex = cdata.endIndex
+                                childNodes.append(cdata)
+                            } catch {
+                                throw ParseError.endOfFileReachedBeforeCommentCloseFound
+                            }
                         }
                     }
-                default:
-                    // do nothing
-                    break;
                 }
             } else {
                 switch parseState {
@@ -111,15 +131,12 @@ struct TagParser {
                         // tag is closed
                         do {
                             let tag = try foundTag(source: source, tagStartIndex: tagStartIndex!, tagEndIndex: localCurrentIndex)
-                            if tag.isClosingTag == false {
-                                nodeOrder.append(.element)
-                            }
-                            return (innerTextBlocks, comments, nodeOrder, tag)
+                            return (childNodes, tag)
                         } catch {
                             throw error
                         }
                     }
-                    if source[localCurrentIndex] == specificCharacters.doubleQuote  {
+                    if source[localCurrentIndex] == specificCharacters.doubleQuote {
                         parseState = .withinDoubleQuotes
                     } else if source[localCurrentIndex] == specificCharacters.singleQuote {
                         parseState = .withinSingleQuotes
@@ -137,20 +154,34 @@ struct TagParser {
 
             // increment localCurrentIndex
             localCurrentIndex = source.index(localCurrentIndex, offsetBy: 1)
+
+//            if source.encompassesIndex(localCurrentIndex) {
+//                print("localCurrentIndex: \(localCurrentIndex)")
+//                print(source[localCurrentIndex])
+//            }
         }
 
         // a tag not found before end of file reached
-        return (innerTextBlocks, comments, nodeOrder, nil)
+        return (childNodes, nil)
     }
 
-    func isAtEndOfString(index: String.Index, endIndex: String.Index) -> Bool {
-        if (index < endIndex) {
-            return false
+    func resolveTagOpeningType(source: String, index: String.Index) -> TagOpeningType? {
+        if source[index] == specificCharacters.tagOpeningCharacter {
+            if lookaheadValidator.isValidLookahead(for: source, atIndex: index, checkFor: specificCharacters.declarationOpening) {
+                // check if comment opening
+                if lookaheadValidator.isValidLookahead(for: source, atIndex: index, checkFor: specificCharacters.commentOpening) {
+                    return TagOpeningType.comment
+                } else if lookaheadValidator.isValidLookahead(for: source, atIndex: index, checkFor: specificCharacters.CDATAOpening) {
+                    return TagOpeningType.CDATA
+                }
+                return TagOpeningType.declaration
+            }
+            return TagOpeningType.element
         }
-
-        return true
+        return nil
     }
 
+    /// produces a `tag` from the found tag text, parsing attributes etc
     func foundTag(source: String, tagStartIndex: String.Index, tagEndIndex: String.Index) throws -> Tag {
         // create tagText string from indexes
         let tagText = String(source[tagStartIndex...tagEndIndex])
@@ -176,18 +207,18 @@ struct TagParser {
 
         var startTagNameIndex: String.Index?
 
+
         var isFirstCharacterFound = false
         while currentIndex < endIndex {
-
             if isFirstCharacterFound == false {
                 // keep going until you find the first char (ignore < and whitespace)
-                if tagText[currentIndex] != "<" && tagText[currentIndex] != " " {
+                if tagText[currentIndex] != TagSpecificCharacters().tagOpeningCharacter && tagText[currentIndex].isWhitespace == false {
                     isFirstCharacterFound = true
                     // add char to tag
                     startTagNameIndex = currentIndex
                 }
             } else {
-                if tagText[currentIndex] == ">" || tagText[currentIndex] == " " {
+                if tagText[currentIndex] == ">" || tagText[currentIndex].isWhitespace {
                     // dont include last > or whitespace in tagName
                     let endTagNameIndex = tagText.index(currentIndex, offsetBy: -1)
                     let tagName = String(tagText[startTagNameIndex!...endTagNameIndex])
@@ -197,7 +228,6 @@ struct TagParser {
 
             currentIndex = tagText.index(currentIndex, offsetBy: 1)
         }
-        
 
         throw ParseError.tagNameNotFound
     }

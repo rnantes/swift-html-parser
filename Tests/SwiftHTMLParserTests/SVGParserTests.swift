@@ -12,25 +12,27 @@ import XCTest
 
 final class SVGParserTests: XCTestCase {
     func testSVG() {
-        let relativePath = "/Tests/SwiftHTMLParserTests/TestFiles/SVG/svg-simple.html"
-        let fullPath = "\(ProjectConfig().projectPath)\(relativePath)"
-        let fileURL = URL.init(fileURLWithPath: fullPath)
+        guard let fileURL = TestsConfig.svgTestFilesDirectoryURL?
+            .appendingPathComponent("svg-simple.html") else {
+                XCTFail("Could find get file URL to parse")
+                return
+        }
 
         // get html string from file
         var htmlStringResult: String? = nil
         do {
             htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
         } catch {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file URL: \(fileURL)")
+            return
         }
         guard let htmlString = htmlStringResult else {
-            XCTFail("Could not open file at: \(fullPath)")
+            XCTFail("Could not open file URL: \(fileURL)")
             return
         }
 
         // create object from raw html file
-        let htmlParser = HTMLParser()
-        guard let elementArray = try? htmlParser.parse(pageSource: htmlString) else {
+        guard let elementArray = try? HTMLParser.parse(htmlString) else {
             XCTFail("Could not parse HTML")
             return
         }
