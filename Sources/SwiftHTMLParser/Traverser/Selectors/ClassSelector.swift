@@ -9,57 +9,57 @@ import Foundation
 
 extension ElementSelector {
     /// Matches if the target matches the given className
-    func withClassName(_ className: String) -> Self {
+    public func withClassName(_ className: String) -> Self {
         self.classNameSelector.hasClassNameAny.appendOrInit(className)
         return self
     }
 
     /// Matches if the target matches any of the given classNames
-    func withClassNamesAny(_ classNames: [String]) -> Self {
+    public func withClassNamesAny(_ classNames: [String]) -> Self {
         self.classNameSelector.hasClassNameAny.appendOrInit(contentsOf: classNames)
         return self
     }
 
     /// Matches if the target matches all of the given classNames
-    func withClassNamesAll(_ classNames: [String]) -> Self {
+    public func withClassNamesAll(_ classNames: [String]) -> Self {
         self.classNameSelector.hasClassNamesAll.appendOrInit(contentsOf: classNames)
         return self
     }
 
     /// Matches if the target has the exact of the given classNames.
-    func withClassNamesExact(_ classNames: [String]) -> Self {
+    public func withClassNamesExact(_ classNames: [String]) -> Self {
         self.classNameSelector.hasClassNamesExact.appendOrInit(contentsOf: classNames)
         return self
     }
 
     // negatives
     /// Does not match if the node has the className
-    func withoutClassName(_ className : String) -> Self {
+    public func withoutClassName(_ className : String) -> Self {
         self.classNameSelector.doesNotHaveClassNameAny.appendOrInit(className)
         return self
     }
 
     /// Does not match if any of the given classNames are present
-    func withoutClassNameAny(_ classNames : [String]) -> Self {
+    public func withoutClassNameAny(_ classNames : [String]) -> Self {
         self.classNameSelector.doesNotHaveClassNameAny.appendOrInit(contentsOf: classNames)
         return self
     }
 
     /// Does not match if all of the given classNames are present
-    func withoutClassNameAll(_ classNames : [String]) -> Self {
+    public func withoutClassNameAll(_ classNames : [String]) -> Self {
         self.classNameSelector.doesNotHaveClassNamesAll.appendOrInit(contentsOf: classNames)
         return self
     }
 
     /// Does not match if the element has the exact classNames
-    func withoutClassNameExact(_ classNames : [String]) -> Self {
+    public func withoutClassNameExact(_ classNames : [String]) -> Self {
         self.classNameSelector.doesNotHaveClassNamesExact.appendOrInit(contentsOf: classNames)
         return self
     }
 
 }
 
-public final class ClassSelector {
+internal final class ClassSelector {
     var hasClassNameAny: [String]?
     var hasClassNamesAll: [String]?
     var hasClassNamesExact: [String]?

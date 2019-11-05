@@ -8,13 +8,15 @@
 import Foundation
 
 public final class IntSelector {
-    private var anyValues: [Int]?
-    private var lessThanValues: [Int]?
-    private var greaterThanValues: [Int]?
+    private(set) var anyValues: [Int]?
+    private(set) var lessThanValues: [Int]?
+    private(set) var greaterThanValues: [Int]?
 
     // negatives
-    private var notAnyValues: [Int]?
+    private(set) var notAnyValues: [Int]?
+}
 
+internal extension IntSelector {
     func withValue(_ value: Int) {
         anyValues.appendOrInit(value)
     }
@@ -75,6 +77,5 @@ public final class IntSelector {
 
         return true
     }
-
-
 }
+

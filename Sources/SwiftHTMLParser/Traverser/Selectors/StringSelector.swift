@@ -7,25 +7,27 @@
 
 import Foundation
 
-internal final class StringSelector {
+public final class StringSelector {
+    public init() {}
+
     /// Matches if the target is any of the keywords
-    private var stringIsAny: [String]?
+    private(set) var stringIsAny: [String]?
     /// Matches if the target contains anhy the keywords
-    private var stringContainsAny: [String]?
+    private(set) var stringContainsAny: [String]?
     /// Matches if the target contains all the keywords
-    private var stringContainsAll: [String]?
+    private(set) var stringContainsAll: [String]?
 
     // negatives
     /// Does not match if the target is any of the keywords
-    private var stringIsNotAny: [String]?
+    private(set) var stringIsNotAny: [String]?
     /// Does not match if the target contains any of the keywords
-    private var stringDoesNotContainAny: [String]?
+    private(set) var stringDoesNotContainAny: [String]?
     /// Does not match if the target contains all of the keywords
-    private var stringDoesNotContainAll: [String]?
+    private(set) var stringDoesNotContainAll: [String]?
 }
 
 
-extension StringSelector {
+internal extension StringSelector {
     func withString(_ value: String) {
         self.stringIsAny.appendOrInit(value)
     }

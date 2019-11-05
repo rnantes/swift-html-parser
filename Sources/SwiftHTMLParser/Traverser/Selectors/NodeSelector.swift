@@ -15,15 +15,15 @@ public protocol NodeSelector: class, PositionIntSelectorBuilder {
     func testAgainst(_ node: Node) -> Bool
 }
 
-extension NodeSelector {
-
-//    /// Matches when position is less than the given value
-//    func whenPositionLessThan(_ position: Int) -> NodeSelector {
+//extension NodeSelector {
 //
-//    }
-//
-//    /// Matches when position is greater than the given value
-//    func whenPositionGreaterThan(_ position: Int) -> NodeSelector {
-//
-//    }
-}
+////    /// Matches when position is less than the given value
+////    func whenPositionLessThan(_ position: Int) -> NodeSelector {
+////
+////    }
+////
+////    /// Matches when position is greater than the given value
+////    func whenPositionGreaterThan(_ position: Int) -> NodeSelector {
+////
+////    }
+//}

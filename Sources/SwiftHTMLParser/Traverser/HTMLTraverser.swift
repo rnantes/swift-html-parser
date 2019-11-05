@@ -27,7 +27,7 @@ public struct HTMLTraverser {
         var matchingNodes = parsedNodes
         var selectorPathIndex = 0
         var matchedSelectors = [NodeSelector]()
-        //var unmatchedSelector: NodeSelector? = nil
+        // var unmatchedSelector: NodeSelector? = nil
 
         while selectorPathIndex < nodeSelectorPath.count && matchingNodes.count > 0 {
             var shouldReturnChildrenOfMatches = true
@@ -46,6 +46,7 @@ public struct HTMLTraverser {
                 matchedSelectors.append(currentSelector)
             } else {
                 // if not matched set unmatchedSelector
+                // TODO: return result or throw error with this result?
                 //unmatchedSelector = currentSelector
             }
 

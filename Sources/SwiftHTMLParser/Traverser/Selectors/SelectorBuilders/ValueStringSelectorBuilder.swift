@@ -7,11 +7,11 @@
 
 import Foundation
 
-protocol ValueStringSelectorBuilder {
-    var value: StringSelector { get set }
+public protocol ValueStringSelectorBuilder {
+    var value: StringSelector { get }
 }
 
-extension ValueStringSelectorBuilder {
+public extension ValueStringSelectorBuilder {
     /// Matches when the target equals the given value
     func withValue(_ value: String) -> Self {
         self.value.withString(value)
