@@ -47,7 +47,7 @@ let matchingNodes = HTMLTraverser.findNodes(in: nodeTree, matching: nodeSelector
 #### The HTML File We Will Use for The Following Examples
 We will use the example file: simple.html
 ```HTML
-<!DOCTYPE>
+<!DOCTYPE html>
 <html>
     <head>
         <title>This is a Simple Example</title>
@@ -204,7 +204,7 @@ func parseAndTraverseSimpleHTMLChildNodeSelectorPath() throws {
 SwiftHTMLParser uses [SwiftPM](https://swift.org/package-manager/) as its build tool. To depend on SwiftHTMLParser in your own project, add it to the `dependencies` clause in your `Package.swift` file:
 ```swift
 dependencies: [
-    .package(url: "https://github.com/rnantes/swift-html-parser.git", from: "2.0.0")
+    .package(url: "https://github.com/rnantes/swift-html-parser.git", from: "1.0.0")
 ]
 ```
 
