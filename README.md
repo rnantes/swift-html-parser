@@ -1,6 +1,14 @@
 # SwiftHTMLParser
 SwiftHTMLParser is a library for parsing and traverseing HTML and XML written in Swift. It parses plaintext HTML or XML into an object tree (DOM), and allows for the easy traversal and searching of the tree's nodes, similar to an HTML Selector or XPath.
 
+## Installation
+To depend on SwiftHTMLParser in your own project, add it to the `dependencies` clause in your `Package.swift` file:
+```swift
+dependencies: [
+    .package(url: "https://github.com/rnantes/swift-html-parser.git", from: "1.0.0")
+]
+```
+
 ## Basic Structure
 Object naming is based on the [HTML Standard](https://html.spec.whatwg.org/dev/syntax.html#syntax). There are also easy to follow introductions available from  [w3schools](https://www.w3schools.com/html/default.asp) and [w3](https://www.w3.org/TR/html53/introduction.html#a-quick-introduction-to-html).
 
@@ -15,7 +23,7 @@ Object naming is based on the [HTML Standard](https://html.spec.whatwg.org/dev/s
 * `CData`, a struct: - a `Node` that represents a CData section and its associated text.
 * `DocumentTypeNode`, a struct: - a `Node` which provides metadata on how to parse the document
 
-## Tutorial
+## Using the API
 
 #### Read in Plaintext HTML from a File
 ```swift
@@ -26,9 +34,13 @@ let fileURL = URL.init(fileURLWithPath: "/some/absolute/path/simple.html")!
 ```swift
 let nodeTree = try HTMLParser.parse(htmlString)
 ```
+Alternativly to parse an XML file
+```swift
+let nodeTree = try XMLParser.parse(xmlString)
+```
 
 #### Create a Node Selector Path Then Traverse the Node Tree to Find Matching Nodes
-Element, Text, Comment, and CData Selectors are availabe
+Element, Text, Comment, and CData selectors are availabe
 ```swift
 // create a node selector path to describe what nodes to match in the nodeTree
 let nodeSelectorPath: [NodeSelector] = [
@@ -42,7 +54,7 @@ let nodeSelectorPath: [NodeSelector] = [
 let matchingNodes = HTMLTraverser.findNodes(in: nodeTree, matching: nodeSelectorPath)
 ```
  
-### Examples
+## Tutorial
 
 #### The HTML File We Will Use for The Following Examples
 We will use the example file: simple.html
@@ -172,7 +184,7 @@ func parseAndTraverseSimpleHTMLChildNodeSelectorPath() throws {
     let nodeSelectorPath: [NodeSelector] = [
         ElementSelector().withTagName("html"),
         ElementSelector().withTagName("body"),
-        ElementSelector().withTagName("div").withChildNodeSelectorPath(childNodeSelectorPath),
+        ElementSelector().withTagName("div").withChildNodeSelectorPath(childNodeSelectorPath)
     ]
 
     // find the nodes that match the nodeSelectorPath
@@ -199,17 +211,8 @@ func parseAndTraverseSimpleHTMLChildNodeSelectorPath() throws {
 }
 ```
 
-
-## Getting Started
-SwiftHTMLParser uses [SwiftPM](https://swift.org/package-manager/) as its build tool. To depend on SwiftHTMLParser in your own project, add it to the `dependencies` clause in your `Package.swift` file:
-```swift
-dependencies: [
-    .package(url: "https://github.com/rnantes/swift-html-parser.git", from: "1.0.0")
-]
-```
-
 ## Testing
-Automated testing was used to validate the parsing of tags, comments, single and double quoted attributes, imbedded JavaScript, etc. Specially created sample HTML files as well as HTML from top sites were used in testing. However, all cases may not have been covered. Please open a issue on Github and provide sample HTML if you discover a bug so it can be fixed and a test case can be added
+Automated testing was used to validate the parsing of tags, comments, single and double quoted attributes, imbedded JavaScript, etc. Specially created sample HTML files as well as HTML from top sites were used in testing. However, all cases may not have been covered. Please open a issue on Github and provide sample HTML if you discover a bug so it can be fixed and a test case can be added.
 
 
 #### Run Tests Via the Command Line
