@@ -34,18 +34,18 @@ public class ElementSelector: NodeSelector, TagNameStringSelectorBuilder, IdStri
     }
 
     /// Selects element if it has the given id attribute value
-    func withId(_ id: String) -> ElementSelector {
+    public func withId(_ id: String) -> ElementSelector {
         self.attributes.appendOrInit(AttributeSelector.init(name: "id").withValue(id))
         return self
     }
 
     /// Selects element if it has a child node matching the given childNodeSelector
-    func withChildNodeSelectorPath(_ childNodeSelectorPath: [NodeSelector]) -> Self {
+    public func withChildNodeSelectorPath(_ childNodeSelectorPath: [NodeSelector]) -> Self {
         self.childNodeSelectorPathsAll.appendOrInit(childNodeSelectorPath)
         return self
     }
 
-    func withChildElement(_ elementSelector: ElementSelector) -> Self {
+    public func withChildElement(_ elementSelector: ElementSelector) -> Self {
         self.childNodeSelectors.appendOrInit(elementSelector)
         return self
     }
@@ -60,7 +60,7 @@ public class ElementSelector: NodeSelector, TagNameStringSelectorBuilder, IdStri
         return self
     }
 
-    func withChildCDataNode(_ cDataSelector: CDataSelector) -> Self {
+    public func withChildCDataNode(_ cDataSelector: CDataSelector) -> Self {
         self.childNodeSelectors.appendOrInit(cDataSelector)
         return self
     }

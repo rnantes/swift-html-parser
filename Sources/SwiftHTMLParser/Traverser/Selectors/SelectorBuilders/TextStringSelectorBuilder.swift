@@ -11,64 +11,64 @@ public protocol TextStringSelectorBuilder {
     var text: StringSelector { get }
 }
 
-extension TextStringSelectorBuilder {
+public extension TextStringSelectorBuilder {
     /// Matches when the target equals the given value
-    public func withText(_ value: String) -> Self {
+    func withText(_ value: String) -> Self {
         self.text.withString(value)
         return self
     }
 
     /// Matches when the target equals any of the given values
-    public func whenTextIsAny(_ values: [String]) -> Self {
+    func whenTextIsAny(_ values: [String]) -> Self {
         self.text.whenStringIsAny(values)
         return self
     }
 
     /// Matches when the target contains the given value
-    public func containingText(_ value: String) -> Self {
+    func containingText(_ value: String) -> Self {
         self.text.whenStringContainsAny([value])
         return self
     }
 
     /// Matches when the target contains any of the given values
-    public func whenTextContainsAny(_ keywords: [String]) -> Self {
+    func whenTextContainsAny(_ keywords: [String]) -> Self {
         self.text.whenStringContainsAny(keywords)
         return self
     }
 
     /// Matches when the target contains all of the given values
-    public func whenTextContainsAll(_ keywords: [String]) -> Self {
+    func whenTextContainsAll(_ keywords: [String]) -> Self {
         self.text.whenStringContainsAll(keywords)
         return self
     }
 
     // negatives
     /// Does not match when the target equals the given value
-    public func whenTextIsNot(_ value: String) -> Self {
+    func whenTextIsNot(_ value: String) -> Self {
         self.text.whenStringIsNot(value)
         return self
     }
 
     /// Does not match if the target equals any of the given values
-    public func whenTextIsNotAny(_ values: [String]) -> Self {
+    func whenTextIsNotAny(_ values: [String]) -> Self {
         self.text.whenStringIsNotAny(values)
         return self
     }
 
     /// Does not match if the target contains the given value
-    public func whenTextDoesNotContain(_ keyword: String) -> Self {
+    func whenTextDoesNotContain(_ keyword: String) -> Self {
         self.text.whenStringDoesNotContainAny([keyword])
         return self
     }
 
     /// Does not match if the target contains any of the given values
-    public func whenTextDoesNotContainAny(_ keywords: [String]) -> Self {
+    func whenTextDoesNotContainAny(_ keywords: [String]) -> Self {
         self.text.whenStringDoesNotContainAny(keywords)
         return self
     }
 
     /// Does not match if the target contains all of the given values
-    public func whenTextDoesNotContainAll(_ keywords: [String]) -> Self {
+    func whenTextDoesNotContainAll(_ keywords: [String]) -> Self {
         self.text.whenStringDoesNotContainAll(keywords)
         return self
     }
