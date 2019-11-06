@@ -17,11 +17,11 @@ Object naming is based on the [HTML Standard](https://html.spec.whatwg.org/dev/s
 * `Attribute`, a struct: - consist of a name and an associated value
 
 ####  Nodes 
-* `Element`, a struct: - a `Node` that may contain nested nodes.
-* `TextNode`, a struct:- a `Node` that represents a block of text. 
-* `Comment`, a struct: - a `Node` that represents a single or multi-line comment within an element.
-* `CData`, a struct: - a `Node` that represents a CData section and its associated text.
-* `DocumentTypeNode`, a struct: - a `Node` which provides metadata on how to parse the document
+* `Element`, a struct: - a Node that may contain nested nodes.
+* `TextNode`, a struct:- a Node that represents a block of text. 
+* `Comment`, a struct: - a Node that represents a single or multi-line comment within an element.
+* `CData`, a struct: - a Node that represents a CData section and its associated text.
+* `DocumentTypeNode`, a struct: - a Node which provides metadata on how to parse the document
 
 ## Using the API
 
@@ -75,7 +75,8 @@ We will use the example file: simple.html
             <p class="essay-paragraph closing-paragraph">This is the fifth paragraph.</p>
 
             <div>
-                <p>Editor Notes</p>
+                <h3>Editor Notes</h3>
+                No notes here
             </div>
         </div>
 
@@ -87,7 +88,8 @@ We will use the example file: simple.html
             </ul>
 
             <div>
-                <p>Bibliography Notes</p>
+                <h3>Bibliography Notes</h3>
+                No notes here
             </div>
         </div>
 
@@ -174,7 +176,7 @@ func parseAndTraverseSimpleHTMLChildNodeSelectorPath() throws {
     // only if the childNodeSelectorPath matches the element's child nodes
     let childNodeSelectorPath: [NodeSelector] = [
         ElementSelector().withTagName("div"),
-        ElementSelector().withTagName("p"),
+        ElementSelector().withTagName("h3"),
         TextNodeSelector().withText("Editor Notes")
     ]
 
