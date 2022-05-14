@@ -1,5 +1,4 @@
-// swift-tools-version:5.1
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version:5.4
 
 import PackageDescription
 
@@ -20,8 +19,14 @@ let package = Package(
         .target(
             name: "SwiftHTMLParser",
             dependencies: []),
+        .target(
+            name: "TestFiles",
+            dependencies: [],
+            path: "Tests/TestFiles",
+            resources: [.copy("Mock"),.copy("RealWorld")]
+        ),
         .testTarget(
             name: "SwiftHTMLParserTests",
-            dependencies: ["SwiftHTMLParser"]),
+            dependencies: ["SwiftHTMLParser", "TestFiles"]),
     ]
 )

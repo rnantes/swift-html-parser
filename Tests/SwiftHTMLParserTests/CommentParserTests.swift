@@ -7,10 +7,11 @@
 
 import XCTest
 @testable import SwiftHTMLParser
+import TestFiles
 
 final class CommentParserTests: XCTestCase {
     func testComments() {
-        guard let fileURL = TestsConfig.commentsTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.commentsTestFilesDirectoryURL?
             .appendingPathComponent("comments.html") else {
                 XCTFail("Could not get url to test file")
                 return
@@ -63,7 +64,7 @@ final class CommentParserTests: XCTestCase {
     }
 
     func testConditionalComments() throws {
-        guard let fileURL = TestsConfig.commentsTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.commentsTestFilesDirectoryURL?
             .appendingPathComponent("conditional-comments-salvageable.html") else {
                 XCTFail("Could not get url to test file")
                 return

@@ -7,11 +7,12 @@
 
 import XCTest
 @testable import SwiftHTMLParser
+import TestFiles
 
 final class PerformanceTests: XCTestCase {
 
     func testIteratingString() {
-        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.realWorldTestFilesDirectoryURL?
             .appendingPathComponent("google-home-page.html") else {
                 XCTFail("Could not get url to test file")
                 return
@@ -53,7 +54,7 @@ final class PerformanceTests: XCTestCase {
     }
 
     func testStringIteration() {
-        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.realWorldTestFilesDirectoryURL?
             .appendingPathComponent("google-home-page.html") else {
                 XCTFail("Could not get url to test file")
                 return

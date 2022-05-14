@@ -9,10 +9,12 @@ import Foundation
 
 import XCTest
 @testable import SwiftHTMLParser
+import TestFiles
+
 
 final class SVGParserTests: XCTestCase {
     func testSVG() {
-        guard let fileURL = TestsConfig.svgTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.svgTestFilesDirectoryURL?
             .appendingPathComponent("svg-simple.html") else {
                 XCTFail("Could find get file URL to parse")
                 return

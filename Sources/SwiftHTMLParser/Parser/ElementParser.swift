@@ -26,34 +26,42 @@ final class ElementParser {
 
         // get opening tag
         var localOpeningTag: Tag? = nil
-        if openedTags.count == 0 {
-            do {
-                let result = try TagParser().getNextTag(source: pageSource, currentIndex: localCurrentIndex)
-                self.outerNodes = result.childNodes
-                localOpeningTag = result.tag
-            } catch {
-                throw error
-            }
-
-            if let openingTag = localOpeningTag {
-                openedTags.append(openingTag)
-                if ProjectConfig.shouldPrintTags {
-                    printOpeningTag(tag: openingTag, depth: depth)
+        
+        repeat {
+            localOpeningTag = nil
+            
+            if openedTags.count == 0 {
+                do {
+                    let result = try TagParser().getNextTag(source: pageSource, currentIndex: localCurrentIndex)
+                    self.outerNodes = result.childNodes
+                    localOpeningTag = result.tag
+                } catch {
+                    throw error
                 }
-            }
-        } else {
-            localOpeningTag = openedTags.last
-        }
 
-        // check if opening tag is actually a closing tag, this would be invalid
+                if let openingTag = localOpeningTag {
+                    if ProjectConfig.shouldPrintTags {
+                        printOpeningTag(tag: openingTag, depth: depth)
+                    }
+                    
+                    // check if opening tag is actually a closing tag, this would be invalid
+                    if openingTag.isClosingTag {
+                        // update current index to the character after the last tag character
+                        localCurrentIndex = pageSource.index(openingTag.endIndex, offsetBy: 1)
+                        print("WARNING: Opening tag is a closing tag. looking for next opening tag.")
+                    } else {
+                        openedTags.append(openingTag)
+                    }
+                }
+            } else {
+                localOpeningTag = openedTags.last
+            }
+        } while localOpeningTag?.isClosingTag == true
+        
         guard let finalOpeningTag = localOpeningTag else {
             return (nil, outerNodes)
         }
-
-        if finalOpeningTag.isClosingTag {
-            print("FAIL: Opening tag is a closing tag")
-        }
-
+        
         // update current index to the character after the last tag character
         localCurrentIndex = pageSource.index(finalOpeningTag.endIndex, offsetBy: 1)
 

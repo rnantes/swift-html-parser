@@ -7,11 +7,12 @@
 
 import XCTest
 @testable import SwiftHTMLParser
+import TestFiles
 
 final class AttributeParserTests: XCTestCase {
 
     func testAttributes() {
-        guard let fileURL = TestsConfig.attributesTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.attributesTestFilesDirectoryURL?
             .appendingPathComponent("attributes-simple.html") else {
                 XCTFail("Could find get file URL to parse")
                 return
@@ -86,7 +87,7 @@ final class AttributeParserTests: XCTestCase {
     }
 
     func testAttributesQuotes() {
-        guard let fileURL = TestsConfig.attributesTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.attributesTestFilesDirectoryURL?
             .appendingPathComponent("attributes-quotes.html") else {
                 XCTFail("Could find get file URL to parse")
                 return
@@ -132,7 +133,7 @@ final class AttributeParserTests: XCTestCase {
     }
 
     func testAttributesTabs() {
-        guard let fileURL = TestsConfig.attributesTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.attributesTestFilesDirectoryURL?
             .appendingPathComponent("attributes-tabs.html") else {
                 XCTFail("Could find get file URL to parse")
                 return
@@ -175,10 +176,5 @@ final class AttributeParserTests: XCTestCase {
         XCTAssertEqual(matchingElements[0].attributeValue(for: "src")!, "/some/img.jpg")
         XCTAssertEqual(matchingElements[0].attributeValue(for: "alt")!, "/some/other/img.png")
     }
-
-    static var allTests = [
-        ("testAttributes", testAttributes),
-        ("testAttributesQuotes", testAttributesQuotes),
-    ]
 
 }

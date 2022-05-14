@@ -7,11 +7,12 @@
 
 import XCTest
 @testable import SwiftHTMLParser
+import TestFiles
 
 final class JavascriptParserTests: XCTestCase {
 
     func testJavascriptSimple() {
-        guard let fileURL = TestsConfig.javascriptTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.javascriptTestFilesDirectoryURL?
             .appendingPathComponent("javascript-simple.html") else {
                 XCTFail("Could not get url to test file")
                 return
@@ -48,7 +49,7 @@ final class JavascriptParserTests: XCTestCase {
     }
 
     func testJavascriptComments() {
-        guard let fileURL = TestsConfig.javascriptTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.javascriptTestFilesDirectoryURL?
             .appendingPathComponent("javascript-comments.html") else {
                 XCTFail("Could not get url to test file")
                 return
@@ -86,7 +87,7 @@ final class JavascriptParserTests: XCTestCase {
     }
 
     func testJavascriptQuotes() {
-        guard let fileURL = TestsConfig.javascriptTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.javascriptTestFilesDirectoryURL?
             .appendingPathComponent("javascript-quotes.html") else {
                 XCTFail("Could not get url to test file")
                 return
@@ -125,7 +126,7 @@ final class JavascriptParserTests: XCTestCase {
     }
 
     func testJavascriptQuotesWithEscapeCharacters() {
-        guard let fileURL = TestsConfig.javascriptTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.javascriptTestFilesDirectoryURL?
             .appendingPathComponent("javascript-quotes-with-escape-characters.html") else {
                 XCTFail("Could not get url to test file")
                 return
@@ -165,10 +166,4 @@ final class JavascriptParserTests: XCTestCase {
         XCTAssertEqual(matchingElements[0].textNodes.count, 1)
     }
 
-    static var allTests = [
-        ("testJavascriptSimple", testJavascriptSimple),
-        ("testJavascriptComments", testJavascriptComments),
-        ("testJavascriptQuotes", testJavascriptQuotes),
-        ("testJavascriptQuotesWithEscapeCharacters", testJavascriptQuotesWithEscapeCharacters),
-    ]
 }

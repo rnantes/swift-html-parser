@@ -7,10 +7,11 @@
 
 import XCTest
 @testable import SwiftHTMLParser
+import TestFiles
 
 final class RealWorldTests: XCTestCase {
     func testGoogleHomePage() {
-        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.realWorldTestFilesDirectoryURL?
             .appendingPathComponent("google-home-page.html") else {
                 XCTFail("Could not get url to test file")
                 return
@@ -38,7 +39,7 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testWikipediaHomePage() {
-        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.realWorldTestFilesDirectoryURL?
             .appendingPathComponent("wikipedia-home-page.html") else {
                 XCTFail("Could not get url to test file")
                 return
@@ -66,7 +67,7 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testESPNHomePage() {
-        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.realWorldTestFilesDirectoryURL?
             .appendingPathComponent("espn-home-page.html") else {
                 XCTFail("Could not get url to test file")
                 return
@@ -94,7 +95,7 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testAppleHomePage() {
-        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.realWorldTestFilesDirectoryURL?
             .appendingPathComponent("apple-home-page.html") else {
                 XCTFail("Could not get url to test file")
                 return
@@ -122,7 +123,7 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testAmazonHomePage() {
-        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.realWorldTestFilesDirectoryURL?
             .appendingPathComponent("amazon-home-page.html") else {
                 XCTFail("Could not get url to test file")
                 return
@@ -150,7 +151,7 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testCNNHomePage() {
-        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.realWorldTestFilesDirectoryURL?
             .appendingPathComponent("cnn-home-page.html") else {
                 XCTFail("Could not get url to test file")
                 return
@@ -178,7 +179,7 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testDigitalOceanHomePage() {
-        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.realWorldTestFilesDirectoryURL?
             .appendingPathComponent("digitalocean-home-page.html") else {
                 XCTFail("Could not get url to test file")
                 return
@@ -206,7 +207,7 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testMediumHomePage() {
-        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.realWorldTestFilesDirectoryURL?
             .appendingPathComponent("medium-home-page.html") else {
                 XCTFail("Could not get url to test file")
                 return
@@ -234,7 +235,7 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testYoutubeTrending() {
-        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.realWorldTestFilesDirectoryURL?
             .appendingPathComponent("youtube-trending.html") else {
                 XCTFail("Could not get url to test file")
                 return
@@ -262,7 +263,7 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testRedditHomePage() {
-        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.realWorldTestFilesDirectoryURL?
             .appendingPathComponent("reddit-home-page.html") else {
                 XCTFail("Could not get url to test file")
                 return
@@ -290,7 +291,7 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testWeatherForcast() {
-        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.realWorldTestFilesDirectoryURL?
             .appendingPathComponent("weather-forcast.html") else {
                 XCTFail("Could not get url to test file")
                 return
@@ -318,7 +319,7 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testWeatherHourly() {
-        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.realWorldTestFilesDirectoryURL?
             .appendingPathComponent("weather-hourly.html") else {
                 XCTFail("Could not get url to test file")
                 return
@@ -346,7 +347,7 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testWeatherForcastXML() {
-        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.realWorldTestFilesDirectoryURL?
             .appendingPathComponent("weather-forcast.xml") else {
                 XCTFail("Could not get url to test file")
                 return
@@ -387,7 +388,7 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testWeatherRadarHTML() {
-        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.realWorldTestFilesDirectoryURL?
             .appendingPathComponent("weather-radar.html") else {
                 XCTFail("Could not get url to test file")
                 return
@@ -415,7 +416,7 @@ final class RealWorldTests: XCTestCase {
     }
 
     func testWeatherRadar2HTML() {
-        guard let fileURL = TestsConfig.realWorldTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.realWorldTestFilesDirectoryURL?
             .appendingPathComponent("weather-radar-2.html") else {
                 XCTFail("Could not get url to test file")
                 return

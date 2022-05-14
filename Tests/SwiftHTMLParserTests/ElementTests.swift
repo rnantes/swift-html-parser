@@ -1,10 +1,11 @@
 import XCTest
 @testable import SwiftHTMLParser
+import TestFiles
 
 final class SwiftHTMLParserTests: XCTestCase {
 
     func testOpenFile() {
-        guard let fileURL = TestsConfig.elementsTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.elementsTestFilesDirectoryURL?
             .appendingPathComponent("elements-simple.html") else {
                 XCTFail("Could find get file URL to parse")
                 return
@@ -32,7 +33,7 @@ final class SwiftHTMLParserTests: XCTestCase {
     }
 
     func testSimple() {
-        guard let fileURL = TestsConfig.elementsTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.elementsTestFilesDirectoryURL?
             .appendingPathComponent("elements-simple.html") else {
                 XCTFail("Could find get file URL to parse")
                 return
@@ -84,7 +85,7 @@ final class SwiftHTMLParserTests: XCTestCase {
     }
 
     func testQuotes() {
-        guard let fileURL = TestsConfig.elementsTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.elementsTestFilesDirectoryURL?
             .appendingPathComponent("elements-quotes.html") else {
                 XCTFail("Could find get file URL to parse")
                 return
@@ -128,7 +129,7 @@ final class SwiftHTMLParserTests: XCTestCase {
     }
 
     func testClosingEmptyTag() {
-        guard let fileURL = TestsConfig.elementsTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.elementsTestFilesDirectoryURL?
             .appendingPathComponent("empty-element.html") else {
                 XCTFail("Could find get file URL to parse")
                 return
@@ -167,7 +168,7 @@ final class SwiftHTMLParserTests: XCTestCase {
     }
 
     func testElementNameOnNewLine() {
-        guard let fileURL = TestsConfig.elementsTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.elementsTestFilesDirectoryURL?
             .appendingPathComponent("element-name-on-new-line.html") else {
                 XCTFail("Could find get file URL to parse")
                 return
@@ -208,7 +209,7 @@ final class SwiftHTMLParserTests: XCTestCase {
     }
 
     func testElementUnclosedEndTag() {
-        guard let fileURL = TestsConfig.elementsTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.elementsTestFilesDirectoryURL?
             .appendingPathComponent("element-unclosed-end-tag.html") else {
                 XCTFail("Could find get file URL to parse")
                 return
@@ -248,7 +249,7 @@ final class SwiftHTMLParserTests: XCTestCase {
     }
 
     func testElementStrayEndTag() {
-        guard let fileURL = TestsConfig.elementsTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.elementsTestFilesDirectoryURL?
             .appendingPathComponent("elemnent-stray-end-tag.html") else {
                 XCTFail("Could find get file URL to parse")
                 return
@@ -286,11 +287,44 @@ final class SwiftHTMLParserTests: XCTestCase {
         XCTAssertEqual(matchingElements.first?.tagName, "div")
         XCTAssertEqual(matchingElements.first?.childElements.count,  1)
     }
+    
+    func testElementStrayHTMLEndTag() {
+        guard let fileURL = TestFileURLs.elementsTestFilesDirectoryURL?
+            .appendingPathComponent("elemnent-stray-end-html-tag.html") else {
+                XCTFail("Could find get file URL to parse")
+                return
+        }
 
-    static var allTests = [
-        ("testOpenFile", testOpenFile),
-        ("testSimple", testSimple),
-        ("testQuotes", testQuotes),
-        ("testClosingEmptyTag", testClosingEmptyTag)
-    ]
+        // get html string from file
+        var htmlStringResult: String? = nil
+        do {
+            htmlStringResult = try String(contentsOf: fileURL, encoding: .utf8)
+        } catch {
+            XCTFail("Could not open file URL: \(fileURL)")
+            return
+        }
+        guard let htmlString = htmlStringResult else {
+            XCTFail("Could not open file URL: \(fileURL)")
+            return
+        }
+
+        // create object from raw html file
+        guard let nodeArray = try? HTMLParser.parse(htmlString) else {
+            XCTFail("Could not parse HTML")
+            return
+        }
+
+        // find matching elements by traversing the created html object
+        let nodeSelectorPath = [
+            ElementSelector().withTagName("html"),
+            ElementSelector().withTagName("body"),
+            ElementSelector().withTagName("div")
+        ]
+
+        let matchingElements = HTMLTraverser.findElements(in: nodeArray, matching: nodeSelectorPath)
+
+        XCTAssertEqual(matchingElements.count, 1)
+        XCTAssertEqual(matchingElements.first?.tagName, "div")
+        XCTAssertEqual(matchingElements.first?.childElements.count,  1)
+    }
 }

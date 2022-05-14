@@ -7,12 +7,13 @@
 
 import XCTest
 @testable import SwiftHTMLParser
+import TestFiles
 
 final class DocumentationTests: XCTestCase {
 
     func parseAndTraverseSimpleHTML() throws {
         // get string from file
-        let fileURL = TestsConfig.documentationTestFilesDirectoryURL!.appendingPathComponent("simple.html")
+        let fileURL = TestFileURLs.documentationTestFilesDirectoryURL!.appendingPathComponent("simple.html")
         let htmlString = try String(contentsOf: fileURL, encoding: .utf8)
 
         // parse the htmlString into a tree of node objects (DOM)
@@ -37,7 +38,7 @@ final class DocumentationTests: XCTestCase {
 
     func parseAndTraverseSimpleHTMLTextNode() throws {
         // get string from file
-        let fileURL = TestsConfig.documentationTestFilesDirectoryURL!.appendingPathComponent("simple.html")
+        let fileURL = TestFileURLs.documentationTestFilesDirectoryURL!.appendingPathComponent("simple.html")
         let htmlString = try String(contentsOf: fileURL, encoding: .utf8)
 
         // parse the htmlString into a tree of node objects (DOM)
@@ -71,7 +72,7 @@ final class DocumentationTests: XCTestCase {
 
     func testParseAndTraverseSimpleHTMLChildNodeSelectorPath() throws {
         // get string from file
-        let fileURL = TestsConfig.documentationTestFilesDirectoryURL!.appendingPathComponent("simple.html")
+        let fileURL = TestFileURLs.documentationTestFilesDirectoryURL!.appendingPathComponent("simple.html")
         let htmlString = try String(contentsOf: fileURL, encoding: .utf8)
 
         // parse the htmlString into a tree of node objects (DOM)

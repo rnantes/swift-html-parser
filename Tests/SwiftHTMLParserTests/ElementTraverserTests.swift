@@ -7,11 +7,12 @@
 
 import XCTest
 import SwiftHTMLParser
+import TestFiles
 
 final class ElementTraverserTests: XCTestCase {
 
     func testSelectTagName() {
-        guard let fileURL = TestsConfig.attributesTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.attributesTestFilesDirectoryURL?
             .appendingPathComponent("attributes-multiple-value-class.html") else {
                 XCTFail("Could find get file URL to parse")
                 return
@@ -42,7 +43,7 @@ final class ElementTraverserTests: XCTestCase {
 
 
     func testSelectAttributes() {
-        guard let fileURL = TestsConfig.attributesTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.attributesTestFilesDirectoryURL?
             .appendingPathComponent("attributes-simple.html") else {
                 XCTFail("Could find get file URL to parse")
                 return
@@ -74,7 +75,7 @@ final class ElementTraverserTests: XCTestCase {
     }
 
     func testSelectClassName() {
-        guard let fileURL = TestsConfig.attributesTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.attributesTestFilesDirectoryURL?
             .appendingPathComponent("attributes-multiple-value-class.html") else {
                 XCTFail("Could find get file URL to parse")
                 return
@@ -148,7 +149,7 @@ final class ElementTraverserTests: XCTestCase {
     }
 
     func testSelectPosition() {
-        guard let fileURL = TestsConfig.attributesTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.attributesTestFilesDirectoryURL?
             .appendingPathComponent("attributes-multiple-value-class.html") else {
                 XCTFail("Could find get file URL to parse")
                 return
@@ -201,7 +202,7 @@ final class ElementTraverserTests: XCTestCase {
     }
 
     func testSelectInnerText() {
-        guard let fileURL = TestsConfig.attributesTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.attributesTestFilesDirectoryURL?
             .appendingPathComponent("attributes-multiple-value-class.html") else {
                 XCTFail("Could find get file URL to parse")
                 return
@@ -232,7 +233,7 @@ final class ElementTraverserTests: XCTestCase {
     }
 
     func testSelectInnerComment() {
-        guard let fileURL = TestsConfig.attributesTestFilesDirectoryURL?
+        guard let fileURL = TestFileURLs.attributesTestFilesDirectoryURL?
             .appendingPathComponent("attributes-multiple-value-class.html") else {
                 XCTFail("Could find get file URL to parse")
                 return
