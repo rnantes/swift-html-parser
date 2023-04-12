@@ -58,12 +58,17 @@ struct CommentParser {
                     endIndex = source.index(localCurrentIndex, offsetBy: 1)
                     textEndIndex = source.index(localCurrentIndex, offsetBy: -1)
                 }
+                
+                var text = ""
+                if (textEndIndex >= textStartIndex) {
+                    text = String(source[textStartIndex...textEndIndex])
+                }
 
                 return Comment.init(startIndex: startIndex,
                                     endIndex: endIndex,
                                     textStartIndex: textStartIndex,
                                     textEndIndex: textEndIndex,
-                                    text: String(source[textStartIndex...textEndIndex]))
+                                    text: text)
             }
 
             // increment localCurrentIndex

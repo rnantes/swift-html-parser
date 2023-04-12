@@ -9,7 +9,7 @@
 import Foundation
 
 /// based on Xpath and selector
-public protocol NodeSelector: class, PositionIntSelectorBuilder {
+public protocol NodeSelector: AnyObject, PositionIntSelectorBuilder {
 
     /// Tests the element against the current Node
     func testAgainst(_ node: Node) -> Bool

@@ -43,14 +43,16 @@ final class CommentParserTests: XCTestCase {
 
         var matchingElements = HTMLTraverser.findElements(in: elementArray, matching: nodeSelectorPath)
 
-        XCTAssertEqual(matchingElements[0].childNodes.count, 11)
-        XCTAssertEqual(matchingElements[0].commentNodes.count, 4)
+        XCTAssertEqual(matchingElements[0].childNodes.count, 15)
+        XCTAssertEqual(matchingElements[0].commentNodes.count, 6)
         XCTAssertEqual(matchingElements[0].childElements.count, 3)
-        XCTAssertEqual(matchingElements[0].textNodes.count, 4)
+        XCTAssertEqual(matchingElements[0].textNodes.count, 6)
 
         XCTAssertEqual(matchingElements[0].commentNodes[0].text, " This is a comment ")
         XCTAssertEqual(matchingElements[0].commentNodes[1].text, " This is annother comment ")
         XCTAssertEqual(matchingElements[0].commentNodes[3].text, " no space between the comment and div ")
+        XCTAssertEqual(matchingElements[0].commentNodes[4].text, "x")
+        XCTAssertEqual(matchingElements[0].commentNodes[5].text, "")
 
         nodeSelectorPath = [
             ElementSelector().withTagName("html"),
